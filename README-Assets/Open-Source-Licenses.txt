@@ -1,0 +1,107 @@
+The licenses of the open-source libraries used in this application are listed
+below.
+
+- Compose Multiplatform
+
+(Included.) This application includes (is a subsequent work of) this library.
+
+Copyright 2020-2021 JetBrains s.r.o. and and respective authors and developers.
+
+Licensed under the Apache License, Version 2.0 (the "License").
+A copy of the License is located at http://www.apache.org/licenses/LICENSE-2.0.
+
+- End Compose Multiplatform
+- Deep Java Library
+
+(Included.) This application includes (is a subsequent work of) this library.
+
+Copyright 2019 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+
+Licensed under the Apache License, Version 2.0 (the "License").
+A copy of the License is located at http://aws.amazon.com/apache2.0/.
+
+- End Deep Java Library
+- Guava
+
+(Included.) This application includes (is a subsequent work of) this library.
+
+Copyright (C) 2009-2022 The Guava Authors.
+
+Licensed under the Apache License, Version 2.0 (the "License").
+A copy of the License is located at http://www.apache.org/licenses/LICENSE-2.0.
+
+- End Guava
+- Gson
+
+(Included.) This application includes (is a subsequent work of) this library.
+
+Copyright (C) 2018-2022 The Gson authors.
+
+Licensed under the Apache License, Version 2.0 (the "License").
+A copy of the License is located at http://www.apache.org/licenses/LICENSE-2.0.
+
+- End Gson
+- Decompose
+
+(Included.) This application includes (is a subsequent work of) this library.
+
+Copyright (C) 2020-2022 Arkadii Ivanov.
+
+Licensed under the Apache License, Version 2.0 (the "License").
+A copy of the License is located at http://www.apache.org/licenses/LICENSE-2.0.
+
+- End Decompose
+- Templarian/MaterialDesign
+
+(Included.) This application includes (is a subsequent work of) this library.
+
+Copyright (C) 2014-2022 Austin Andrews.
+
+Licensed under the Pictogrammers Free License (the "License").
+A copy of the License is located at https://github.com/Templarian/MaterialDesign/blob/master/LICENSE.
+
+- End Templarian/MaterialDesign
+- FlatLaf
+
+(Included.) This application includes (is a subsequent work of) this library.
+
+Copyright (C) 2019-2022 FormDev Software GmbH.
+
+Licensed under the Apache License, Version 2.0 (the "License").
+A copy of the License is located at http://www.apache.org/licenses/LICENSE-2.0.
+
+- End FlatLaf
+- FlatLaf IntelliJ Themes Pack
+
+(Included.) This application includes (is a subsequent work of) this library.
+
+Copyright (C) 2019-2022 FormDev Software GmbH.
+
+Licensed under the Apache License, Version 2.0 (the "License").
+A copy of the License is located at http://www.apache.org/licenses/LICENSE-2.0.
+
+- End FlatLaf IntelliJ Themes Pack
+- Kotlin
+
+(Sideloaded.) This application sideloads (is NOT a subsequent work of) this programming language.
+
+Copyright 2010-2020 JetBrains s.r.o. and Kotlin Programming Language
+contributors.
+
+Licensed under the Apache License, Version 2.0 (the "License").
+A copy of the License is located at http://www.apache.org/licenses/LICENSE-2.0.
+
+- End Kotlin
+- ProGuard
+
+(Sideloaded.) This application sideloads (is NOT a subsequent work of) this library.
+
+Copyright (c) 2002-2022 Guardsquare NV. ProGuard is released under the GNU
+General Public License, version 2, with exceptions granted to a number of
+projects.
+
+Licensed under the GPL License, Version 2.0 (the "License").
+A copy of the License is located at
+https://www.gnu.org/licenses/old-licenses/gpl-2.0.txt.
+
+- End ProGuard
