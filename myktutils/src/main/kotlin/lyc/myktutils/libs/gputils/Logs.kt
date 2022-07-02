@@ -87,6 +87,7 @@ fun logln(toLogs: ArrayList<Any>, line: String = "") {
     // Apache License Version 2.0 copy: http://www.apache.org/licenses/LICENSE-2.0
 
     val lnLines = findLines(line)
+
     for (log in toLogs) {
         if (log is MutableList<*>) {
             val log = log as MutableList<String>
