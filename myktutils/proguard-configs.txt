@@ -1,0 +1,57 @@
+# ProGuard configs.
+
+# Copyright 2022 Yucheng Liu. Apache License Version 2.0.
+# Apache License Version 2.0 copy: http://www.apache.org/licenses/LICENSE-2.0
+
+# Input/output options
+
+# -skipnonpubliclibraryclasses
+-keepdirectories
+
+# End; Keep options
+
+-keep class !lyc.**, ** { *; }
+-keep enum !lyc.**, ** { *; }
+
+-keepclasseswithmembers public class * {
+    public static void main(java.lang.String[]);
+}
+
+-keepclasseswithmembers public class * {
+    public static void main();
+}
+
+-keepclasseswithmembernames public class * {
+    public <fields>;
+    public <methods>;
+}
+
+# End; Optimization options
+
+# -dontoptimize
+-optimizations !code/simplification/advanced, code/simplification/*, !code/removal/advanced, code/removal/*
+-optimizationpasses 3
+# -allowaccessmodification
+
+# End; Obfuscation options
+
+# -dontobfuscate
+# -overloadaggressively
+-useuniqueclassmembernames
+# -repackageclasses
+
+-keepattributes
+    Exceptions, InnerClasses, Signature, Deprecated, SourceFile, LineNumberTable, *Annotation*, EnclosingMethod
+
+# End; Preverification options
+
+# -dontpreverify
+
+# End; General options
+
+-verbose
+-dontnote !lyc.**, **
+-dontwarn !lyc.**, **
+-ignorewarnings
+
+# End
