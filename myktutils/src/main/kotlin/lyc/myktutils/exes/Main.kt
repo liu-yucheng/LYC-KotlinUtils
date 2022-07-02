@@ -21,4 +21,5 @@ fun main(args: Array<String>) {
     println("- End mainArgs")
 } // end fun
 
+/** Main arguments. */
 var mainArgs = ArrayList<String>()
