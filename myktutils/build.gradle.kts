@@ -8,7 +8,7 @@ import org.jetbrains.dokka.gradle.DokkaTask
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 group = "liuyucheng"
-version = "0.2.1"
+version = "0.2.2"
 
 // Add version.properties to the JAR resources
 
