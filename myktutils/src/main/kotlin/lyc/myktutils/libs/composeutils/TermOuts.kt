@@ -12,19 +12,24 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.rememberScrollbarAdapter
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Button
+import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.OutlinedButton
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -32,11 +37,16 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
+import lyc.myktutils.libs.gputils.logln
 
 /** Terminal outputs. */
 val termOuts = mutableStateListOf<String>()
+
+/** All logs. */
+val allLogs = arrayListOf<Any>(termOuts)
 
 /** Terminal outputs content digest. */
 val termOutsContentDigest: Int
@@ -73,6 +83,9 @@ val termVertAtBottom = mutableStateOf(true)
 
 /** Terminal vertical scroll: whether to go to bottom. */
 var termVertGoToBottom = mutableStateOf(false)
+
+/** Terminal placebo clicks. */
+val termPlaceboClicks = mutableStateOf(0)
 
 /** Terminal outputs text area. */
 @Composable
@@ -113,16 +126,16 @@ fun TermOuts() {
             MaterialTheme.colors.onBackground
         ) // end Text
 
+        Spacer(Modifier.size(8.dp))
+
         Box(
-            Modifier
-                .fillMaxWidth().fillMaxHeight(0.8f).background(CustTheme.extColors.termBg)
+            Modifier.weight(1f).clip(RoundedCornerShape(4.dp)).background(CustTheme.extColors.termBg)
         ) {
             Box(
-                Modifier.fillMaxSize().horizontalScroll(termHoriScroll)
-                    .verticalScroll(termVertScroll)
-            ) {
-                TermOutsTextArea()
-            } // end Box
+                Modifier
+                    .fillMaxSize().horizontalScroll(termHoriScroll)
+                    .verticalScroll(termVertScroll) // end Modifier
+            ) { TermOutsTextArea() } // end Box
 
             HorizontalScrollbar(
                 rememberScrollbarAdapter(termHoriScroll),
@@ -135,9 +148,39 @@ fun TermOuts() {
             ) // end VerticalScrollbar
         } // end Box
 
+        Spacer(Modifier.size(8.dp))
+
         Row(Modifier.fillMaxWidth().wrapContentHeight(), Arrangement.SpaceAround) {
             Button({ termVertGoToBottom.value = true }) { Text("Go to bottom") }
-            Button({ termOuts.clear() }) { Text("Clear outputs") }
+
+            Button(
+                { termOuts.clear() },
+                colors = ButtonDefaults.buttonColors(backgroundColor = MaterialTheme.colors.secondary)
+            ) { Text("Clear outputs") } // end Button
+        } // end Row
+
+        Row(Modifier.fillMaxWidth().wrapContentHeight(), Arrangement.SpaceAround) {
+            OutlinedButton(
+                {
+                    termPlaceboClicks.value += 1
+                    logln(allLogs, "Clicked placebo  Count: ${termPlaceboClicks.value}")
+                }, // end onClick
+
+                colors = ButtonDefaults.outlinedButtonColors(
+                    contentColor = MaterialTheme.colors.primaryVariant
+                ) // end colors
+            ) { Text("Placebo") } // end Button
+
+            OutlinedButton(
+                {
+                    termPlaceboClicks.value = 0
+                    logln(allLogs, "Completed resetting placebo")
+                }, // end onClick
+
+                colors = ButtonDefaults.outlinedButtonColors(
+                    contentColor = MaterialTheme.colors.secondaryVariant
+                ) // end colors
+            ) { Text("Reset placebo") } // end Button
         } // end Row
     } // end Column
 
