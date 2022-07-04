@@ -3,7 +3,7 @@
 
 package lyc.myktutils.exes
 
-import lyc.myktutils.libs.gputils.findPackVer
+import lyc.myktutils.libs.gputils.PackInfo
 
 /**
  * Main function.
@@ -11,7 +11,7 @@ import lyc.myktutils.libs.gputils.findPackVer
  */
 fun main(args: Array<String>) {
     mainArgs = ArrayList(args.asList())
-    println("liu-yucheng/MyKotlinUtils ${findPackVer()}")
+    println("liu-yucheng/MyKotlinUtils ${PackInfo.findPackVer()}")
     println("- mainArgs")
 
     for ((idx, arg) in mainArgs.withIndex()) {
