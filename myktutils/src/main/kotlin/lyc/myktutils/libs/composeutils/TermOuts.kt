@@ -5,7 +5,6 @@ package lyc.myktutils.libs.composeutils
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.HorizontalScrollbar
-import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.VerticalScrollbar
 import androidx.compose.foundation.background
 import androidx.compose.foundation.horizontalScroll
@@ -35,74 +34,20 @@ import androidx.compose.material.OutlinedButton
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
-import lyc.myktutils.libs.gputils.Logs
-import lyc.myktutils.libs.gputils.Reses
+import lyc.myktutils.libs.composeutils.envs.Defaults
+import lyc.myktutils.libs.composeutils.envs.Funcs
+import lyc.myktutils.libs.composeutils.envs.States
+import lyc.myktutils.libs.composeutils.envs.Utils
 
 /** Terminal outputs. */
-class TermOuts {
+class TermOuts private constructor() {
     companion object {
-        /** Terminal outputs. */
-        val termOuts = mutableStateListOf<String>()
-
-        /** All logs. */
-        val allLogs = arrayListOf<Any>(termOuts)
-
-        /** Terminal outputs content digest. */
-        val termOutsContentDigest: Int
-            get() {
-                // Part of liu-yucheng/MyKotlinUtils
-                // Copyright 2022 Yucheng Liu. Apache License Version 2.0.
-                // Apache License Version 2.0 copy: http://www.apache.org/licenses/LICENSE-2.0
-
-                var result = 0
-
-                for ((index, elem) in termOuts.withIndex()) {
-                    result = result xor index.hashCode()
-                    result = result xor elem.hashCode()
-                } // end for
-
-                return result
-            } // end get
-
-        /** Terminal display line count. */
-        const val termDispLines = 8192
-
-        /** Terminal horizontal scroll. */
-        val termHoriScroll = ScrollState(0)
-
-        /** Terminal vertical scroll. */
-        val termVertScroll = ScrollState(0)
-
-        /** Terminal vertical scroll bottom position. */
-        val termVertBottomPos: Int
-            get() = maxOf(termVertScroll.maxValue - 4, 0)
-
-        /** Terminal vertical scroll: whether at bottom. */
-        val termVertAtBottom = mutableStateOf(true)
-
-        /** Terminal vertical scroll: whether to go to bottom. */
-        var termVertGoToBottom = mutableStateOf(false)
-
-        /** Terminal placebo clicks. */
-        val termPlaceboClicks = mutableStateOf(0)
-
-        /** Icons resource path. */
-        const val iconsResPath = "icons"
-
-        /** Go to bottom icon name. */
-        const val goToBottomIconName = "border-bottom-variant.svg"
-
-        /** Clear outputs icon name. */
-        const val clearOutsIconName = "backspace-outline.svg"
-
         /** Terminal outputs text area. */
         @Composable
         private fun TermOutsTextArea() {
@@ -112,12 +57,12 @@ class TermOuts {
 
             SelectionContainer {
                 Column(Modifier.fillMaxSize().padding(8.dp)) {
-                    val maxOutsIdx = termOuts.size - 1
-                    val maxOffset = minOf(maxOutsIdx, termDispLines - 1)
+                    val maxOutsIdx = States.termOuts.size - 1
+                    val maxOffset = minOf(maxOutsIdx, States.termDispLines - 1)
 
                     for (offset in maxOffset downTo 0) {
                         val outsIdx = maxOutsIdx - offset
-                        val rowText = termOuts[outsIdx]
+                        val rowText = States.termOuts[outsIdx]
                         Row {
                             Text(
                                 rowText, color = Themes.CustTheme.extColors.onTerm,
@@ -136,8 +81,10 @@ class TermOuts {
             // Copyright 2022 Yucheng Liu. Apache License Version 2.0.
             // Apache License Version 2.0 copy: http://www.apache.org/licenses/LICENSE-2.0
 
-            val goToBottomPainter = painterResource(Reses.joinResPaths(iconsResPath, goToBottomIconName))
-            val clearOutsPainter = painterResource(Reses.joinResPaths(iconsResPath, clearOutsIconName))
+            val goToBottomPainter =
+                painterResource(Utils.joinResPaths(Defaults.iconsResPath, Defaults.goToBottomIconName))
+            val clearOutsPainter =
+                painterResource(Utils.joinResPaths(Defaults.iconsResPath, Defaults.clearOutsIconName))
 
             Column(Modifier.fillMaxSize(), Arrangement.SpaceAround) {
                 Text(
@@ -153,17 +100,17 @@ class TermOuts {
                 ) {
                     Box(
                         Modifier
-                            .fillMaxSize().horizontalScroll(termHoriScroll)
-                            .verticalScroll(termVertScroll) // end Modifier
+                            .fillMaxSize().horizontalScroll(States.termHoriScroll)
+                            .verticalScroll(States.termVertScroll) // end Modifier
                     ) { TermOutsTextArea() } // end Box
 
                     HorizontalScrollbar(
-                        rememberScrollbarAdapter(termHoriScroll),
+                        rememberScrollbarAdapter(States.termHoriScroll),
                         Modifier.fillMaxWidth().height(16.dp).align(Alignment.BottomCenter)
                     ) // end HorizontalScrollbar
 
                     VerticalScrollbar(
-                        rememberScrollbarAdapter(termVertScroll),
+                        rememberScrollbarAdapter(States.termVertScroll),
                         Modifier.width(16.dp).fillMaxHeight().align(Alignment.CenterEnd)
                     ) // end VerticalScrollbar
                 } // end Box
@@ -171,7 +118,7 @@ class TermOuts {
                 Spacer(Modifier.size(8.dp))
 
                 Row(Modifier.fillMaxWidth().wrapContentHeight(), Arrangement.SpaceAround) {
-                    Button({ termVertGoToBottom.value = true }) {
+                    Button({ States.termVertGoToBottom.value = true }) {
                         Icon(
                             goToBottomPainter, "Go to bottom icon", Modifier.size(16.dp),
                             MaterialTheme.colors.onPrimary
@@ -182,7 +129,7 @@ class TermOuts {
                     } // end Button
 
                     Button(
-                        { termOuts.clear() },
+                        { States.termOuts.clear() },
 
                         colors = ButtonDefaults.buttonColors(
                             Themes.CustTheme.extColors.warn, Themes.CustTheme.extColors.onWarn
@@ -201,8 +148,8 @@ class TermOuts {
                 Row(Modifier.fillMaxWidth().wrapContentHeight(), Arrangement.SpaceAround) {
                     OutlinedButton(
                         {
-                            termPlaceboClicks.value += 1
-                            Logs.logln(allLogs, "Clicked placebo  Count: ${termPlaceboClicks.value}")
+                            States.termPlaceboClicks.value += 1
+                            Funcs.logln("Clicked placebo  Count: ${States.termPlaceboClicks.value}")
                         }, // end onClick
 
                         border = BorderStroke(1.dp, MaterialTheme.colors.primary),
@@ -214,8 +161,8 @@ class TermOuts {
 
                     OutlinedButton(
                         {
-                            termPlaceboClicks.value = 0
-                            Logs.logln(allLogs, "Completed resetting placebo")
+                            States.termPlaceboClicks.value = 0
+                            Funcs.logln("Completed resetting placebo")
                         }, // end onClick
 
                         border = BorderStroke(1.dp, Themes.CustTheme.extColors.warn),
@@ -227,18 +174,18 @@ class TermOuts {
                 } // end Row
             } // end Column
 
-            LaunchedEffect(termVertGoToBottom.value) {
-                termVertScroll.scrollTo(termVertBottomPos)
-                termVertGoToBottom.value = false
+            LaunchedEffect(States.termVertGoToBottom.value) {
+                States.termVertScroll.scrollTo(States.termVertBottomPos)
+                States.termVertGoToBottom.value = false
             } // end LaunchedEffect
 
-            LaunchedEffect(termVertScroll.value) {
-                termVertAtBottom.value = termVertScroll.value >= termVertBottomPos
+            LaunchedEffect(States.termVertScroll.value) {
+                States.termVertAtBottom.value = States.termVertScroll.value >= States.termVertBottomPos
             } // end LaunchedEffect
 
-            LaunchedEffect(termOutsContentDigest) {
-                if (termVertAtBottom.value) {
-                    termVertScroll.scrollTo(termVertBottomPos)
+            LaunchedEffect(States.termOutsContentDigest) {
+                if (States.termVertAtBottom.value) {
+                    States.termVertScroll.scrollTo(States.termVertBottomPos)
                 } // end if
             } // end LaunchedEffect
         } // end fun
