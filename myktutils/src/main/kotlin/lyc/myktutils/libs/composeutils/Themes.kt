@@ -14,7 +14,7 @@ import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.graphics.Color
 
 /** Custom themes. */
-class Themes {
+class Themes private constructor() {
     companion object {
         /** Extended colors. */
         @Immutable
@@ -122,8 +122,8 @@ class Themes {
 
             val extColors = ExtColors(
                 Color(0xff_e0_e0_e0), Color(0xff_21_21_21), // Terminal and on-terminal colors
-                Color(0xff_ee_ee_ee), Color(0xff_ff_ff_ff), // Hover and on-hover colors
-                Color(0xff_b0_00_20), Color(0xff_00_00_00), // Error hover and on-error-hover colors
+                Color(0xff_ee_ee_ee), Color(0xff_00_00_00), // Hover and on-hover colors
+                Color(0xff_b0_00_20), Color(0xff_ff_ff_ff), // Error hover and on-error-hover colors
                 Color(0xff_b0_4c_00), Color(0xff_ff_ff_ff), // Warning and on-warning colors
                 Color(0xff_00_b0_a4), Color(0xff_00_00_00) // Info and on-info colors
             ) // end val

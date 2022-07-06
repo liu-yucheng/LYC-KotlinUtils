@@ -32,50 +32,18 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.input.pointer.PointerEventType
 import androidx.compose.ui.input.pointer.onPointerEvent
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.WindowPlacement
-import androidx.compose.ui.window.WindowPosition
 import androidx.compose.ui.window.WindowScope
-import androidx.compose.ui.window.WindowState
-import kotlin.system.exitProcess
-import lyc.myktutils.libs.gputils.Reses
+import lyc.myktutils.libs.composeutils.envs.Defaults
+import lyc.myktutils.libs.composeutils.envs.Funcs
+import lyc.myktutils.libs.composeutils.envs.States
+import lyc.myktutils.libs.composeutils.envs.Utils
 
 /** Custom title bars. */
-class TitleBars {
+class TitleBars private constructor() {
     companion object {
-        /** Icons resource path. */
-        const val iconsResPath = "icons"
-
-        /** Minimize window icon name. */
-        const val minWinIconName = "window-minimize.svg"
-
-        /** Maximize window icon name. */
-        const val maxWinIconName = "window-maximize.svg"
-
-        /** Close window icon name. */
-        const val closeWinIconName = "window-close.svg"
-
-        /** Restore window icon name. */
-        const val restoreWinIconName = "window-restore.svg"
-
-        /** Main window state. */
-        val mainWinState = WindowState(
-            // Part of liu-yucheng/MyKotlinUtils
-            // Copyright 2022 Yucheng Liu. Apache License Version 2.0.
-            // Apache License Version 2.0 copy: http://www.apache.org/licenses/LICENSE-2.0
-            position = WindowPosition(Alignment.Center), size = DpSize(1288.dp, 724.dp)
-        )
-
-        /** Exits the app. */
-        fun exitApp() {
-            // Part of liu-yucheng/MyKotlinUtils
-            // Copyright 2022 Yucheng Liu. Apache License Version 2.0.
-            // Apache License Version 2.0 copy: http://www.apache.org/licenses/LICENSE-2.0
-            exitProcess(0)
-        }
-
         /** Custom title bar.
          * @param title: a title
          * @param iconResLoc: an icon resource location
@@ -93,10 +61,10 @@ class TitleBars {
                 painterResource(iconResLoc)
             } // end val
 
-            val minIconLoc = Reses.joinResPaths(iconsResPath, minWinIconName)
-            val maxIconLoc = Reses.joinResPaths(iconsResPath, maxWinIconName)
-            val restoreIconLoc = Reses.joinResPaths(iconsResPath, restoreWinIconName)
-            val closeIconLoc = Reses.joinResPaths(iconsResPath, closeWinIconName)
+            val minIconLoc = Utils.joinResPaths(Defaults.iconsResPath, Defaults.minWinIconName)
+            val maxIconLoc = Utils.joinResPaths(Defaults.iconsResPath, Defaults.maxWinIconName)
+            val restoreIconLoc = Utils.joinResPaths(Defaults.iconsResPath, Defaults.restoreWinIconName)
+            val closeIconLoc = Utils.joinResPaths(Defaults.iconsResPath, Defaults.closeWinIconName)
 
             val minIconPainter = painterResource(minIconLoc)
             val maxIconPainter = painterResource(maxIconLoc)
@@ -111,7 +79,7 @@ class TitleBars {
                 Row(
                     Modifier
                         .wrapContentWidth().fillMaxHeight().align(Alignment.CenterStart)
-                        .padding(8.dp, 0.dp, 0.dp, 0.dp),
+                        .padding(8.dp, 0.dp, 0.dp, 0.dp), // end Modifier
 
                     Arrangement.spacedBy(8.dp), Alignment.CenterVertically
                 ) {
@@ -143,7 +111,8 @@ class TitleBars {
 
                             .onPointerEvent(PointerEventType.Enter, onEvent = { minHovering.value = true })
                             .onPointerEvent(PointerEventType.Exit, onEvent = { minHovering.value = false })
-                            .clickable(onClickLabel = "Minimize") { mainWinState.isMinimized = true },
+                            .clickable(onClickLabel = "Minimize") { States.mainWinState.isMinimized = true },
+                        // end Modifier
 
                         Alignment.Center
                     ) {
@@ -172,16 +141,16 @@ class TitleBars {
                             .onPointerEvent(PointerEventType.Exit, onEvent = { maxRestoreHovering.value = false })
 
                             .clickable(onClickLabel = "Maximize or restore") {
-                                if (mainWinState.placement == WindowPlacement.Maximized) {
-                                    mainWinState.placement = WindowPlacement.Floating
+                                if (States.mainWinState.placement == WindowPlacement.Maximized) {
+                                    States.mainWinState.placement = WindowPlacement.Floating
                                 } else {
-                                    mainWinState.placement = WindowPlacement.Maximized
+                                    States.mainWinState.placement = WindowPlacement.Maximized
                                 } // end if
                             }, // end .clickable
 
                         Alignment.Center
                     ) {
-                        val iconPainter = if (mainWinState.placement == WindowPlacement.Maximized) {
+                        val iconPainter = if (States.mainWinState.placement == WindowPlacement.Maximized) {
                             restoreIconPainter
                         } else {
                             maxIconPainter
@@ -210,7 +179,7 @@ class TitleBars {
 
                             .onPointerEvent(PointerEventType.Enter, onEvent = { closeHovering.value = true })
                             .onPointerEvent(PointerEventType.Exit, onEvent = { closeHovering.value = false })
-                            .clickable(onClickLabel = "Close") { exitApp() },
+                            .clickable(onClickLabel = "Close") { Funcs.exitApp() }, // end Modifier
 
                         Alignment.Center
                     ) {
@@ -239,9 +208,7 @@ class TitleBars {
                 Modifier.fillMaxWidth().height(32.dp).clip(RoundedCornerShape(8.dp, 8.dp, 0.dp, 0.dp)),
                 Alignment.TopStart
             ) {
-                WindowDraggableArea(Modifier.fillMaxSize()) {
-                    Box(Modifier.fillMaxSize())
-                } // end WindowDraggableArea
+                WindowDraggableArea(Modifier.fillMaxSize()) { Box(Modifier.fillMaxSize()) } // end WindowDraggableArea
             } // end Box
         } // end fun
 
@@ -254,25 +221,24 @@ class TitleBars {
             // Copyright 2022 Yucheng Liu. Apache License Version 2.0.
             // Apache License Version 2.0 copy: http://www.apache.org/licenses/LICENSE-2.0
 
-            MaterialTheme {
+            States.Theme {
                 Box(
                     Modifier.fillMaxSize().clip(RoundedCornerShape(8.dp)).background(MaterialTheme.colors.background),
                     Alignment.TopStart
                 ) {
-                    DraggableArea() // Custom title bar
-                    CustTitleBar(title, iconResLoc) // Custom title bar
                     Box(
                         Modifier
                             .fillMaxSize().clip(RoundedCornerShape(0.dp, 0.dp, 8.dp, 8.dp))
                             .background(MaterialTheme.colors.background)
-                            .padding(16.dp, 0.dp, 16.dp, 16.dp), // end Modifier
+                            .padding(16.dp, 32.dp, 16.dp, 16.dp), // end Modifier
 
                         Alignment.TopStart
-                    ) {
-                        content()
-                    } // end Box
+                    ) { content() } // end Box
+
+                    DraggableArea() // Custom title bar
+                    CustTitleBar(title, iconResLoc) // Custom title bar
                 } // end Box
-            } // end States.Theme
+            } // end States
         } // end fun
     } // end companion
 } // end class
