@@ -8,7 +8,7 @@ import org.jetbrains.dokka.gradle.DokkaTask
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 group = "liuyucheng"
-version = "0.4.0"
+version = "0.5.0"
 
 // Add version.properties to the JAR resources
 
@@ -16,6 +16,25 @@ tasks.processResources.configure {
     val props = mapOf("version" to version)
     inputs.properties(props)
     filesMatching("versions.properties") { expand(properties) }
+
+    doLast {
+        copy {
+            from(
+                file(rootDir.resolve("README-Assets/Open-Source-Licenses.txt")),
+                file(rootDir.resolve("LICENSE"))
+            ) // end from
+
+            into(buildDir.resolve("resources/main/licenses"))
+
+            rename { name: String ->
+                when (name) {
+                    "Open-Source-Licenses.txt" -> "open_source_licenses.txt"
+                    "LICENSE" -> "license.txt"
+                    else -> name
+                }
+            } // end rename
+        } // end copy
+    } // end doLast
 } // end tasks
 
 // End; Find compilation target
