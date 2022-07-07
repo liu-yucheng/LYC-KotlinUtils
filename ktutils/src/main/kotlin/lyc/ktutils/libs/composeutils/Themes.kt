@@ -97,7 +97,7 @@ class Themes private constructor() {
         } // end open class
 
         /** Custom theme object. */
-        val CustTheme = object : CustThemeType() {} // end fun
+        val CustTheme = object : CustThemeType() {} // end val
 
         /** Light theme. */
         @Composable
@@ -128,7 +128,7 @@ class Themes private constructor() {
         } // end fun
 
         /** Light theme object. */
-        val LightTheme = object : CustThemeType() {} // end fun
+        val LightTheme = object : CustThemeType() {} // end val
 
         /** Dark theme. */
         @Composable
@@ -159,6 +159,6 @@ class Themes private constructor() {
         } // end fun
 
         /** Dark theme object. */
-        val DarkTheme = object : CustThemeType() {} // end fun
+        val DarkTheme = object : CustThemeType() {} // end val
     } // end companion
 } // end class

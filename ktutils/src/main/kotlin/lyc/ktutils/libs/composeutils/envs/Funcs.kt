@@ -87,13 +87,6 @@ class Funcs private constructor() {
             Utils.closeLogs(States.allLogs)
         } // end fun
 
-        /** Exits the app.
-         * @param statusCode: a status code
-         */
-        fun exitApp(statusCode: Int = 0) {
-            exitProcess(statusCode)
-        } // end fun
-
         /** Sets-up FlatLaf theme. */
         fun setupFlatLafTheme() {
             FlatLafFuncs.setupFlatLafTheme(States.darkEnabled.value)
@@ -106,26 +99,28 @@ class Funcs private constructor() {
 
         /** Logs licenses. */
         fun logLics() {
-            Funcs.logln("==== Open-source Licenses ====")
+            logln("==== Open-source Licenses ====")
 
-            Funcs.logln(
-                Utils.findResStream(Utils.joinResPaths(Defaults.licsResPath, Defaults.openLicsName))
-                    .bufferedReader().readText() // end Utils
-            ) // end Funcs
+            logln(
+                Utils
+                    .findResStream(Utils.joinResPaths(Defaults.licsResPath, Defaults.openLicsName)).bufferedReader()
+                    .readText() // end Utils
+            ) // end logln
 
             val info = """
                 ==== End Of Open-source Licenses ====
                 ==== License ====
             """.trimIndent() // end val
 
-            Funcs.logln(info)
+            logln(info)
 
-            Funcs.logln(
-                Utils.findResStream(Utils.joinResPaths(Defaults.licsResPath, Defaults.licName))
-                    .bufferedReader().readText() // end Utils
-            ) // end Funcs
+            logln(
+                Utils
+                    .findResStream(Utils.joinResPaths(Defaults.licsResPath, Defaults.licName)).bufferedReader()
+                    .readText() // end Utils
+            ) // end logln
 
-            Funcs.logln("==== End Of License ====")
+            logln("==== End Of License ====")
         } // end fun
 
         /** Opens a folder in the desktop file explorer.
