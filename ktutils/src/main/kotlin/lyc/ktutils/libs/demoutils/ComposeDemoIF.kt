@@ -8,7 +8,9 @@ import androidx.compose.ui.window.WindowScope
 
 /** Compose demonstration interface. */
 interface ComposeDemoIF {
-    /** Exits the demonstration. */
+    /** Exits the demonstration.
+     * @param statusCode: a status code
+     */
     fun exitDemo(statusCode: Int = 0)
 
     /** Main window content. */
