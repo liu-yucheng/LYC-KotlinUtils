@@ -7,12 +7,38 @@ Apache License Version 2.0 copy: http://www.apache.org/licenses/LICENSE-2.0
 
 Personal Kotlin utility collection library.
 
+# Usage
+
+`java -jar lyc-ktutils-<version>.jar <command> ...`
+
+# Help Page
+
+```powershell
+> java -jar .\ktutils-<version>.jar help
+LYC-KotlinUtils <version>
+Help: java -jar ktutils-<version>.jar help
+- mainArgs
+  [0]: help
+- End mainArgs
+- LYC-KotlinUtils help info
+Usage:  java -jar ktutils-<version>.jar <command> ...
+-- Commands
+Help:           java -jar ktutils-<version>.jar help
+TermOutsDemo:   java -jar ktutils-<version>.jar term-outs-demo
+TitleBarsDemo:  java -jar ktutils-<version>.jar title-bars-demo
+-- End Commands
+- End LYC-KotlinUtils help info
+```
+
 # Open-source Licenses
 
-This application uses some open-source libraries. Their licenses are listed in the [`README-Assets/Open-Source-Licenses.txt`](README-Assets/Open-Source-Licenses.txt) file of this repository.
+This application uses some open-source libraries. Their licenses are listed in
+the [`README-Assets/Open-Source-Licenses.txt`](README-Assets/Open-Source-Licenses.txt) file of this repository.
 
 # Miscellaneous
+
 ## Versions
+
 ### Versioning
 
 ```text
@@ -45,6 +71,7 @@ The version tags are on the main branch.
 ```
 
 ## Copyright
+
 ### Short Version
 
 ```text

@@ -8,7 +8,8 @@ import org.jetbrains.dokka.gradle.DokkaTask
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 group = "lyc"
-version = "0.6.0"
+version = "1.0.0"
+val jarBaseName = "ktutils"
 
 // Add version.properties to the JAR resources
 
@@ -198,12 +199,12 @@ tasks.register<proguard.gradle.ProGuardTask>("obfus") {
 
     configuration("proguard-configs.txt")
     injars(tasks.named("jar"))
-    outjars("$obfusPath/gantestgui-obfus-$version.jar")
+    outjars("$obfusPath/$jarBaseName-obfus-$version.jar")
 
-    printseeds("$obfusPath/gantestgui-seeds.txt")
-    // printusage("$obfusPath/gantestgui-usage.txt")
-    printmapping("$obfusPath/gantestgui-mapping.txt")
-    printconfiguration("$obfusPath/gantestgui-configuration.txt")
+    printseeds("$obfusPath/$jarBaseName-seeds.txt")
+    // printusage("$obfusPath/$jarBaseName-usage.txt")
+    printmapping("$obfusPath/$jarBaseName-mapping.txt")
+    printconfiguration("$obfusPath/$jarBaseName-configuration.txt")
 
     // Include library JARs
 
