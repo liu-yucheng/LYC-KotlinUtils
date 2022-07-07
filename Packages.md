@@ -22,6 +22,10 @@ General purpose utilities.
 
 Compose utilities.
 
-# Package lyc.ktutils.libs.envs
+# Package lyc.ktutils.libs.composeutils.envs
 
 Environments.
+
+# Package lyc.ktutils.libs.demoutils
+
+Demonstration utilities.
