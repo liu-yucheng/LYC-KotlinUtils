@@ -3,7 +3,7 @@ Copyright 2022 Yucheng Liu. Apache License Version 2.0.
 Apache License Version 2.0 copy: http://www.apache.org/licenses/LICENSE-2.0
 --->
 
-# liu-yucheng/MyKotlinUtils
+# LYC-KotlinUtils
 
 Personal Kotlin utility collection library.
 
@@ -57,7 +57,7 @@ You should have and keep a copy of the above license. If not, please get it
 ### Long Version
 
 ```text
-liu-yucheng/MyKotlinUtils, Yucheng Liu's personal Kotlin utility library.
+LYC-KotlinUtils, LYC's personal Kotlin utility collection library.
 Copyright (C) 2022 Yucheng Liu. Apache License Version 2.0.
 
 Licensed under the Apache License, Version 2.0 (the "License");
