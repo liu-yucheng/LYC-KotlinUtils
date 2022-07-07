@@ -22,7 +22,7 @@ class FlatLafFuncs private constructor() {
             // Copyright 2022 Yucheng Liu. Apache License Version 2.0.
             // Apache License Version 2.0 copy: http://www.apache.org/licenses/LICENSE-2.0
 
-            // TODO: Please set your custom default source here
+            // TODO("Please set your custom default source here")
             FlatLaf.registerCustomDefaultsSource("lyc.ktutils.libs.composeutils")
 
             if (darkEnabled) {
@@ -42,7 +42,7 @@ class FlatLafFuncs private constructor() {
             // Copyright 2022 Yucheng Liu. Apache License Version 2.0.
             // Apache License Version 2.0 copy: http://www.apache.org/licenses/LICENSE-2.0
 
-            // TODO: Please set your custom default source here
+            // TODO("Please set your custom default source here")
             FlatLaf.registerCustomDefaultsSource("lyc.ktutils.libs.composeutils")
 
             val laf = if (darkEnabled) {

@@ -16,6 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.WindowScope
 import androidx.compose.ui.window.application
+import kotlin.system.exitProcess
 import lyc.ktutils.libs.composeutils.envs.Defaults
 import lyc.ktutils.libs.composeutils.envs.Funcs
 import lyc.ktutils.libs.composeutils.envs.States
@@ -104,7 +105,7 @@ open class ComposeDemo(
      */
     override fun exitDemo(statusCode: Int) {
         teardown()
-        Funcs.exitApp(statusCode)
+        exitProcess(statusCode)
     } // end fun
 
     /** Settings buttons. */
