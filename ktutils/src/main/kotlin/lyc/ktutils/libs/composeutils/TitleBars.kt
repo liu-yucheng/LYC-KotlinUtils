@@ -37,7 +37,6 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.WindowPlacement
 import androidx.compose.ui.window.WindowScope
 import lyc.ktutils.libs.composeutils.envs.Defaults
-import lyc.ktutils.libs.composeutils.envs.Funcs
 import lyc.ktutils.libs.composeutils.envs.States
 import lyc.ktutils.libs.composeutils.envs.Utils
 
@@ -50,7 +49,7 @@ class TitleBars private constructor() {
          */
         @OptIn(ExperimentalComposeUiApi::class)
         @Composable
-        fun CustTitleBar(title: String = "", iconResLoc: String = "") {
+        fun CustTitleBar(onCloseClicked: () -> Unit, title: String = "", iconResLoc: String = "") {
             // Part of LYC-KotlinUtils
             // Copyright 2022 Yucheng Liu. Apache License Version 2.0.
             // Apache License Version 2.0 copy: http://www.apache.org/licenses/LICENSE-2.0
@@ -179,7 +178,7 @@ class TitleBars private constructor() {
 
                             .onPointerEvent(PointerEventType.Enter, onEvent = { closeHovering.value = true })
                             .onPointerEvent(PointerEventType.Exit, onEvent = { closeHovering.value = false })
-                            .clickable(onClickLabel = "Close") { Funcs.exitApp() }, // end Modifier
+                            .clickable(onClickLabel = "Close") { onCloseClicked() }, // end Modifier
 
                         Alignment.Center
                     ) {
@@ -216,7 +215,9 @@ class TitleBars private constructor() {
          * @param content: some composable contents
          */
         @Composable
-        fun WindowScope.AppFrame(title: String = "", iconResLoc: String = "", content: @Composable () -> Unit) {
+        fun WindowScope.AppFrame(
+            onCloseClicked: () -> Unit, title: String = "", iconResLoc: String = "", content: @Composable () -> Unit
+        ) {
             // Part of LYC-KotlinUtils
             // Copyright 2022 Yucheng Liu. Apache License Version 2.0.
             // Apache License Version 2.0 copy: http://www.apache.org/licenses/LICENSE-2.0
@@ -236,7 +237,7 @@ class TitleBars private constructor() {
                     ) { content() } // end Box
 
                     DraggableArea() // Custom title bar
-                    CustTitleBar(title, iconResLoc) // Custom title bar
+                    CustTitleBar(onCloseClicked, title, iconResLoc) // Custom title bar
                 } // end Box
             } // end States
         } // end fun
