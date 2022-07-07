@@ -46,7 +46,7 @@ fun main(args: Array<String>) {
             } // end "title-bars-demo"
 
             else -> {
-                System.err.println("$packName gets invalid arguments")
+                System.err.println("$packName gets an unknown command: $arg1")
                 System.err.println("Usage: java -jar $jarName <command> ...")
                 System.err.println("Help: java -jar $jarName help")
                 exitProcess(1)
@@ -61,8 +61,8 @@ var mainArgs = ArrayList<String>()
 /** Package name. */
 const val packName = "LYC-KotlinUtils"
 
-/** JAR file name. */
-const val jarName = "lyc-ktutils.jar"
-
 /** Package version. */
 val packVer = PackInfo.findPackVer()
+
+/** JAR file name. */
+val jarName = "ktutils-${packVer}.jar"

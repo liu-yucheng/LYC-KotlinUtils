@@ -104,6 +104,30 @@ class Funcs private constructor() {
             FlatLafFuncs.updateFlatLafTheme(States.darkEnabled.value)
         } // end fun
 
+        /** Logs licenses. */
+        fun logLics() {
+            Funcs.logln("==== Open-source Licenses ====")
+
+            Funcs.logln(
+                Utils.findResStream(Utils.joinResPaths(Defaults.licsResPath, Defaults.openLicsName))
+                    .bufferedReader().readText() // end Utils
+            ) // end Funcs
+
+            val info = """
+                ==== End Of Open-source Licenses ====
+                ==== License ====
+            """.trimIndent() // end val
+
+            Funcs.logln(info)
+
+            Funcs.logln(
+                Utils.findResStream(Utils.joinResPaths(Defaults.licsResPath, Defaults.licName))
+                    .bufferedReader().readText() // end Utils
+            ) // end Funcs
+
+            Funcs.logln("==== End Of License ====")
+        } // end fun
+
         /** Opens a folder in the desktop file explorer.
          * @param path: a path
          * @return result: whether the operation is successful

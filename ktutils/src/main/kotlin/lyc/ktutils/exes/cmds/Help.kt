@@ -16,9 +16,13 @@ class Help private constructor() {
         /** Runs the command. */
         fun run() {
             if (args.size > 0) {
-                System.err.println("Help gets invalid arguments")
-                System.err.println("Usage: java -jar $jarName help")
-                System.err.println("Help: java -jar $jarName help")
+                val info = """
+                    Help gets invalid arguments
+                    Usage: java -jar $jarName help
+                    Help: java -jar $jarName help
+                """.trimIndent() // end val
+
+                System.err.println(info)
                 exitProcess(1)
             } // end if
 
@@ -31,7 +35,7 @@ class Help private constructor() {
                 TitleBarsDemo:  java -jar $jarName title-bars-demo
                 -- End Commands
                 - End $packName help info
-            """.trimIndent()
+            """.trimIndent() // end val
 
             println(info)
         } // end fun
