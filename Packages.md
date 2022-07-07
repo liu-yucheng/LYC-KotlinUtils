@@ -1,19 +1,27 @@
-# Package lyc.myktutils
+# Package lyc.ktutils
 
 My kotlin utilities.
 
-# Package lyc.myktutils.exes
+# Package lyc.ktutils.exes
 
 Executables.
 
-# Package lyc.myktutils.libs
+# Package lyc.ktutils.cmds
+
+Commands.
+
+# Package lyc.ktutils.libs
 
 Libraries.
 
-# Package lyc.myktutils.libs.gputils
+# Package lyc.ktutils.libs.gputils
 
 General purpose utilities.
 
-# Package lyc.myktutils.libs.composeutils
+# Package lyc.ktutils.libs.composeutils
 
-Compose utils
+Compose utilities.
+
+# Package lyc.ktutils.libs.envs
+
+Environments.
