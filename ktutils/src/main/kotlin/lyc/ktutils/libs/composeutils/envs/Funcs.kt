@@ -7,7 +7,6 @@ import java.awt.Desktop
 import java.io.File
 import java.io.InputStream
 import java.io.OutputStream
-import kotlin.system.exitProcess
 import lyc.ktutils.libs.composeutils.FlatLafFuncs
 
 /** Functions. */
@@ -97,30 +96,21 @@ class Funcs private constructor() {
             FlatLafFuncs.updateFlatLafTheme(States.darkEnabled.value)
         } // end fun
 
-        /** Logs licenses. */
-        fun logLics() {
-            logln("==== Open-source Licenses ====")
-
-            logln(
-                Utils
-                    .findResStream(Utils.joinResPaths(Defaults.licsResPath, Defaults.openLicsName)).bufferedReader()
-                    .readText() // end Utils
-            ) // end logln
-
+        /** Logs copyrights. */
+        fun logCrs() {
             val info = """
-                ==== End Of Open-source Licenses ====
-                ==== License ====
-            """.trimIndent() // end val
+==== Copyright ====
+${States.crText}
+==== End Of Copyright ====
+==== License ====
+${States.licText}
+==== End Of License ====
+==== Open-source Licenses ====
+${States.openLicsText}
+==== End Of Open-source Licenses ====
+            """.trim() // end val
 
             logln(info)
-
-            logln(
-                Utils
-                    .findResStream(Utils.joinResPaths(Defaults.licsResPath, Defaults.licName)).bufferedReader()
-                    .readText() // end Utils
-            ) // end logln
-
-            logln("==== End Of License ====")
         } // end fun
 
         /** Opens a folder in the desktop file explorer.
