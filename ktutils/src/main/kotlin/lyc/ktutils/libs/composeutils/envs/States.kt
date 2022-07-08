@@ -97,9 +97,10 @@ class States private constructor() {
 
         /** Copyright text. */
         val crText = """
+            LYC-KotlinUtils, LYC's personal Kotlin utility collection library.
             Copyright 2022 Yucheng Liu. Apache License Version 2.0.
             Apache License Version 2.0 copy: http://www.apache.org/licenses/LICENSE-2.0
-        """.trimIndent()
+        """.trimIndent() // end val
 
         /** License text. */
         val licText: String
