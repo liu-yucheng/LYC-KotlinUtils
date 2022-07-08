@@ -30,6 +30,20 @@ TitleBarsDemo:  java -jar ktutils-<version>.jar title-bars-demo
 - End LYC-KotlinUtils help info
 ```
 
+# Demo Screenshots
+
+Terminal outputs demo, custom light theme.
+![term-outs-demo-light](README-Assets/TermOutsDemo-LightTheme.png)
+
+Terminal outputs demo, custom dark theme.
+![term-outs-demo-dark](README-Assets/TermOutsDemo-DarkTheme.png)
+
+Title bars demo, custom light theme.
+![title-bars-demo-light](README-Assets/TitleBarDemo-LightTheme.png)
+
+Title bars demo, custom dark theme.
+![title-bars-demo-dark](README-Assets/TitleBarDemo-DarkTheme.png)
+
 # Open-source Licenses
 
 This application uses some open-source libraries. Their licenses are listed in

@@ -26,19 +26,23 @@ class States private constructor() {
         /** Log location. */
         val logLoc = Utils.joinPaths(Defaults.appDataPath, Defaults.logName)
 
-        /** Log file. */
-        private val logFile = File(logLoc)
-
         /** Log writer.
          * NOTE: Please remember to manually close the writer after finishing writing to it.
          */
-        val logWriter = PrintWriter(FileOutputStream(logFile, true))
+        val logWriter: PrintWriter
+
+        init {
+            // Initialize logWriter
+            val file = File(logLoc)
+            val appendStream = FileOutputStream(file, true)
+            logWriter = PrintWriter(appendStream)
+        } // end init
 
         /** Terminal outputs. */
         val termOuts = mutableStateListOf<String>()
 
         /** All logs. */
-        val allLogs = arrayListOf<Any>(termOuts, logWriter)
+        val allLogs = arrayListOf(termOuts, logWriter)
 
         /** Terminal outputs content digest. */
         val termOutsContentDigest: Int
@@ -75,7 +79,7 @@ class States private constructor() {
         /** Terminal placebo clicks. */
         val termPlaceboClicks = mutableStateOf(0)
 
-        /** Whether to enable dark theme. */
+        /** Whether to enable dark themes. */
         val darkEnabled = mutableStateOf(true)
 
         /** Compose theme. */
@@ -90,5 +94,34 @@ class States private constructor() {
 
         /** Compose theme object. */
         val Theme = object : Themes.Companion.CustThemeType() {}
+
+        /** Copyright text. */
+        val crText = """
+            Copyright 2022 Yucheng Liu. Apache License Version 2.0.
+            Apache License Version 2.0 copy: http://www.apache.org/licenses/LICENSE-2.0
+        """.trimIndent()
+
+        /** License text. */
+        val licText: String
+
+        init {
+            // Initialize licText
+            val loc = Utils.joinResPaths(Defaults.licsResPath, Defaults.licName)
+            val stream = Utils.findResStream(loc)
+            val reader = stream.bufferedReader()
+            licText = reader.readText()
+            stream.close()
+        } // end init
+
+        /** Open-source licenses text. */
+        val openLicsText: String
+
+        init {
+            // Initialize openLicsText
+            val loc = Utils.joinResPaths(Defaults.licsResPath, Defaults.openLicsName)
+            val stream = Utils.findResStream(loc)
+            val reader = stream.bufferedReader()
+            openLicsText = reader.readText()
+        } // end init
     } // end companion
 } // end class
