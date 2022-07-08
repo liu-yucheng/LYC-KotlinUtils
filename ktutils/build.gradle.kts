@@ -8,7 +8,7 @@ import org.jetbrains.dokka.gradle.DokkaTask
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 group = "lyc"
-version = "1.0.1"
+version = "1.0.2"
 val jarBaseName = "ktutils"
 
 // Add version.properties to the JAR resources
@@ -42,7 +42,7 @@ tasks.processResources.configure {
 
 val osName = System.getProperty("os.name")
 
-val targetOs = when {
+val targetOS = when {
     osName == "Mac OS X" -> "macos"
     osName.startsWith("Win") -> "windows"
     osName.startsWith("Linux") -> "linux"
@@ -57,7 +57,7 @@ val targetArch = when (archName) {
     else -> error("Unknown arch: $archName")
 } // end val
 
-val target = "$targetOs-$targetArch"
+val target = "$targetOS-$targetArch"
 
 // End
 

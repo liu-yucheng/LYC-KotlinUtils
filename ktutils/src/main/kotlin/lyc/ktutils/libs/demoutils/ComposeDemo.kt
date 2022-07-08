@@ -118,10 +118,10 @@ open class ComposeDemo(
         ) {
             Button(
                 {
-                    Funcs.logLics()
-                    Funcs.logln("Displayed licenses")
+                    Funcs.logCrs()
+                    Funcs.logln("Displayed copyrights")
                 } // end onClick
-            ) { Text("Display licenses") } // end Button
+            ) { Text("Display copyrights") } // end Button
 
             Button(
                 {
