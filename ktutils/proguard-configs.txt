@@ -21,9 +21,12 @@
     public static void main();
 }
 
--keepclasseswithmembernames public class * {
-    public <fields>;
-    public <methods>;
+-keepclasseswithmembers public class * {
+    public *;
+}
+
+-keepclasseswithmembers public class * {
+    public static *;
 }
 
 # End; Optimization options
