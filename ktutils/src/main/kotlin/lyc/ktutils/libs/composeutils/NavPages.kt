@@ -61,15 +61,15 @@ class NavPages private constructor() {
             val pageNum = idx + 1
             Funcs.logln("Entered page $pageNum / $count")
 
-            Column(Modifier.fillMaxSize(), Arrangement.Center, Alignment.CenterHorizontally) {
+            Column(Modifier.fillMaxSize(), Arrangement.Top, Alignment.CenterHorizontally) {
                 Text("Previous-next page", color = MaterialTheme.colors.onBackground)
-                Spacer(Modifier.size(8.dp))
+                Spacer(Modifier.weight(1f))
                 Text("Page index: $idx", color = MaterialTheme.colors.onBackground)
                 Spacer(Modifier.size(8.dp))
                 Text("Page number: $pageNum", color = MaterialTheme.colors.onBackground)
                 Spacer(Modifier.size(8.dp))
                 Text("Page count: $count", color = MaterialTheme.colors.onBackground)
-                Spacer(Modifier.size(32.dp))
+                Spacer(Modifier.weight(1f))
 
                 Row(Modifier.fillMaxWidth(), Arrangement.SpaceAround, Alignment.CenterVertically) {
                     Button(onPrevClick) { Text("Previous") }
