@@ -8,7 +8,7 @@ import org.jetbrains.dokka.gradle.DokkaTask
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 group = "lyc"
-version = "1.1.1"
+version = "1.1.2"
 val jarBaseName = "ktutils"
 
 // Add version.properties to the JAR resources
