@@ -41,15 +41,14 @@ class NavPages private constructor() {
 
             /** Page configuration.
              * @param idx: an index
-             * @param count: a count
              */
             @Parcelize
-            data class PageConfig(val idx: Int, val count: Int) : Config()
+            data class PageConfig(val idx: Int) : Config()
         } // end class
 
         /** Previous-next page.
          * @param idx: an index
-         * @param count: a count
+         * @param count: a page count
          * @param onPrevClick: something to run when the previous button is clicked
          * @param onNextClick: something to run when the next button is clicked
          */
@@ -82,9 +81,9 @@ class NavPages private constructor() {
 
         /** Circular pages navigator.
          * @param context: a component context
-         * @param count: a page count
+         * @param pageCount: a page count
          */
-        private class CircPagesNav(context: ComponentContext, val count: Int) : ComponentContext by context {
+        private class CircPagesNav(context: ComponentContext, val pageCount: Int) : ComponentContext by context {
             // Part of LYC-KotlinUtils
             // Copyright 2022 Yucheng Liu. Apache License Version 2.0.
             // Apache License Version 2.0 copy: http://www.apache.org/licenses/LICENSE-2.0
@@ -95,8 +94,8 @@ class NavPages private constructor() {
             private fun makeInitStack(): List<Config> {
                 val initStack = ArrayList<Config>()
 
-                for (idx in count - 1 downTo 0) {
-                    val config = Config.PageConfig(idx, count)
+                for (idx in pageCount - 1 downTo 0) {
+                    val config = Config.PageConfig(idx)
                     initStack.add(config)
                 } // end for
 
@@ -110,15 +109,14 @@ class NavPages private constructor() {
              */
             private fun makePageContent(config: Config.PageConfig): ComposeContent {
                 val idx = config.idx
-                val count = config.count
 
-                val prevIdx = (idx - 1).mod(count)
-                val nextIdx = (idx + 1).mod(count)
+                val prevIdx = (idx - 1).mod(pageCount)
+                val nextIdx = (idx + 1).mod(pageCount)
 
-                val onPrevClick = { router.bringToFront(Config.PageConfig(prevIdx, count)) }
-                val onNextClick = { router.bringToFront(Config.PageConfig(nextIdx, count)) }
+                val onPrevClick = { router.bringToFront(Config.PageConfig(prevIdx)) }
+                val onNextClick = { router.bringToFront(Config.PageConfig(nextIdx)) }
 
-                val result = @Composable { PrevNextPage(idx, count, onPrevClick, onNextClick) }
+                val result = @Composable { PrevNextPage(idx, pageCount, onPrevClick, onNextClick) }
                 return result
             } // end fun
 
