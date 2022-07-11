@@ -8,7 +8,7 @@ import org.jetbrains.dokka.gradle.DokkaTask
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 group = "lyc"
-version = "1.0.4"
+version = "1.1.0"
 val jarBaseName = "ktutils"
 
 // Add version.properties to the JAR resources
@@ -103,8 +103,10 @@ dependencies {
 
     // End; Decompose
 
-    implementation("com.arkivanov.decompose:decompose:0.6.0")
-    api("com.arkivanov.decompose:decompose:0.6.0")
+    implementation("com.arkivanov.decompose:decompose:0.7.0")
+    api("com.arkivanov.decompose:decompose:0.7.0")
+    implementation("com.arkivanov.decompose:extensions-compose-jetbrains:0.7.0")
+    api("com.arkivanov.decompose:extensions-compose-jetbrains:0.7.0")
 
     // End; FlatLaf
 

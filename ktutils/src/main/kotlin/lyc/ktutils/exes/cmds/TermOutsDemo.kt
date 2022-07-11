@@ -34,7 +34,7 @@ class TermOutsDemo private constructor() {
                     SettingsButtons()
                     Spacer(Modifier.size(8.dp))
                     TermOuts.TermOuts()
-                } // end Row
+                } // end Column
             } // end Elems
         } // end fun
     } // end companion
