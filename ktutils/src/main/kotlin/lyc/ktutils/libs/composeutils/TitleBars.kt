@@ -102,9 +102,9 @@ class TitleBars private constructor() {
 
                             .background(
                                 if (minHovering.value) {
-                                    Themes.CustTheme.extColors.hover
+                                    States.Theme.extColors.hover
                                 } else {
-                                    Themes.CustTheme.transparentColor
+                                    States.Theme.transparentColor
                                 } // end if
                             ) // end .background
 
@@ -116,7 +116,7 @@ class TitleBars private constructor() {
                         Alignment.Center
                     ) {
                         val iconColor = if (minHovering.value) {
-                            Themes.CustTheme.extColors.onHover
+                            States.Theme.extColors.onHover
                         } else {
                             MaterialTheme.colors.onBackground
                         } // end if
@@ -130,9 +130,9 @@ class TitleBars private constructor() {
 
                             .background(
                                 if (maxRestoreHovering.value) {
-                                    Themes.CustTheme.extColors.hover
+                                    States.Theme.extColors.hover
                                 } else {
-                                    Themes.CustTheme.transparentColor
+                                    States.Theme.transparentColor
                                 } // end if
                             ) // end .background
 
@@ -156,7 +156,7 @@ class TitleBars private constructor() {
                         } // end if
 
                         val iconColor = if (maxRestoreHovering.value) {
-                            Themes.CustTheme.extColors.onHover
+                            States.Theme.extColors.onHover
                         } else {
                             MaterialTheme.colors.onBackground
                         } // end if
@@ -170,9 +170,9 @@ class TitleBars private constructor() {
 
                             .background(
                                 if (closeHovering.value) {
-                                    Themes.CustTheme.extColors.errHover
+                                    States.Theme.extColors.errHover
                                 } else {
-                                    Themes.CustTheme.transparentColor
+                                    States.Theme.transparentColor
                                 } // end if
                             ) // end .background
 
@@ -183,7 +183,7 @@ class TitleBars private constructor() {
                         Alignment.Center
                     ) {
                         val iconColor = if (closeHovering.value) {
-                            Themes.CustTheme.extColors.onErrHover
+                            States.Theme.extColors.onErrHover
                         } else {
                             MaterialTheme.colors.onBackground
                         } // end if

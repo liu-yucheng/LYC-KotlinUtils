@@ -38,7 +38,7 @@ Terminal outputs demo.
 ![term-outs-demo-light](README-Assets/TermOutsDemo-LightTheme.png)
 
 Title bars demo.
-![title-bars-demo-light](README-Assets/TitleBarDemo-LightTheme.png)
+![title-bars-demo-light](README-Assets/TitleBarsDemo-LightTheme.png)
 
 Circular pages demo.
 ![circ-pages-demo-light](README-Assets/CircPagesDemo-LightTheme.png)
@@ -49,7 +49,7 @@ Terminal outputs demo.
 ![term-outs-demo-dark](README-Assets/TermOutsDemo-DarkTheme.png)
 
 Title bars demo.
-![title-bars-demo-dark](README-Assets/TitleBarDemo-DarkTheme.png)
+![title-bars-demo-dark](README-Assets/TitleBarsDemo-DarkTheme.png)
 
 Circular pages demo.
 ![circ-pages-demo-dark](README-Assets/CircPagesDemo-DarkTheme.png)
