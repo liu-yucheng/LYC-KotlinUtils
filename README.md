@@ -9,7 +9,7 @@ Personal Kotlin utility collection library.
 
 # Usage
 
-`java -jar lyc-ktutils-<version>.jar <command> ...`
+`java -jar ktutils-<version>.jar <command> ...`
 
 # Help Page
 
