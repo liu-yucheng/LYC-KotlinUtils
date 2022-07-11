@@ -39,11 +39,11 @@ class NavPages private constructor() {
             // Copyright 2022 Yucheng Liu. Apache License Version 2.0.
             // Apache License Version 2.0 copy: http://www.apache.org/licenses/LICENSE-2.0
 
-            /** Page configuration.
+            /** Previous-next page configuration.
              * @param idx: an index
              */
             @Parcelize
-            data class PageConfig(val idx: Int) : Config()
+            data class PrevNextPageConfig(val idx: Int) : Config()
         } // end class
 
         /** Previous-next page.
@@ -95,7 +95,7 @@ class NavPages private constructor() {
                 val initStack = ArrayList<Config>()
 
                 for (idx in pageCount - 1 downTo 0) {
-                    val config = Config.PageConfig(idx)
+                    val config = Config.PrevNextPageConfig(idx)
                     initStack.add(config)
                 } // end for
 
@@ -107,14 +107,14 @@ class NavPages private constructor() {
              * @param config: a page config
              * @return result: the page compose content
              */
-            private fun makePageContent(config: Config.PageConfig): ComposeContent {
+            private fun makePageContent(config: Config.PrevNextPageConfig): ComposeContent {
                 val idx = config.idx
 
                 val prevIdx = (idx - 1).mod(pageCount)
                 val nextIdx = (idx + 1).mod(pageCount)
 
-                val onPrevClick = { router.bringToFront(Config.PageConfig(prevIdx)) }
-                val onNextClick = { router.bringToFront(Config.PageConfig(nextIdx)) }
+                val onPrevClick = { router.bringToFront(Config.PrevNextPageConfig(prevIdx)) }
+                val onNextClick = { router.bringToFront(Config.PrevNextPageConfig(nextIdx)) }
 
                 val result = @Composable { PrevNextPage(idx, pageCount, onPrevClick, onNextClick) }
                 return result
@@ -130,7 +130,7 @@ class NavPages private constructor() {
                 val result: ComposeContent
 
                 when (config) {
-                    is Config.PageConfig -> {
+                    is Config.PrevNextPageConfig -> {
                         result = makePageContent(config)
                     } // end is
                 } // end when
