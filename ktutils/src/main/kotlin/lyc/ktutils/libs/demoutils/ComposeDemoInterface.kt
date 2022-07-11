@@ -7,7 +7,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.window.WindowScope
 
 /** Compose demonstration interface. */
-interface ComposeDemoIF {
+interface ComposeDemoInterface {
     /** Exits the demonstration.
      * @param statusCode: a status code
      */
