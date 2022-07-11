@@ -145,14 +145,17 @@ open class ComposeDemo(
         // Do nothing
     } // end fun
 
+    /** Window title. */
+    protected val winTitle = "$packName $packVer $demoName"
+
     /** Main window. */
     @Composable
     protected fun MainWin() {
         Funcs.setupFlatLafTheme()
 
         Window(
-            ::exitDemo, States.mainWinState, true, "$packName $packVer $demoName",
-            undecorated = winUndecorated, transparent = winTransparent, resizable = true
+            ::exitDemo, States.mainWinState, true, winTitle, undecorated = winUndecorated,
+            transparent = winTransparent, resizable = true
         ) { WinContent() } // end Window
     } // end fun
 

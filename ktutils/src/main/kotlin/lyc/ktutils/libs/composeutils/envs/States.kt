@@ -79,6 +79,9 @@ class States private constructor() {
         /** Terminal placebo clicks. */
         val termPlaceboClicks = mutableStateOf(0)
 
+        /** Terminal extended. */
+        val termExtended = mutableStateOf(true)
+
         /** Whether to enable dark themes. */
         val darkEnabled = mutableStateOf(true)
 
