@@ -5,11 +5,11 @@ package lyc.ktutils.exes.cmds
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.WindowScope
@@ -29,11 +29,11 @@ class TitleBarsDemo private constructor() {
         /** Main window content. */
         @Composable
         override fun WindowScope.WinContent() {
-            AppFrame({ exitDemo(0) }, demoName) {
-                Column(Modifier.fillMaxSize(), Arrangement.Center, Alignment.CenterHorizontally) {
+            AppFrame({ exitDemo(0) }, winTitle) {
+                Column(Modifier.fillMaxSize()) {
                     SettingsButtons()
                     Spacer(Modifier.size(8.dp))
-                    TermOuts.TermOuts()
+                    Row(Modifier.fillMaxSize(), Arrangement.End) { TermOuts.TermOuts() }
                 } // end Column
             } // end AppFrame
         } // end fun

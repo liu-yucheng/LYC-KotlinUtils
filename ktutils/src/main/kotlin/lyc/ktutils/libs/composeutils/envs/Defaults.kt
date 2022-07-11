@@ -51,6 +51,9 @@ class Defaults private constructor() {
         /** Clear outputs icon name. */
         const val clearOutsIconName = "backspace-outline.svg"
 
+        /** Terminal outputs handle icon name. */
+        const val termOutsHandleIconName = "console.svg"
+
         /** Open-source license name. */
         const val openLicsName = "open_source_licenses.txt"
 
