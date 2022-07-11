@@ -26,23 +26,33 @@ Usage:  java -jar ktutils-<version>.jar <command> ...
 Help:           java -jar ktutils-<version>.jar help
 TermOutsDemo:   java -jar ktutils-<version>.jar term-outs-demo
 TitleBarsDemo:  java -jar ktutils-<version>.jar title-bars-demo
+CircPagesDemo:  java -jar ktutils-<version>.jar circ-pages-demo
 -- End Commands
 - End LYC-KotlinUtils help info
 ```
 
 # Demo Screenshots
+## Custom light theme
 
-Terminal outputs demo, custom light theme.
+Terminal outputs demo.
 ![term-outs-demo-light](README-Assets/TermOutsDemo-LightTheme.png)
 
-Terminal outputs demo, custom dark theme.
-![term-outs-demo-dark](README-Assets/TermOutsDemo-DarkTheme.png)
-
-Title bars demo, custom light theme.
+Title bars demo.
 ![title-bars-demo-light](README-Assets/TitleBarDemo-LightTheme.png)
 
-Title bars demo, custom dark theme.
+Circular pages demo.
+![circ-pages-demo-light](README-Assets/CircPagesDemo-LightTheme.png)
+
+## Custom dark theme
+
+Terminal outputs demo.
+![term-outs-demo-dark](README-Assets/TermOutsDemo-DarkTheme.png)
+
+Title bars demo.
 ![title-bars-demo-dark](README-Assets/TitleBarDemo-DarkTheme.png)
+
+Circular pages demo.
+![circ-pages-demo-dark](README-Assets/CircPagesDemo-DarkTheme.png)
 
 # Open-source Licenses
 

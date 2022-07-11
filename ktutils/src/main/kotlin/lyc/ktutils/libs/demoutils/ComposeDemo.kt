@@ -28,35 +28,16 @@ import lyc.ktutils.libs.composeutils.envs.Utils
  * @param jarName: a JAR name
  * @param demoName: a demonstration name
  * @param cmdName: a command name
- * @param winContent: some composable main window contents
+ * @param winUndecorated: whether the window is undecorated
+ * @param winTransparent: whether the window is transparent
  */
 open class ComposeDemo(
-    packName: String, packVer: String, jarName: String, demoName: String, cmdName: String,
-    winUndecorated: Boolean = false, winTransparent: Boolean = false
-) : ComposeDemoIF {
+    protected val packName: String, protected val packVer: String, protected val jarName: String,
+    protected val demoName: String, protected val cmdName: String, protected val winUndecorated: Boolean = false,
+    protected val winTransparent: Boolean = false
+) : ComposeDemoInterface {
     /** Arguments. */
     var args = arrayListOf<String>()
-
-    /** Package name. */
-    protected val packName = packName
-
-    /** Package version. */
-    protected val packVer = packVer
-
-    /** JAR name. */
-    protected val jarName = jarName
-
-    /** Demonstration name. */
-    protected val demoName = demoName
-
-    /** Command name. */
-    protected val cmdName = cmdName
-
-    /** Whether the window is undecorated. */
-    protected val winUndecorated = winUndecorated
-
-    /** Whether the window is transparent. */
-    protected val winTransparent = winTransparent
 
     /** Sets-up the demonstration. */
     protected fun setup() {
