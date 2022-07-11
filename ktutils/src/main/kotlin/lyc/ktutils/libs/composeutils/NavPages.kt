@@ -35,6 +35,10 @@ class NavPages private constructor() {
     companion object {
         /** Configuration. */
         private sealed class Config : Parcelable {
+            // Part of LYC-KotlinUtils
+            // Copyright 2022 Yucheng Liu. Apache License Version 2.0.
+            // Apache License Version 2.0 copy: http://www.apache.org/licenses/LICENSE-2.0
+
             /** Page configuration.
              * @param idx: an index
              * @param count: a count
@@ -51,6 +55,10 @@ class NavPages private constructor() {
          */
         @Composable
         private fun PrevNextPage(idx: Int, count: Int, onPrevClick: () -> Unit, onNextClick: () -> Unit) {
+            // Part of LYC-KotlinUtils
+            // Copyright 2022 Yucheng Liu. Apache License Version 2.0.
+            // Apache License Version 2.0 copy: http://www.apache.org/licenses/LICENSE-2.0
+
             val pageNum = idx + 1
             Funcs.logln("Entered page $pageNum / $count")
 
@@ -77,6 +85,10 @@ class NavPages private constructor() {
          * @param count: a page count
          */
         private class CircPagesNav(context: ComponentContext, val count: Int) : ComponentContext by context {
+            // Part of LYC-KotlinUtils
+            // Copyright 2022 Yucheng Liu. Apache License Version 2.0.
+            // Apache License Version 2.0 copy: http://www.apache.org/licenses/LICENSE-2.0
+
             /** Makes an initial stack.
              * @return result: the initial stack
              */
@@ -141,6 +153,10 @@ class NavPages private constructor() {
         @Composable
         @OptIn(com.arkivanov.decompose.ExperimentalDecomposeApi::class)
         private fun CircPagesNavContent(nav: CircPagesNav) {
+            // Part of LYC-KotlinUtils
+            // Copyright 2022 Yucheng Liu. Apache License Version 2.0.
+            // Apache License Version 2.0 copy: http://www.apache.org/licenses/LICENSE-2.0
+
             Children(nav.routerState) { child -> child.instance() }
         } // end fun
 
@@ -153,6 +169,10 @@ class NavPages private constructor() {
         /** Circular pages of 4. */
         @Composable
         fun CircPagesOf4() {
+            // Part of LYC-KotlinUtils
+            // Copyright 2022 Yucheng Liu. Apache License Version 2.0.
+            // Apache License Version 2.0 copy: http://www.apache.org/licenses/LICENSE-2.0
+
             CircPagesNavContent(circPagesOf4Nav)
         } // end fun
     } // end companion
