@@ -14,6 +14,7 @@ import androidx.compose.material.Button
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -26,6 +27,7 @@ import com.arkivanov.essenty.lifecycle.LifecycleRegistry
 import com.arkivanov.essenty.parcelable.Parcelable
 import com.arkivanov.essenty.parcelable.Parcelize
 import lyc.ktutils.libs.composeutils.envs.Funcs
+import lyc.ktutils.libs.composeutils.envs.States
 
 /** Compose content. */
 typealias ComposeContent = @Composable () -> Unit
@@ -59,7 +61,6 @@ class NavPages private constructor() {
             // Apache License Version 2.0 copy: http://www.apache.org/licenses/LICENSE-2.0
 
             val pageNum = idx + 1
-            Funcs.logln("Entered page $pageNum / $count")
 
             Column(Modifier.fillMaxSize(), Arrangement.Top, Alignment.CenterHorizontally) {
                 Text("Previous-next page", color = MaterialTheme.colors.onBackground)
@@ -113,8 +114,17 @@ class NavPages private constructor() {
                 val prevIdx = (idx - 1).mod(pageCount)
                 val nextIdx = (idx + 1).mod(pageCount)
 
-                val onPrevClick = { router.bringToFront(Config.PrevNextPageConfig(prevIdx)) }
-                val onNextClick = { router.bringToFront(Config.PrevNextPageConfig(nextIdx)) }
+                val onPrevClick = {
+                    router.bringToFront(Config.PrevNextPageConfig(prevIdx))
+                    val pageNum = prevIdx + 1
+                    Funcs.logln("Switched to page $pageNum / $pageCount")
+                } // end val
+
+                val onNextClick = {
+                    router.bringToFront(Config.PrevNextPageConfig(nextIdx))
+                    val pageNum = nextIdx + 1
+                    Funcs.logln("Switched to page $pageNum / $pageCount")
+                } // end val
 
                 val result = @Composable { PrevNextPage(idx, pageCount, onPrevClick, onNextClick) }
                 return result

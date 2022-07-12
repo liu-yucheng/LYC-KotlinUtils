@@ -8,7 +8,7 @@ import org.jetbrains.dokka.gradle.DokkaTask
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 group = "lyc"
-version = "1.2.1"
+version = "1.2.2"
 val jarBaseName = "ktutils"
 
 // Add version.properties to the JAR resources
@@ -32,7 +32,7 @@ tasks.processResources.configure {
                     "Open-Source-Licenses.txt" -> "open_source_licenses.txt"
                     "LICENSE" -> "license.txt"
                     else -> name
-                }
+                } // end when
             } // end rename
         } // end copy
     } // end doLast

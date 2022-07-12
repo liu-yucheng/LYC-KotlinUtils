@@ -33,6 +33,12 @@ class Defaults private constructor() {
         /** Log name. */
         const val logName = "log.txt"
 
+        /** Open-source license name. */
+        const val openLicsName = "open_source_licenses.txt"
+
+        /** License name. */
+        const val licName = "license.txt"
+
         /** Minimize window icon name. */
         const val minWinIconName = "window-minimize.svg"
 
@@ -53,11 +59,5 @@ class Defaults private constructor() {
 
         /** Terminal outputs handle icon name. */
         const val termOutsHandleIconName = "console.svg"
-
-        /** Open-source license name. */
-        const val openLicsName = "open_source_licenses.txt"
-
-        /** License name. */
-        const val licName = "license.txt"
     } // end companion
 } // end class
