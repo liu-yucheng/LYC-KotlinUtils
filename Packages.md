@@ -27,6 +27,10 @@ General purpose utilities.
 
 Compose utilities.
 
+# Package lyc.ktutils.libs.composeutils.aliases
+
+Aliases.
+
 # Package lyc.ktutils.libs.composeutils.envs
 
 Environments.
