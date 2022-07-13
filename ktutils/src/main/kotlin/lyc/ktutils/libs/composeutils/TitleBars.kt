@@ -36,6 +36,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.WindowPlacement
 import androidx.compose.ui.window.WindowScope
+import lyc.ktutils.libs.composeutils.aliases.Content
+import lyc.ktutils.libs.composeutils.aliases.UnitCallback
 import lyc.ktutils.libs.composeutils.envs.Defaults
 import lyc.ktutils.libs.composeutils.envs.States
 import lyc.ktutils.libs.composeutils.envs.Utils
@@ -49,7 +51,7 @@ class TitleBars private constructor() {
          */
         @OptIn(ExperimentalComposeUiApi::class)
         @Composable
-        fun CustTitleBar(onCloseClicked: () -> Unit, title: String = "", iconResLoc: String = "") {
+        fun CustTitleBar(onCloseClicked: UnitCallback, title: String = "", iconResLoc: String = "") {
             // Part of LYC-KotlinUtils
             // Copyright 2022 Yucheng Liu. Apache License Version 2.0.
             // Apache License Version 2.0 copy: http://www.apache.org/licenses/LICENSE-2.0
@@ -216,7 +218,7 @@ class TitleBars private constructor() {
          */
         @Composable
         fun WindowScope.AppFrame(
-            onCloseClicked: () -> Unit, title: String = "", iconResLoc: String = "", content: @Composable () -> Unit
+            onCloseClicked: UnitCallback, title: String = "", iconResLoc: String = "", content: Content
         ) {
             // Part of LYC-KotlinUtils
             // Copyright 2022 Yucheng Liu. Apache License Version 2.0.

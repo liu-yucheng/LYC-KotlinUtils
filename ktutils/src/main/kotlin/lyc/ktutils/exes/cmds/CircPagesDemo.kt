@@ -17,7 +17,7 @@ import androidx.compose.ui.window.WindowScope
 import lyc.ktutils.exes.jarName
 import lyc.ktutils.exes.packName
 import lyc.ktutils.exes.packVer
-import lyc.ktutils.libs.composeutils.NavPages
+import lyc.ktutils.libs.composeutils.Navs
 import lyc.ktutils.libs.composeutils.TermOuts
 import lyc.ktutils.libs.composeutils.envs.Elems
 import lyc.ktutils.libs.composeutils.envs.States
@@ -44,7 +44,7 @@ class CircPagesDemo private constructor() {
                             Modifier.wrapContentWidth().fillMaxHeight()
                         } // end val
 
-                        Column(Modifier.weight(1f)) { NavPages.CircPagesOf4() }
+                        Column(Modifier.weight(1f)) { Navs._4CircPages() }
                         Column(termOutsColMod) { TermOuts.TermOuts() }
                     } // end Row
                 } // end Column
