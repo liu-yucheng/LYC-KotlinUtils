@@ -12,6 +12,7 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.graphics.Color
+import lyc.ktutils.libs.composeutils.aliases.Content
 
 /** Custom themes. */
 class Themes private constructor() {
@@ -72,7 +73,7 @@ class Themes private constructor() {
          * @param content: some display content
          */
         @Composable
-        fun CustTheme(colors: Colors, extColors: ExtColors, content: @Composable () -> Unit) {
+        fun CustTheme(colors: Colors, extColors: ExtColors, content: Content) {
             // Part of LYC-KotlinUtils
             // Copyright 2022 Yucheng Liu. Apache License Version 2.0.
             // Apache License Version 2.0 copy: http://www.apache.org/licenses/LICENSE-2.0
@@ -101,7 +102,7 @@ class Themes private constructor() {
 
         /** Light theme. */
         @Composable
-        fun LightTheme(content: @Composable () -> Unit) {
+        fun LightTheme(content: Content) {
             // Part of LYC-KotlinUtils
             // Copyright 2022 Yucheng Liu. Apache License Version 2.0.
             // Apache License Version 2.0 copy: http://www.apache.org/licenses/LICENSE-2.0
@@ -132,7 +133,7 @@ class Themes private constructor() {
 
         /** Dark theme. */
         @Composable
-        fun DarkTheme(content: @Composable () -> Unit) {
+        fun DarkTheme(content: Content) {
             // Part of LYC-KotlinUtils
             // Copyright 2022 Yucheng Liu. Apache License Version 2.0.
             // Apache License Version 2.0 copy: http://www.apache.org/licenses/LICENSE-2.0
