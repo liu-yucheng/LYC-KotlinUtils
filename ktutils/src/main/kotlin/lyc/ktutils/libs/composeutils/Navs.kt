@@ -14,7 +14,6 @@ import androidx.compose.material.Button
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -26,17 +25,15 @@ import com.arkivanov.decompose.router.router
 import com.arkivanov.essenty.lifecycle.LifecycleRegistry
 import com.arkivanov.essenty.parcelable.Parcelable
 import com.arkivanov.essenty.parcelable.Parcelize
+import lyc.ktutils.libs.composeutils.aliases.Content
+import lyc.ktutils.libs.composeutils.aliases.UnitCallback
 import lyc.ktutils.libs.composeutils.envs.Funcs
-import lyc.ktutils.libs.composeutils.envs.States
 
-/** Compose content. */
-typealias ComposeContent = @Composable () -> Unit
-
-/** Navigation pages. */
-class NavPages private constructor() {
+/** Navigators. */
+class Navs private constructor() {
     companion object {
         /** Configuration. */
-        private sealed class Config : Parcelable {
+        private sealed class PageConfig : Parcelable {
             // Part of LYC-KotlinUtils
             // Copyright 2022 Yucheng Liu. Apache License Version 2.0.
             // Apache License Version 2.0 copy: http://www.apache.org/licenses/LICENSE-2.0
@@ -45,7 +42,7 @@ class NavPages private constructor() {
              * @param idx: an index
              */
             @Parcelize
-            data class PrevNextPageConfig(val idx: Int) : Config()
+            data class PrevNext(val idx: Int) : PageConfig()
         } // end class
 
         /** Previous-next page.
@@ -55,7 +52,7 @@ class NavPages private constructor() {
          * @param onNextClick: something to run when the next button is clicked
          */
         @Composable
-        private fun PrevNextPage(idx: Int, count: Int, onPrevClick: () -> Unit, onNextClick: () -> Unit) {
+        private fun PrevNextPage(idx: Int, count: Int, onPrevClick: UnitCallback, onNextClick: UnitCallback) {
             // Part of LYC-KotlinUtils
             // Copyright 2022 Yucheng Liu. Apache License Version 2.0.
             // Apache License Version 2.0 copy: http://www.apache.org/licenses/LICENSE-2.0
@@ -92,11 +89,11 @@ class NavPages private constructor() {
             /** Makes an initial stack.
              * @return result: the initial stack
              */
-            private fun makeInitStack(): List<Config> {
-                val initStack = ArrayList<Config>()
+            private fun makeInitStack(): List<PageConfig> {
+                val initStack = ArrayList<PageConfig>()
 
                 for (idx in pageCount - 1 downTo 0) {
-                    val config = Config.PrevNextPageConfig(idx)
+                    val config = PageConfig.PrevNext(idx)
                     initStack.add(config)
                 } // end for
 
@@ -108,20 +105,20 @@ class NavPages private constructor() {
              * @param config: a page config
              * @return result: the page compose content
              */
-            private fun makePageContent(config: Config.PrevNextPageConfig): ComposeContent {
+            private fun makePageContent(config: PageConfig.PrevNext): Content {
                 val idx = config.idx
 
                 val prevIdx = (idx - 1).mod(pageCount)
                 val nextIdx = (idx + 1).mod(pageCount)
 
                 val onPrevClick = {
-                    router.bringToFront(Config.PrevNextPageConfig(prevIdx))
+                    router.bringToFront(PageConfig.PrevNext(prevIdx))
                     val pageNum = prevIdx + 1
                     Funcs.logln("Switched to page $pageNum / $pageCount")
                 } // end val
 
                 val onNextClick = {
-                    router.bringToFront(Config.PrevNextPageConfig(nextIdx))
+                    router.bringToFront(PageConfig.PrevNext(nextIdx))
                     val pageNum = nextIdx + 1
                     Funcs.logln("Switched to page $pageNum / $pageCount")
                 } // end val
@@ -136,11 +133,11 @@ class NavPages private constructor() {
              * @return result: the child component
              */
             @Suppress("UNUSED_PARAMETER")
-            private fun makeChildComp(config: Config, context: ComponentContext): ComposeContent {
-                val result: ComposeContent
+            private fun makeChildComp(config: PageConfig, context: ComponentContext): Content {
+                val result: Content
 
                 when (config) {
-                    is Config.PrevNextPageConfig -> {
+                    is PageConfig.PrevNext -> {
                         result = makePageContent(config)
                     } // end is
                 } // end when
@@ -160,7 +157,7 @@ class NavPages private constructor() {
          */
         @Composable
         @OptIn(com.arkivanov.decompose.ExperimentalDecomposeApi::class)
-        private fun CircPagesNavContent(nav: CircPagesNav) {
+        private fun CircPages(nav: CircPagesNav) {
             // Part of LYC-KotlinUtils
             // Copyright 2022 Yucheng Liu. Apache License Version 2.0.
             // Apache License Version 2.0 copy: http://www.apache.org/licenses/LICENSE-2.0
@@ -168,20 +165,20 @@ class NavPages private constructor() {
             Children(nav.routerState) { child -> child.instance() }
         } // end fun
 
-        /** Life cycle. */
+        /** Lifecycle. */
         private val lifecycle = LifecycleRegistry()
 
-        /** Circular pages of 4 navigator. */
-        private val circPagesOf4Nav = CircPagesNav(DefaultComponentContext(lifecycle), 4)
+        /** 4 circular pages navigator. */
+        private val _4CircPagesNav = CircPagesNav(DefaultComponentContext(lifecycle), 4)
 
-        /** Circular pages of 4. */
+        /** 4 circular pages. */
         @Composable
-        fun CircPagesOf4() {
+        fun _4CircPages() {
             // Part of LYC-KotlinUtils
             // Copyright 2022 Yucheng Liu. Apache License Version 2.0.
             // Apache License Version 2.0 copy: http://www.apache.org/licenses/LICENSE-2.0
 
-            CircPagesNavContent(circPagesOf4Nav)
+            CircPages(_4CircPagesNav)
         } // end fun
     } // end companion
 } // end class
