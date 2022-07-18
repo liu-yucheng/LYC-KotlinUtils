@@ -33,7 +33,7 @@ import lyc.ktutils.libs.composeutils.envs.Funcs
 class Navs private constructor() {
     companion object {
         /** Configuration. */
-        private sealed class PageConfig : Parcelable {
+        private sealed class PageConfig(open val idx: Int) : Parcelable {
             // Part of LYC-KotlinUtils
             // Copyright 2022 Yucheng Liu. Apache License Version 2.0.
             // Apache License Version 2.0 copy: http://www.apache.org/licenses/LICENSE-2.0
@@ -42,7 +42,7 @@ class Navs private constructor() {
              * @param idx: an index
              */
             @Parcelize
-            data class PrevNext(val idx: Int) : PageConfig()
+            data class PrevNext(override val idx: Int) : PageConfig(idx)
         } // end class
 
         /** Previous-next page.
@@ -52,7 +52,7 @@ class Navs private constructor() {
          * @param onNextClick: something to run when the next button is clicked
          */
         @Composable
-        private fun PrevNextPage(idx: Int, count: Int, onPrevClick: UnitCallback, onNextClick: UnitCallback) {
+        private fun PrevNext(idx: Int, count: Int, onPrevClick: UnitCallback, onNextClick: UnitCallback) {
             // Part of LYC-KotlinUtils
             // Copyright 2022 Yucheng Liu. Apache License Version 2.0.
             // Apache License Version 2.0 copy: http://www.apache.org/licenses/LICENSE-2.0
@@ -97,15 +97,20 @@ class Navs private constructor() {
                     initStack.add(config)
                 } // end for
 
+                val pageCount = initStack.size
+                val topIdx = initStack[pageCount - 1].idx
+                val topPageNum = topIdx + 1
+                Funcs.logln("Switched to page $topPageNum / $pageCount")
+
                 val result = initStack.toList()
                 return result
             } // end fun
 
-            /** Makes page content.
+            /** Makes previous-next page content.
              * @param config: a page config
              * @return result: the page compose content
              */
-            private fun makePageContent(config: PageConfig.PrevNext): Content {
+            private fun makePrevNext(config: PageConfig.PrevNext): Content {
                 val idx = config.idx
 
                 val prevIdx = (idx - 1).mod(pageCount)
@@ -123,30 +128,26 @@ class Navs private constructor() {
                     Funcs.logln("Switched to page $pageNum / $pageCount")
                 } // end val
 
-                val result = @Composable { PrevNextPage(idx, pageCount, onPrevClick, onNextClick) }
+                val result = @Composable { PrevNext(idx, pageCount, onPrevClick, onNextClick) }
                 return result
             } // end fun
 
-            /** Makes a child component.
+            /** Makes a child content.
              * @param config: a config
              * @param context: a component context
              * @return result: the child component
              */
             @Suppress("UNUSED_PARAMETER")
-            private fun makeChildComp(config: PageConfig, context: ComponentContext): Content {
-                val result: Content
-
-                when (config) {
-                    is PageConfig.PrevNext -> {
-                        result = makePageContent(config)
-                    } // end is
+            private fun makeChildContent(config: PageConfig, context: ComponentContext): Content {
+                val result = when (config) {
+                    is PageConfig.PrevNext -> makePrevNext(config)
                 } // end when
 
                 return result
             } // end fun
 
             /** Router. */
-            private val router = router(::makeInitStack, childFactory = ::makeChildComp)
+            private val router = router(::makeInitStack, childFactory = ::makeChildContent)
 
             /** Router state. */
             val routerState = router.state
