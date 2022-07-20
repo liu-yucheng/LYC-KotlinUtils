@@ -62,16 +62,26 @@ class Logs {
             // Apache License Version 2.0 copy: http://www.apache.org/licenses/LICENSE-2.0
 
             for (log in toLogs) {
-                if (log is MutableList<*>) {
-                    val log = log as MutableList<String>
-                    val strLines = findLines(str)
-                    logStrLinesToMutableList(log, strLines)
-                } else if (log is PrintWriter) {
-                    log.print(str)
-                } else if (log is PrintStream) {
-                    val log = optSysOutToErr(log, err)
-                    log.print(str)
-                } // end if
+                when (log) {
+                    is MutableList<*> -> {
+                        val log = log as MutableList<String>
+                        val strLines = findLines(str)
+                        logStrLinesToMutableList(log, strLines)
+                    } // end is
+
+                    is PrintWriter -> {
+                        log.print(str)
+                    } // end is
+
+                    is PrintStream -> {
+                        val log = optSysOutToErr(log, err)
+                        log.print(str)
+                    } // end is
+
+                    else -> {
+                        // Do nothing
+                    } // end else
+                } // end when
             } // end for
         } // end fun
 
@@ -96,22 +106,32 @@ class Logs {
             // Apache License Version 2.0 copy: http://www.apache.org/licenses/LICENSE-2.0
 
             for (log in toLogs) {
-                if (log is MutableList<*>) {
-                    val log = log as MutableList<String>
-                    val lnLines = findLines(line)
-                    logLnLinesToMutableList(log, lnLines)
-                } else if (log is PrintWriter) {
-                    log.println(line)
-                } else if (log is PrintStream) {
-                    val log = optSysOutToErr(log, err)
-                    log.println(line)
-                } // end if
+                when (log) {
+                    is MutableList<*> -> {
+                        val log = log as MutableList<String>
+                        val lnLines = findLines(line)
+                        logLnLinesToMutableList(log, lnLines)
+                    } // end is
+
+                    is PrintWriter -> {
+                        log.println(line)
+                    } // end is
+
+                    is PrintStream -> {
+                        val log = optSysOutToErr(log, err)
+                        log.println(line)
+                    } // end is
+
+                    else -> {
+                        // Do nothing
+                    } // end else
+                } // end when
             } // end for
         } // end fun
 
         /** Flushes the logs [logs].
          * @param logs: A list of logs.
-         *  Supported element types: MutableList<String>, PrintWriter
+         *  Supported element types: MutableList<String>, PrintWriter, PrintStream
          */
         @Suppress("NAME_SHADOWING", "UNCHECKED_CAST")
         fun flushLogs(logs: ArrayList<Any>) {
@@ -120,18 +140,30 @@ class Logs {
             // Apache License Version 2.0 copy: http://www.apache.org/licenses/LICENSE-2.0
 
             for (log in logs) {
-                if (log is MutableList<*>) {
-                    // val log = log as MutableList<String>
-                    // Do nothing
-                } else if (log is PrintWriter) {
-                    log.flush()
-                } // end if
+                when (log) {
+                    is MutableList<*> -> {
+                        // val log = log as MutableList<String>
+                        // Do nothing
+                    } // end is
+
+                    is PrintWriter -> {
+                        log.flush()
+                    } // end is
+
+                    is PrintStream -> {
+                        log.flush()
+                    } // end is
+
+                    else -> {
+                        // Do nothing
+                    } // end else
+                } // end when
             } // end for
         } // end fun
 
         /** Closes the logs [logs].
          * @param logs: A list of logs.
-         *  Supported element types: MutableList<String>, PrintWriter
+         *  Supported element types: MutableList<String>, PrintWriter, PrintStream
          */
         @Suppress("NAME_SHADOWING", "UNCHECKED_CAST")
         fun closeLogs(logs: ArrayList<Any>) {
@@ -140,12 +172,24 @@ class Logs {
             // Apache License Version 2.0 copy: http://www.apache.org/licenses/LICENSE-2.0
 
             for (log in logs) {
-                if (log is MutableList<*>) {
-                    val log = log as MutableList<String>
-                    log.clear()
-                } else if (log is PrintWriter) {
-                    log.close()
-                } // end if
+                when (log) {
+                    is MutableList<*> -> {
+                        val log = log as MutableList<String>
+                        log.clear()
+                    } // end is
+
+                    is PrintWriter -> {
+                        log.close()
+                    } // end is
+
+                    is PrintStream -> {
+                        log.close()
+                    } // end is
+
+                    else -> {
+                        // Do nothing
+                    } // end else
+                } // end when
             } // end for
         } // end fun
     } // end companion
