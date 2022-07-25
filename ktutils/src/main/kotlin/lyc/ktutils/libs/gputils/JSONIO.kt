@@ -4,6 +4,7 @@
 package lyc.ktutils.libs.gputils
 
 import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import com.google.gson.JsonElement
 import java.io.File
 
@@ -11,7 +12,7 @@ import java.io.File
 class JSONIO {
     companion object {
         /** A Gson object used for JSON related operations. */
-        val gson = Gson()
+        val gson = GsonBuilder().setPrettyPrinting().create()
 
         /**
          * Loads the JSON contents of the file at [fromLoc].

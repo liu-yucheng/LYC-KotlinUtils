@@ -30,10 +30,11 @@ class Help private constructor() {
                 - $packName help info
                 Usage:  java -jar $jarName <command> ...
                 -- Commands
-                Help:           java -jar $jarName help
-                TermOutsDemo:   java -jar $jarName term-outs-demo
-                TitleBarsDemo:  java -jar $jarName title-bars-demo
-                CircPagesDemo:  java -jar $jarName circ-pages-demo
+                Help:               java -jar $jarName help
+                TermOutsDemo:       java -jar $jarName term-outs-demo
+                TitleBarsDemo:      java -jar $jarName title-bars-demo
+                CircPagesDemo:      java -jar $jarName circ-pages-demo
+                ConfigFieldsDemo:   java -jar $jarName config-fields-demo
                 -- End Commands
                 - End $packName help info
             """.trimIndent() // end val

@@ -59,5 +59,8 @@ class Defaults private constructor() {
 
         /** Terminal outputs handle icon name. */
         const val termOutsHandleIconName = "console.svg"
+
+        /** Configuration fields demonstration name. */
+        const val configFieldsDemoName = "config_fields_demo.json"
     } // end companion
 } // end class
