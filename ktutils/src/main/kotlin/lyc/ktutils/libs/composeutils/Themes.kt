@@ -16,45 +16,59 @@ import lyc.ktutils.libs.composeutils.aliases.Content
 
 /** Custom themes. */
 class Themes private constructor() {
+    /** Extended colors. */
+    @Immutable
+    data class ExtColors(
+        // Part of LYC-KotlinUtils
+        // Copyright 2022 Yucheng Liu. Apache License Version 2.0.
+        // Apache License Version 2.0 copy: http://www.apache.org/licenses/LICENSE-2.0
+
+        /** Terminal color. */
+        val term: Color,
+
+        /** On-terminal color. */
+        val onTerm: Color,
+
+        /** Mouse hover color. */
+        val hover: Color,
+
+        /** On-hover color. */
+        val onHover: Color,
+
+        /** Error hover color. */
+        val errHover: Color,
+
+        /** On-error-hover color. */
+        val onErrHover: Color,
+
+        /** Warning color. */
+        val warn: Color,
+
+        /** On-warning color. */
+        val onWarn: Color,
+
+        /** Info color. */
+        val info: Color,
+
+        /** On-info color. */
+        val onInfo: Color
+    ) // end data class
+
+    /** Custom theme type. */
+    open class CustThemeType {
+        // Part of LYC-KotlinUtils
+        // Copyright 2022 Yucheng Liu. Apache License Version 2.0.
+        // Apache License Version 2.0 copy: http://www.apache.org/licenses/LICENSE-2.0
+
+        /** Extra colors. */
+        val extColors: ExtColors
+            @Composable get() = LocalExtColors.current
+
+        /** Transparent color. */
+        val transparentColor = Color(0x00_80_80_80)
+    } // end open class
+
     companion object {
-        /** Extended colors. */
-        @Immutable
-        data class ExtColors(
-            // Part of LYC-KotlinUtils
-            // Copyright 2022 Yucheng Liu. Apache License Version 2.0.
-            // Apache License Version 2.0 copy: http://www.apache.org/licenses/LICENSE-2.0
-
-            /** Terminal color. */
-            val term: Color,
-
-            /** On-terminal color. */
-            val onTerm: Color,
-
-            /** Mouse hover color. */
-            val hover: Color,
-
-            /** On-hover color. */
-            val onHover: Color,
-
-            /** Error hover color. */
-            val errHover: Color,
-
-            /** On-error-hover color. */
-            val onErrHover: Color,
-
-            /** Warning color. */
-            val warn: Color,
-
-            /** On-warning color. */
-            val onWarn: Color,
-
-            /** Info color. */
-            val info: Color,
-
-            /** On-info color. */
-            val onInfo: Color
-        ) // end data class
-
         /** Local extended colors. */
         val LocalExtColors = staticCompositionLocalOf {
             // Part of LYC-KotlinUtils
@@ -82,20 +96,6 @@ class Themes private constructor() {
                 MaterialTheme(colors, content = content)
             } // end CompositionLocalProvider
         } // end fun
-
-        /** Custom theme type. */
-        open class CustThemeType {
-            // Part of LYC-KotlinUtils
-            // Copyright 2022 Yucheng Liu. Apache License Version 2.0.
-            // Apache License Version 2.0 copy: http://www.apache.org/licenses/LICENSE-2.0
-
-            /** Extra colors. */
-            val extColors: ExtColors
-                @Composable get() = LocalExtColors.current
-
-            /** Transparent color. */
-            val transparentColor = Color(0x00_80_80_80)
-        } // end open class
 
         /** Custom theme object. */
         val CustTheme = object : CustThemeType() {} // end val
