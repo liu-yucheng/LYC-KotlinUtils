@@ -54,7 +54,8 @@ class Funcs private constructor() {
             }
 
             val fileNames = arrayListOf(
-                Defaults.logName
+                Defaults.logName,
+                Defaults.configFieldsDemoName
             ) // end val
 
             copyFiles(inPath, outPath, fileNames, overwrite)
