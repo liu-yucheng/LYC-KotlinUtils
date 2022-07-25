@@ -323,7 +323,7 @@ class ConfigFields private constructor() {
      * @param elemKeys: some element keys
      * @param labelText: a label text
      */
-    class JSONStringField(
+    class StringField(
         override val root: JsonElement, override vararg val keys: String = arrayOf(), override val labelText: String
     ) : JSONField(root, keys = keys, labelText, "String. Examples: foo, bar") {
         // Part of LYC-KotlinUtils
@@ -387,7 +387,7 @@ class ConfigFields private constructor() {
 
     companion object {
         /** String field. */
-        val stringField = JSONStringField(States.configFieldsDemoRoot, keys = arrayOf("string"), "String")
+        val stringField = StringField(States.configFieldsDemoRoot, keys = arrayOf("string"), "String")
 
         /** Boolean field. */
         val boolField = BoolField(States.configFieldsDemoRoot, keys = arrayOf("boolean"), "Boolean")
