@@ -5,6 +5,7 @@ package lyc.ktutils.exes
 
 import kotlin.system.exitProcess
 import lyc.ktutils.exes.cmds.CircPagesDemo
+import lyc.ktutils.exes.cmds.ConfigFieldsDemo
 import lyc.ktutils.exes.cmds.Help
 import lyc.ktutils.exes.cmds.TermOutsDemo
 import lyc.ktutils.exes.cmds.TitleBarsDemo
@@ -34,22 +35,27 @@ fun main(args: Array<String>) {
             "help" -> {
                 Help.args = argsRemain
                 Help.run()
-            } // end "help"
+            } // end ->
 
             "term-outs-demo" -> {
                 TermOutsDemo.args = argsRemain
                 TermOutsDemo.run()
-            } // end "term-outs-demo"
+            } // end ->
 
             "title-bars-demo" -> {
                 TitleBarsDemo.args = argsRemain
                 TitleBarsDemo.run()
-            } // end "title-bars-demo"
+            } // end ->
 
             "circ-pages-demo" -> {
                 CircPagesDemo.args = argsRemain
                 CircPagesDemo.run()
-            } // end "circ-pages-demo"
+            } // end ->
+
+            "config-fields-demo" -> {
+                ConfigFieldsDemo.args = argsRemain
+                ConfigFieldsDemo.run()
+            } // end ->
 
             else -> {
                 System.err.println("$packName gets an unknown command: $arg1")

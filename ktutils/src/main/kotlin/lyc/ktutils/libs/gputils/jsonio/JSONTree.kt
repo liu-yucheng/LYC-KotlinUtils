@@ -31,7 +31,18 @@ class JSONTree(val elem: JsonElement) {
         var childElem = elem
 
         for (key in keys) {
-            childElem = childElem.asJsonObject[key]
+            try {
+                childElem = childElem.asJsonObject[key]
+            } catch (exc: java.lang.NullPointerException) {
+                throw NullPointerException(
+                    """
+JSONTree.get::childElem cannot be null
+keys: ${keys.asList()}
+key: $key
+${exc.message}
+                    """.trim()
+                ) // end throw
+            } // end if
         } // end for
 
         val result = JSONTree(childElem)
