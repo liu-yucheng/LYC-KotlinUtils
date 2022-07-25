@@ -15,18 +15,19 @@ Personal Kotlin utility collection library.
 
 ```powershell
 > java -jar .\ktutils-<version>.jar help
-LYC-KotlinUtils <version>
-Help: java -jar ktutils-<version>.jar help
+LYC-KotlinUtils 1.3.0
+Help: java -jar ktutils-1.3.0.jar help
 - mainArgs
   [0]: help
 - End mainArgs
 - LYC-KotlinUtils help info
-Usage:  java -jar ktutils-<version>.jar <command> ...
+Usage:  java -jar ktutils-1.3.0.jar <command> ...
 -- Commands
-Help:           java -jar ktutils-<version>.jar help
-TermOutsDemo:   java -jar ktutils-<version>.jar term-outs-demo
-TitleBarsDemo:  java -jar ktutils-<version>.jar title-bars-demo
-CircPagesDemo:  java -jar ktutils-<version>.jar circ-pages-demo
+Help:               java -jar ktutils-1.3.0.jar help
+TermOutsDemo:       java -jar ktutils-1.3.0.jar term-outs-demo
+TitleBarsDemo:      java -jar ktutils-1.3.0.jar title-bars-demo
+CircPagesDemo:      java -jar ktutils-1.3.0.jar circ-pages-demo
+ConfigFieldsDemo:   java -jar ktutils-1.3.0.jar config-fields-demo
 -- End Commands
 - End LYC-KotlinUtils help info
 ```
@@ -43,6 +44,9 @@ Title bars demo.
 Circular pages demo.
 ![circ-pages-demo-light](README-Assets/CircPagesDemo-LightTheme.png)
 
+Config fields demo.
+![config-fields-demo-light](README-Assets/ConfieFieldsDemo-LightTheme.png)
+
 ## Custom dark theme
 
 Terminal outputs demo.
@@ -53,6 +57,9 @@ Title bars demo.
 
 Circular pages demo.
 ![circ-pages-demo-dark](README-Assets/CircPagesDemo-DarkTheme.png)
+
+Config fields demo.
+![config-fields-demo-dark](README-Assets/ConfigFieldsDemo-DarkTheme.png)
 
 # Open-source Licenses
 

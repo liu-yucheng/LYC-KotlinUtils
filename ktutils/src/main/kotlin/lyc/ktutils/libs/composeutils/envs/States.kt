@@ -12,6 +12,7 @@ import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.WindowPosition
 import androidx.compose.ui.window.WindowState
+import com.google.gson.JsonElement
 import java.io.File
 import java.io.FileOutputStream
 import java.io.PrintWriter
@@ -126,6 +127,15 @@ class States private constructor() {
             val stream = Utils.findResStream(loc)
             val reader = stream.bufferedReader()
             openLicsText = reader.readText()
+        } // end init
+
+        /** Configuration fields demonstration JSON root. */
+        val configFieldsDemoRoot: JsonElement
+
+        init {
+            // Initialize configFieldsDemoJSONRoot
+            val loc = Utils.joinPaths(Defaults.appDataPath, Defaults.configFieldsDemoName)
+            configFieldsDemoRoot = Utils.loadJson(loc)
         } // end init
     } // end companion
 } // end class
