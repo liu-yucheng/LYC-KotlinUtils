@@ -97,7 +97,7 @@ class States private constructor() {
         } // end fun
 
         /** Compose theme object. */
-        val Theme = object : Themes.Companion.CustThemeType() {}
+        val Theme = object : Themes.CustThemeType() {}
 
         /** Copyright text. */
         val crText = """
