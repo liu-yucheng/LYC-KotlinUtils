@@ -11,6 +11,10 @@ import kotlinx.coroutines.runBlocking
 class SysInfo {
     companion object {
         /** Find whether the system has dark themes enabled.
+         *
+         * NOTE: To use this function, invoke once before the main application starts.
+         * WARNING: This is a blocking function and might freeze the main application.
+         *
          * @return result: whether dark themes is enabled
          */
         fun findSysDarkEnabled(): Boolean {
