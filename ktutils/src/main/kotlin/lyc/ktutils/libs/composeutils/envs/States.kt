@@ -83,6 +83,9 @@ class States private constructor() {
         /** Terminal extended. */
         val termExtended = mutableStateOf(true)
 
+        /** Whether system dark themes are enabled. */
+        val sysDarkEnabled = mutableStateOf(true)
+
         /** Whether to enable dark themes. */
         val darkEnabled = mutableStateOf(true)
 
