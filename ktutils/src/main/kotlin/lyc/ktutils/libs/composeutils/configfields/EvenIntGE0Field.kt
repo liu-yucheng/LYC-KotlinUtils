@@ -14,71 +14,47 @@ import lyc.ktutils.libs.composeutils.ConfigFields
  */
 class EvenIntGE0Field(
     override val root: JsonElement, override vararg val keys: String = arrayOf(), override val labelText: String
-) : ConfigFields.JSONField(root, keys = keys, labelText, "Even non-negative integer. Examples: 0, 2, 4...") {
+) : ConfigFields.JSONField<Long>(root, keys = keys, labelText, "Even non-negative integer. Examples: 0, 2, 4...") {
     // Part of LYC-KotlinUtils
     // Copyright 2022 Yucheng Liu. Apache License Version 2.0.
     // Apache License Version 2.0 copy: http://www.apache.org/licenses/LICENSE-2.0
 
     /** Child value.
      *
-     * JSON type: Int
+     * JSON type: `Int`
+     * Kotlin type: [Long]
      */
-    override var childValue: Any
+    override var childValue: Long
         get() {
-            val result = childElem.asInt
+            val result = childElem.asLong
             return result
         } // end get
         set(value) {
-            val elem: JsonElement
-
-            when (value) {
-                is Int -> {
-                    elem = JsonPrimitive(value)
-                } // end is
-
-                else -> {
-                    val valueString = value.toString()
-                    val valueInt = valueString.toInt()
-                    elem = JsonPrimitive(valueInt)
-                } // end else
-            } // end when
-
+            val elem = JsonPrimitive(value)
             childElem = elem
         } // end set
 
-    override fun valueToText(value: Any): String {
+    override fun valueToText(value: Long): String {
         val result = value.toString()
         return result
     } // end fun
 
-    override fun textToValue(text: String): Any {
-        val result = text.toInt()
+    override fun textToValue(text: String): Long {
+        val result = text.toLong()
         return result
     } // end fun
 
-    override fun rectifyValue(textValue: Any): Any {
-        var textInt: Int
+    override fun rectifyValue(value: Long): Long {
+        var result = value
 
-        when (textValue) {
-            is Int -> {
-                textInt = textValue
-            } // end is
-
-            else -> {
-                val text = valueToText(textValue)
-                textInt = text.toInt()
-            } // end else
-        } // end when
-
-        if (textInt < 0) {
-            textInt = -textInt
+        if (result < 0) {
+            result = -result
         } // end if
 
-        if (textInt.mod(2) != 0) {
-            textInt += 1
+        if (result.mod(2) != 0) {
+            result += 1
         } // end if
 
-        val result = textInt
         return result
     } // end fun
 } // end class
