@@ -30,12 +30,13 @@ import lyc.ktutils.libs.gputils.jsonio.JSONTree
 /** Configuration fields. */
 class ConfigFields private constructor() {
     /** JSON field.
+     * @param ValueType: a value type
      * @param root: a JSON root
      * @param elemKeys: some element keys
      * @param labelText: a label text
      * @param placeholderText: a placeholder text
      */
-    open class JSONField(
+    abstract class JSONField<ValueType>(
         protected open val root: JsonElement, protected open vararg val keys: String = arrayOf(),
         protected open val labelText: String = "", protected open val placeholderText: String = ""
     ) {
@@ -57,47 +58,32 @@ class ConfigFields private constructor() {
                 tree.set(keys = keys, valueTree)
             } // end set
 
-        /** Child element value.
-         *
-         * JSON type: String
-         */
-        protected open var childValue: Any
-            get() {
-                val result = childElem.toString()
-                return result
-            } // end get
-            set(value) {
-                val elem: JsonPrimitive
-
-                when (value) {
-                    is Int -> {
-                        elem = JsonPrimitive(value)
-                    } // end is
-
-                    else -> {
-                        val valueString = value.toString()
-                        elem = JsonPrimitive(valueString)
-                    } // end else
-                } // end when
-
-                childElem = elem
-            } // end set
-
         /** Converts [value] from the JSON type of [childValue] to the type of [textState].`value`.
          * @return result: the conversion result
          */
-        protected open fun valueToText(value: Any): String {
-            val result = value.toString()
-            return result
-        } // end fun
+        protected abstract fun valueToText(value: ValueType): String
 
         /** Converts [text] from the type of [textState].`value` to the JSON type of [childValue].
          * @return result: the conversion result
          */
-        protected open fun textToValue(text: String): Any {
-            val result = text
-            return result
-        } // end fun
+        protected abstract fun textToValue(text: String): ValueType
+
+        /** Child element value.
+         *
+         * JSON type: `String`
+         * Kotlin type: [ValueType]
+         */
+        protected open var childValue: ValueType
+            get() {
+                val childString = childElem.toString()
+                val result = textToValue(childString)
+                return result
+            } // end get
+            set(value) {
+                val valueString = value.toString()
+                val elem = JsonPrimitive(valueString)
+                childElem = elem
+            } // end set
 
         /** Operation results. */
         protected enum class OpResult {
@@ -117,12 +103,12 @@ class ConfigFields private constructor() {
         /** Text state. */
         protected val textState by lazy { mutableStateOf(valueToText(childValue)) }
 
-        /** Rectifies [textValue] and returns the rectified value.
+        /** Rectifies [value] and returns the rectified value.
          *
          * @return result: the result
          */
-        protected open fun rectifyValue(textValue: Any): Any {
-            val result = textValue
+        protected open fun rectifyValue(value: ValueType): ValueType {
+            val result = value
             return result
         } // end fun
 
@@ -136,6 +122,7 @@ class ConfigFields private constructor() {
 
             try {
                 val textValue = textToValue(textState.value)
+                childValue = textValue
 
                 if (textState.value == valueToText(origChildValue)) {
                     result = OpResult.Unchanged
@@ -176,10 +163,11 @@ class ConfigFields private constructor() {
             var result: OpResult
 
             try {
+                textState.value = newText
+
                 if (newText == valueToText(origChildValue)) {
                     result = OpResult.Unchanged
                 } else {
-                    textState.value = newText
                     val rectified = rectifyText(newText)
 
                     result = if (newText == rectified) {
@@ -239,7 +227,7 @@ class ConfigFields private constructor() {
         protected val colorsState = mutableStateOf(unchangedColors)
 
         /** Content text style. */
-        open val contentTextStyle = @Composable {
+        protected open val contentTextStyle = @Composable {
             TextStyle(
                 color = MaterialTheme.colors.onBackground, fontWeight = FontWeight.Bold,
                 fontFamily = FontFamily.Monospace
@@ -247,14 +235,82 @@ class ConfigFields private constructor() {
         } // end val
 
         /** Content label. */
-        open val contentLabel = @Composable {
+        protected open val contentLabel = @Composable {
             Text(labelText, fontWeight = FontWeight.Bold)
         } // end val
 
         /** Content placeholder. */
-        open val contentPlaceholder = @Composable {
+        protected open val contentPlaceholder = @Composable {
             Text(placeholderText, fontWeight = FontWeight.Bold, fontFamily = FontFamily.Monospace)
         } // end val
+
+        /** Text field on value change. */
+        protected val onTextChange = { newText: String ->
+            val opResult = verifyText(newText)
+
+            when (opResult) {
+                OpResult.Unchanged -> {
+                    colorsState.value = unchangedColors
+                } // end ->
+
+                OpResult.Valid -> {
+                    colorsState.value = validColors
+                } // end ->
+
+                OpResult.Invalid -> {
+                    colorsState.value = invalidColors
+                } // end ->
+
+                OpResult.Error -> {
+                    colorsState.value = errorColors
+                } // end ->
+            } // end when
+        } // end val
+
+        /** Text field on lose focus. */
+        protected val onLoseFocus = {
+            val opResult = verifyValue()
+
+            when (opResult) {
+                OpResult.Unchanged -> {
+                    colorsState.value = unchangedColors
+                } // end ->
+
+                OpResult.Valid -> {
+                    colorsState.value = validColors
+                } // end ->
+
+                OpResult.Invalid -> {
+                    colorsState.value = invalidColors
+                } // end ->
+
+                OpResult.Error -> {
+                    colorsState.value = errorColors
+                } // end ->
+            } // end when
+        } // end val
+
+        /** Text accessor. */
+        var textAccess: String
+            get() {
+                val result = textState.value
+                return result
+            } // end get
+            set(value) {
+                onTextChange(value)
+                onLoseFocus()
+            } // end set
+
+        /** Value accessor. */
+        var valueAccess: ValueType
+            get() {
+                val result = childValue
+                return result
+            } // end get
+            set(value) {
+                val text = valueToText(value)
+                textAccess = text
+            } // end get
 
         /** Composes the content of the field.
          * @param modifier: a modifier
@@ -262,54 +318,17 @@ class ConfigFields private constructor() {
         @Composable
         @Suppress("NAME_SHADOWING")
         fun Content(modifier: Modifier = Modifier) {
-            val onValueChange = { newValue: String ->
-                val result = verifyText(newValue)
-
-                when (result) {
-                    OpResult.Unchanged -> {
-                        colorsState.value = unchangedColors
-                    } // end ->
-
-                    OpResult.Valid -> {
-                        colorsState.value = validColors
-                    } // end ->
-
-                    OpResult.Invalid -> {
-                        colorsState.value = invalidColors
-                    } // end ->
-
-                    OpResult.Error -> {
-                        colorsState.value = errorColors
-                    } // end ->
-                } // end when
-            } // end val
-
-            val modifier = modifier.onFocusChanged { focusState: FocusState ->
+            /** Text field on focus changed. */
+            val onFocusChange = { focusState: FocusState ->
                 if (!focusState.hasFocus) {
-                    val result = verifyValue()
-
-                    when (result) {
-                        OpResult.Unchanged -> {
-                            colorsState.value = unchangedColors
-                        } // end ->
-
-                        OpResult.Valid -> {
-                            colorsState.value = validColors
-                        } // end ->
-
-                        OpResult.Invalid -> {
-                            colorsState.value = invalidColors
-                        } // end ->
-
-                        OpResult.Error -> {
-                            colorsState.value = errorColors
-                        } // end ->
-                    } // end when
+                    onLoseFocus()
                 } // end if
             } // end val
 
+            val modifier = modifier.onFocusChanged(onFocusChange)
+
             OutlinedTextField(
-                textState.value, onValueChange, modifier, textStyle = contentTextStyle(), label = contentLabel,
+                textState.value, onTextChange, modifier, textStyle = contentTextStyle(), label = contentLabel,
                 placeholder = contentPlaceholder, colors = colorsState.value()
             ) // end OutlinedTextField
         } // end fun
@@ -325,62 +344,38 @@ class ConfigFields private constructor() {
      */
     class StringField(
         override val root: JsonElement, override vararg val keys: String = arrayOf(), override val labelText: String
-    ) : JSONField(root, keys = keys, labelText, "String. Examples: foo, bar") {
+    ) : JSONField<String>(root, keys = keys, labelText, "String. Examples: foo, bar") {
         // Part of LYC-KotlinUtils
         // Copyright 2022 Yucheng Liu. Apache License Version 2.0.
         // Apache License Version 2.0 copy: http://www.apache.org/licenses/LICENSE-2.0
 
         /** Child value.
          *
-         * JSON type: String
+         * JSON type: `String`
+         * Kotlin type: [String]
          */
-        override var childValue: Any
+        override var childValue: String
             get() {
                 val result = childElem.asString
                 return result
             } // end get
             set(value) {
-                val elem: JsonElement
-
-                when (value) {
-                    is String -> {
-                        elem = JsonPrimitive(value)
-                    } // end is
-
-                    else -> {
-                        val valueString = value.toString()
-                        elem = JsonPrimitive(valueString)
-                    } // end else
-                } // end when
-
+                val elem = JsonPrimitive(value)
                 childElem = elem
             } // end set
 
-        override fun valueToText(value: Any): String {
-            val result = value.toString()
+        override fun valueToText(value: String): String {
+            val result = value
             return result
         } // end fun
 
-        override fun textToValue(text: String): Any {
+        override fun textToValue(text: String): String {
             val result = text
             return result
         } // end fun
 
-        override fun rectifyValue(textValue: Any): Any {
-            var textString: String
-
-            when (textValue) {
-                is String -> {
-                    textString = textValue
-                } // end is
-
-                else -> {
-                    val text = valueToText(textValue)
-                    textString = text
-                } // end else
-            } // end when
-
-            val result = textString
+        override fun rectifyValue(value: String): String {
+            val result = value
             return result
         } // end fun
     } // end class

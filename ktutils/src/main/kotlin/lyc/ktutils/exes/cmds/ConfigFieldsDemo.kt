@@ -3,6 +3,7 @@
 
 package lyc.ktutils.exes.cmds
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -11,6 +12,9 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentWidth
+import androidx.compose.material.Button
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -50,7 +54,18 @@ class ConfigFieldsDemo private constructor() {
                             Spacer(Modifier.weight(1f))
                             ConfigFields.stringField.Content(Modifier.fillMaxWidth())
                             Spacer(Modifier.weight(1f))
-                            ConfigFields.boolField.Content(Modifier.fillMaxWidth())
+
+                            Row(Modifier.fillMaxWidth(), Arrangement.Start, Alignment.CenterVertically) {
+                                ConfigFields.boolField.Content(Modifier.weight(1f))
+                                Spacer(Modifier.size(8.dp))
+
+                                Button(
+                                    { ConfigFields.boolField.valueAccess = !ConfigFields.boolField.valueAccess }
+                                ) {
+                                    Text("Toggle")
+                                } // end Button
+                            } // end Row
+
                             Spacer(Modifier.weight(1f))
                             ConfigFields.evenIntGE0Field.Content(Modifier.fillMaxWidth())
                             Spacer(Modifier.weight(1f))
