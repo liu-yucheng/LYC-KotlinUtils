@@ -50,8 +50,9 @@ open class ComposeDemo(
             """.trimIndent() // end var
 
         Funcs.logln(info)
-        States.darkEnabled.value = Utils.findSysDarkEnabled()
-        Funcs.logln("System dark themes enabled: ${States.darkEnabled.value}")
+        States.sysDarkEnabled.value = Utils.findSysDarkEnabled()
+        States.darkEnabled.value = States.darkEnabled.value
+        Funcs.logln("System dark themes enabled: ${States.sysDarkEnabled.value}")
 
         if (args.size > 0) {
             info = """
