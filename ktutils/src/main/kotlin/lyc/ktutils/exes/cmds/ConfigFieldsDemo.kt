@@ -13,7 +13,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.material.Button
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -60,7 +59,7 @@ class ConfigFieldsDemo private constructor() {
                                 Spacer(Modifier.size(8.dp))
 
                                 Button(
-                                    { ConfigFields.boolField.valueAccess = !ConfigFields.boolField.valueAccess }
+                                    { ConfigFields.boolField.value = !ConfigFields.boolField.value }
                                 ) {
                                     Text("Toggle")
                                 } // end Button
@@ -71,7 +70,12 @@ class ConfigFieldsDemo private constructor() {
                             Spacer(Modifier.weight(1f))
                             ConfigFields.floatRange0To100Field.Content(Modifier.fillMaxWidth())
                             Spacer(Modifier.weight(1f))
-                            ConfigFields.SaveConfigsButton(Modifier.align(Alignment.CenterHorizontally))
+
+                            Row(Modifier.fillMaxWidth(), Arrangement.SpaceAround) {
+                                ConfigFields.LoadConfigsButton()
+                                ConfigFields.SaveConfigsButton()
+                            } // end Row
+
                             Spacer(Modifier.weight(1f))
                         } // end Column
 
