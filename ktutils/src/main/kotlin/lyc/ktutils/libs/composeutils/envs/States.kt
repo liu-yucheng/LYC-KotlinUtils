@@ -133,7 +133,7 @@ class States private constructor() {
         } // end init
 
         /** Configuration fields demonstration JSON root. */
-        val configFieldsDemoRoot: JsonElement
+        var configFieldsDemoRoot: JsonElement
 
         init {
             // Initialize configFieldsDemoJSONRoot

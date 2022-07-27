@@ -12,9 +12,10 @@ import lyc.ktutils.libs.composeutils.ConfigFields
  * @param elemKeys: some element keys
  * @param labelText: a label text
  */
-class EvenIntGE0Field(
-    override val root: JsonElement, override vararg val keys: String = arrayOf(), override val labelText: String
-) : ConfigFields.JSONField<Long>(root, keys = keys, labelText, "Even non-negative integer. Examples: 0, 2, 4...") {
+class EvenIntGE0Field(root: JsonElement, vararg keys: String = arrayOf(), labelText: String) :
+    ConfigFields.JSONField<Long>(
+        root, keys = keys, labelText, "Even non-negative integer. Examples: 0, 2, 4..."
+    ) {
     // Part of LYC-KotlinUtils
     // Copyright 2022 Yucheng Liu. Apache License Version 2.0.
     // Apache License Version 2.0 copy: http://www.apache.org/licenses/LICENSE-2.0
@@ -26,7 +27,12 @@ class EvenIntGE0Field(
      */
     override var childValue: Long
         get() {
-            val result = childElem.asLong
+            val result = try {
+                childElem.asLong
+            } catch (exc: Exception) {
+                0L
+            } // end val
+
             return result
         } // end get
         set(value) {
@@ -40,7 +46,13 @@ class EvenIntGE0Field(
     } // end fun
 
     override fun textToValue(text: String): Long {
-        val result = text.toLong()
+        val result = try {
+            text.toLong()
+        } catch (exc: Exception) {
+            toHandleConversionException = true
+            0L
+        } // end val
+
         return result
     } // end fun
 

@@ -4,9 +4,11 @@
 package lyc.ktutils.libs.composeutils
 
 import androidx.compose.material.Button
+import androidx.compose.material.ContentAlpha
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Text
+import androidx.compose.material.TextFieldColors
 import androidx.compose.material.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
@@ -32,20 +34,39 @@ class ConfigFields private constructor() {
     /** JSON field.
      * @param ValueType: a value type
      * @param root: a JSON root
-     * @param elemKeys: some element keys
+     * @param keys: some element keys
      * @param labelText: a label text
      * @param placeholderText: a placeholder text
      */
     abstract class JSONField<ValueType>(
-        protected open val root: JsonElement, protected open vararg val keys: String = arrayOf(),
-        protected open val labelText: String = "", protected open val placeholderText: String = ""
+        root: JsonElement, protected vararg val keys: String = arrayOf(), protected val labelText: String = "",
+        protected val placeholderText: String = ""
     ) {
         // Part of LYC-KotlinUtils
         // Copyright 2022 Yucheng Liu. Apache License Version 2.0.
         // Apache License Version 2.0 copy: http://www.apache.org/licenses/LICENSE-2.0
 
+        /** Opt out next on lose focus. */
+        protected var optOutNextOnLoseFocus = true
+
+        /** JSON root. */
+        var root = root
+            get() {
+                val result = field
+                return result
+            } // end get
+            set(value) {
+                field = value
+                origChildValue = rectifyValue(childValue)
+                onTextChange(valueToText(childValue))
+            } // end get
+
         /** Tree. */
-        protected val tree by lazy { JSONTree(root) }
+        protected val tree: JSONTree
+            get() {
+                val result = JSONTree(root)
+                return result
+            } // end get
 
         /** Child element. */
         protected var childElem: JsonElement
@@ -57,6 +78,9 @@ class ConfigFields private constructor() {
                 val valueTree = JSONTree(value)
                 tree.set(keys = keys, valueTree)
             } // end set
+
+        /** Whether there is a conversion exception to handle. */
+        protected var toHandleConversionException = false
 
         /** Converts [value] from the JSON type of [childValue] to the type of [textState].`value`.
          * @return result: the conversion result
@@ -75,7 +99,12 @@ class ConfigFields private constructor() {
          */
         protected open var childValue: ValueType
             get() {
-                val childString = childElem.toString()
+                val childString = try {
+                    childElem.asString
+                } catch (exc: Exception) {
+                    ""
+                } // end val
+
                 val result = textToValue(childString)
                 return result
             } // end get
@@ -113,7 +142,7 @@ class ConfigFields private constructor() {
         } // end fun
 
         /** Original child element value. */
-        protected val origChildValue by lazy { childValue }
+        protected var origChildValue = lazy { rectifyValue(childValue) }.value
 
         /** Verifies and rectifies [textState].`value`.
          * @return result: the operation result */
@@ -139,6 +168,11 @@ class ConfigFields private constructor() {
             } catch (exc: Exception) {
                 result = OpResult.Error
             } // end try
+
+            if (toHandleConversionException) {
+                toHandleConversionException = false
+                result = OpResult.Error
+            } // end if
 
             textState.value = valueToText(childValue)
             return result
@@ -180,118 +214,119 @@ class ConfigFields private constructor() {
                 result = OpResult.Error
             } // end try
 
+            if (toHandleConversionException) {
+                toHandleConversionException = false
+                result = OpResult.Error
+            } // end if
+
             return result
         } // end fun
 
-        /** Unchanged colors. */
-        protected val unchangedColors = @Composable {
-            TextFieldDefaults.outlinedTextFieldColors(
-                focusedBorderColor = MaterialTheme.colors.primary,
-                unfocusedBorderColor = MaterialTheme.colors.primary,
-                focusedLabelColor = MaterialTheme.colors.primary,
-                unfocusedLabelColor = MaterialTheme.colors.primary
-            ) // end (
-        } // end val
+        /** Outlined text field colors. */
+        enum class Colors(val colors: @Composable () -> TextFieldColors) {
+            /** Unchanged colors. */
+            Unchanged(
+                {
+                    TextFieldDefaults.outlinedTextFieldColors(
+                        focusedBorderColor = MaterialTheme.colors.primary,
+                        unfocusedBorderColor = MaterialTheme.colors.primary.copy(ContentAlpha.medium),
+                        focusedLabelColor = MaterialTheme.colors.primary,
+                        unfocusedLabelColor = MaterialTheme.colors.primary.copy(ContentAlpha.medium)
+                    ) // end (
+                } // end colors
+            ), // end Unchanged
 
-        /** Valid colors. */
-        protected val validColors = @Composable {
-            TextFieldDefaults.outlinedTextFieldColors(
-                focusedBorderColor = States.Theme.extColors.info,
-                unfocusedBorderColor = States.Theme.extColors.info,
-                focusedLabelColor = States.Theme.extColors.info,
-                unfocusedLabelColor = States.Theme.extColors.info
-            ) // end (
-        } // end val
+            /** Valid colors. */
+            Valid(
+                {
+                    TextFieldDefaults.outlinedTextFieldColors(
+                        focusedBorderColor = States.Theme.extColors.info,
+                        unfocusedBorderColor = States.Theme.extColors.info.copy(ContentAlpha.medium),
+                        focusedLabelColor = States.Theme.extColors.info,
+                        unfocusedLabelColor = States.Theme.extColors.info.copy(ContentAlpha.medium)
+                    ) // end (
+                } // end colors
+            ), // end Valid
 
-        /** Invalid colors. */
-        protected val invalidColors = @Composable {
-            TextFieldDefaults.outlinedTextFieldColors(
-                focusedBorderColor = States.Theme.extColors.warn,
-                unfocusedBorderColor = States.Theme.extColors.warn,
-                focusedLabelColor = States.Theme.extColors.warn,
-                unfocusedLabelColor = States.Theme.extColors.warn
-            ) // end (
-        } // end val
+            /** Invalid colors. */
+            Invalid(
+                {
+                    TextFieldDefaults.outlinedTextFieldColors(
+                        focusedBorderColor = States.Theme.extColors.warn,
+                        unfocusedBorderColor = States.Theme.extColors.warn.copy(ContentAlpha.medium),
+                        focusedLabelColor = States.Theme.extColors.warn,
+                        unfocusedLabelColor = States.Theme.extColors.warn.copy(ContentAlpha.medium)
+                    ) // end (
+                } // end colors
+            ), // end Invalid
 
-        /** Error colors. */
-        protected val errorColors = @Composable {
-            TextFieldDefaults.outlinedTextFieldColors(
-                focusedBorderColor = MaterialTheme.colors.error,
-                unfocusedBorderColor = MaterialTheme.colors.error,
-                focusedLabelColor = MaterialTheme.colors.error,
-                unfocusedLabelColor = MaterialTheme.colors.error
-            ) // end (
-        } // end val
+            /** Error colors. */
+            Error(
+                {
+                    TextFieldDefaults.outlinedTextFieldColors(
+                        focusedBorderColor = MaterialTheme.colors.error,
+                        unfocusedBorderColor = MaterialTheme.colors.error.copy(ContentAlpha.medium),
+                        focusedLabelColor = MaterialTheme.colors.error,
+                        unfocusedLabelColor = MaterialTheme.colors.error.copy(ContentAlpha.medium)
+                    ) // end (
+                } // end colors
+            ) // end Error
+        } // end class
 
         /** Colors state. */
-        protected val colorsState = mutableStateOf(unchangedColors)
+        protected val colorsState = mutableStateOf(Colors.Unchanged)
 
-        /** Content text style. */
-        protected open val contentTextStyle = @Composable {
-            TextStyle(
-                color = MaterialTheme.colors.onBackground, fontWeight = FontWeight.Bold,
-                fontFamily = FontFamily.Monospace
-            ) // end TextStyle
-        } // end val
+        init {
+            val newText = lazy { valueToText(childValue) }.value
+            val opResult = verifyText(newText)
+            colorsState.value = opResultToColors(opResult)
+        } // end init
 
-        /** Content label. */
-        protected open val contentLabel = @Composable {
-            Text(labelText, fontWeight = FontWeight.Bold)
-        } // end val
+        /** Project [OpResult] to [Colors]
+         * @param opResult: an operation result
+         */
+        protected fun opResultToColors(opResult: OpResult): Colors {
+            val result = when (opResult) {
+                OpResult.Unchanged -> Colors.Unchanged
+                OpResult.Valid -> Colors.Valid
+                OpResult.Invalid -> Colors.Invalid
+                OpResult.Error -> Colors.Error
+            } // end when
 
-        /** Content placeholder. */
-        protected open val contentPlaceholder = @Composable {
-            Text(placeholderText, fontWeight = FontWeight.Bold, fontFamily = FontFamily.Monospace)
-        } // end val
+            return result
+        } // end fun
 
         /** Text field on value change. */
         protected val onTextChange = { newText: String ->
             val opResult = verifyText(newText)
-
-            when (opResult) {
-                OpResult.Unchanged -> {
-                    colorsState.value = unchangedColors
-                } // end ->
-
-                OpResult.Valid -> {
-                    colorsState.value = validColors
-                } // end ->
-
-                OpResult.Invalid -> {
-                    colorsState.value = invalidColors
-                } // end ->
-
-                OpResult.Error -> {
-                    colorsState.value = errorColors
-                } // end ->
-            } // end when
+            colorsState.value = opResultToColors(opResult)
         } // end val
+
+        /** Prepares for saving.
+         *
+         * To be invoked before saving the root.
+         */
+        fun prepSave() {
+            val newText = textState.value
+            val rectified = rectifyText(newText)
+            var opResult = verifyText(rectified)
+            colorsState.value = opResultToColors(opResult)
+            opResult = verifyValue()
+            colorsState.value = opResultToColors(opResult)
+        } // end fun
 
         /** Text field on lose focus. */
         protected val onLoseFocus = {
-            val opResult = verifyValue()
-
-            when (opResult) {
-                OpResult.Unchanged -> {
-                    colorsState.value = unchangedColors
-                } // end ->
-
-                OpResult.Valid -> {
-                    colorsState.value = validColors
-                } // end ->
-
-                OpResult.Invalid -> {
-                    colorsState.value = invalidColors
-                } // end ->
-
-                OpResult.Error -> {
-                    colorsState.value = errorColors
-                } // end ->
-            } // end when
+            if (optOutNextOnLoseFocus) {
+                optOutNextOnLoseFocus = false
+            } else {
+                val opResult = verifyValue()
+                colorsState.value = opResultToColors(opResult)
+            } // end if
         } // end val
 
-        /** Text accessor. */
-        var textAccess: String
+        /** Text program side accessor. */
+        var text: String
             get() {
                 val result = textState.value
                 return result
@@ -301,16 +336,32 @@ class ConfigFields private constructor() {
                 onLoseFocus()
             } // end set
 
-        /** Value accessor. */
-        var valueAccess: ValueType
+        /** Value program side accessor. */
+        var value: ValueType
             get() {
                 val result = childValue
                 return result
             } // end get
             set(value) {
                 val text = valueToText(value)
-                textAccess = text
+                this.text = text
             } // end get
+
+        /** Content text style. */
+        protected open val textStyle = @Composable {
+            TextStyle(
+                color = MaterialTheme.colors.onBackground, fontWeight = FontWeight.Bold,
+                fontFamily = FontFamily.Monospace
+            ) // end TextStyle
+        } // end val
+
+        /** Content label. */
+        protected open val label = @Composable { Text(labelText, fontWeight = FontWeight.Bold) }
+
+        /** Content placeholder. */
+        protected open val placeholder = @Composable {
+            Text(placeholderText, fontWeight = FontWeight.Bold, fontFamily = FontFamily.Monospace)
+        } // end val
 
         /** Composes the content of the field.
          * @param modifier: a modifier
@@ -328,8 +379,8 @@ class ConfigFields private constructor() {
             val modifier = modifier.onFocusChanged(onFocusChange)
 
             OutlinedTextField(
-                textState.value, onTextChange, modifier, textStyle = contentTextStyle(), label = contentLabel,
-                placeholder = contentPlaceholder, colors = colorsState.value()
+                textState.value, onTextChange, modifier, textStyle = textStyle(), label = label,
+                placeholder = placeholder, colors = colorsState.value.colors()
             ) // end OutlinedTextField
         } // end fun
     } // end class
@@ -342,9 +393,8 @@ class ConfigFields private constructor() {
      * @param elemKeys: some element keys
      * @param labelText: a label text
      */
-    class StringField(
-        override val root: JsonElement, override vararg val keys: String = arrayOf(), override val labelText: String
-    ) : JSONField<String>(root, keys = keys, labelText, "String. Examples: foo, bar") {
+    class StringField(root: JsonElement, vararg keys: String = arrayOf(), labelText: String) :
+        JSONField<String>(root, keys = keys, labelText, "String. Examples: foo, bar") {
         // Part of LYC-KotlinUtils
         // Copyright 2022 Yucheng Liu. Apache License Version 2.0.
         // Apache License Version 2.0 copy: http://www.apache.org/licenses/LICENSE-2.0
@@ -356,7 +406,12 @@ class ConfigFields private constructor() {
          */
         override var childValue: String
             get() {
-                val result = childElem.asString
+                val result = try {
+                    childElem.asString
+                } catch (exc: Exception) {
+                    ""
+                } // end val
+
                 return result
             } // end get
             set(value) {
@@ -400,16 +455,41 @@ class ConfigFields private constructor() {
             0.0, 100.0
         ) // end val
 
+        /** All fields. */
+        val allFields = arrayListOf(stringField, boolField, evenIntGE0Field, floatRange0To100Field)
+
+        /** Load configs button. */
+        @Composable
+        fun LoadConfigsButton(modifier: Modifier = Modifier) {
+            val onClick = {
+                val loc = Utils.joinPaths(Defaults.appDataPath, Defaults.configFieldsDemoName)
+                States.configFieldsDemoRoot = Utils.loadJson(loc)
+
+                for (field in allFields) {
+                    field.root = States.configFieldsDemoRoot
+                } // end for
+
+                Funcs.logln("Loaded the configs from ${Defaults.configFieldsDemoName} in app data")
+            } // end val
+
+            Button(onClick, modifier) { Text("Load configs") }
+        } // end val
+
         /** Save configs button. */
         @Composable
         fun SaveConfigsButton(modifier: Modifier = Modifier) {
             val onClick = {
                 val loc = Utils.joinPaths(Defaults.appDataPath, Defaults.configFieldsDemoName)
+
+                for (field in allFields) {
+                    field.prepSave()
+                } // end for
+
                 Utils.saveJson(States.configFieldsDemoRoot, loc)
-                Funcs.logln("Saved the ConfigFieldsDemo configs to ${Defaults.configFieldsDemoName} in app data")
+                Funcs.logln("Saved the configs to ${Defaults.configFieldsDemoName} in app data")
             } // end val
 
-            Button(onClick, modifier) { Text("Save the above configs") }
+            Button(onClick, modifier) { Text("Save configs") }
         } // end val
     } // end companion
 } // end class

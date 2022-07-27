@@ -12,9 +12,8 @@ import lyc.ktutils.libs.composeutils.ConfigFields
  * @param elemKeys: some element keys
  * @param labelText: a label text
  */
-class BoolField(
-    override val root: JsonElement, override vararg val keys: String = arrayOf(), override val labelText: String
-) : ConfigFields.JSONField<Boolean>(root, keys = keys, labelText, "Boolean. Values: true, false.") {
+class BoolField(root: JsonElement, vararg keys: String = arrayOf(), labelText: String) :
+    ConfigFields.JSONField<Boolean>(root, keys = keys, labelText, "Boolean. Values: true, false.") {
     // Part of LYC-KotlinUtils
     // Copyright 2022 Yucheng Liu. Apache License Version 2.0.
     // Apache License Version 2.0 copy: http://www.apache.org/licenses/LICENSE-2.0
@@ -26,7 +25,12 @@ class BoolField(
      */
     override var childValue: Boolean
         get() {
-            val result = childElem.asBoolean
+            val result = try {
+                childElem.asBoolean
+            } catch (exc: Exception) {
+                false
+            } // end val
+
             return result
         } // end get
         set(value) {
@@ -40,7 +44,13 @@ class BoolField(
     } // end fun
 
     override fun textToValue(text: String): Boolean {
-        val result = text.toBoolean()
+        val result = try {
+            text.toBoolean()
+        } catch (exc: Exception) {
+            toHandleConversionException = true
+            false
+        } // end val
+
         return result
     } // end fun
 
