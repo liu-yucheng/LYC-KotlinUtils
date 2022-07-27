@@ -16,8 +16,8 @@ import lyc.ktutils.libs.composeutils.ConfigFields
  * @param max: a clamp maximum
  */
 class ClampedFloatField(
-    override val root: JsonElement, override vararg val keys: String = arrayOf(), override val labelText: String,
-    override val placeholderText: String, private val min: Double, private val max: Double
+    root: JsonElement, vararg keys: String = arrayOf(), labelText: String, placeholderText: String,
+    private val min: Double, private val max: Double
 ) : ConfigFields.JSONField<Double>(root, keys = keys, labelText, placeholderText) {
     // Part of LYC-KotlinUtils
     // Copyright 2022 Yucheng Liu. Apache License Version 2.0.
@@ -30,7 +30,12 @@ class ClampedFloatField(
      */
     override var childValue: Double
         get() {
-            val result = childElem.asDouble
+            val result = try {
+                childElem.asDouble
+            } catch (exc: Exception) {
+                0.0
+            } // end val
+
             return result
         } // end get
         set(value) {
@@ -44,7 +49,13 @@ class ClampedFloatField(
     } // end fun
 
     override fun textToValue(text: String): Double {
-        val result = text.toDouble()
+        val result = try {
+            text.toDouble()
+        } catch (exc: Exception) {
+            toHandleConversionException = true
+            0.0
+        } // end val
+
         return result
     } // end fun
 
