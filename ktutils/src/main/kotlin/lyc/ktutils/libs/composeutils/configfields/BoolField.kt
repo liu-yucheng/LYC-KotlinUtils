@@ -28,6 +28,7 @@ class BoolField(root: JsonElement, vararg keys: String = arrayOf(), labelText: S
             val result = try {
                 childElem.asBoolean
             } catch (exc: Exception) {
+                pendingConvertErr = true
                 false
             } // end val
 
@@ -47,7 +48,7 @@ class BoolField(root: JsonElement, vararg keys: String = arrayOf(), labelText: S
         val result = try {
             text.toBoolean()
         } catch (exc: Exception) {
-            toHandleConversionException = true
+            pendingConvertErr = true
             false
         } // end val
 
