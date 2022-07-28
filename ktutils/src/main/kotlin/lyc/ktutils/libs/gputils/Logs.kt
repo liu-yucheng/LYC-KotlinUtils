@@ -15,9 +15,9 @@ class Logs {
             val lastIdx = result.size - 1
             val lastElem = result[lastIdx]
 
-            if (lastIdx > 0 && lastElem == "") {
+            if ((lastIdx > 0) and (lastElem == "")) {
                 result.removeAt(lastIdx)
-            }
+            } // end if
 
             return result
         } // end fun

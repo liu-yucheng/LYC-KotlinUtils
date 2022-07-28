@@ -46,9 +46,6 @@ class ConfigFields private constructor() {
         // Copyright 2022 Yucheng Liu. Apache License Version 2.0.
         // Apache License Version 2.0 copy: http://www.apache.org/licenses/LICENSE-2.0
 
-        /** Opt out next on lose focus. */
-        protected var optOutNextOnLoseFocus = true
-
         /** JSON root. */
         var root = root
             get() {
@@ -79,20 +76,28 @@ class ConfigFields private constructor() {
                 tree.set(keys = keys, valueTree)
             } // end set
 
-        /** Whether there is a conversion exception to handle. */
-        protected var toHandleConversionException = false
+        /** Whether there is a pending conversion error to handle. */
+        protected var pendingConvertErr = false
 
         /** Converts [value] from the JSON type of [childValue] to the type of [textState].`value`.
+         *
+         * Note: Might raise (set to true) [pendingConvertErr].
+         *
          * @return result: the conversion result
          */
         protected abstract fun valueToText(value: ValueType): String
 
         /** Converts [text] from the type of [textState].`value` to the JSON type of [childValue].
+         *
+         * Note: Might raise [pendingConvertErr].
+         *
          * @return result: the conversion result
          */
         protected abstract fun textToValue(text: String): ValueType
 
         /** Child element value.
+         *
+         * Note: The get accrssor might raise [pendingConvertErr].
          *
          * JSON type: `String`
          * Kotlin type: [ValueType]
@@ -102,6 +107,7 @@ class ConfigFields private constructor() {
                 val childString = try {
                     childElem.asString
                 } catch (exc: Exception) {
+                    pendingConvertErr = true
                     ""
                 } // end val
 
@@ -132,7 +138,12 @@ class ConfigFields private constructor() {
         /** Text state. */
         protected val textState by lazy { mutableStateOf(valueToText(childValue)) }
 
+        /** Whether there is a pending rectification error to handle. */
+        protected var pendingRectifyErr = false
+
         /** Rectifies [value] and returns the rectified value.
+         *
+         * Note: Might raise [pendingRectifyErr].
          *
          * @return result: the result
          */
@@ -145,77 +156,88 @@ class ConfigFields private constructor() {
         protected var origChildValue = lazy { rectifyValue(childValue) }.value
 
         /** Verifies and rectifies [textState].`value`.
-         * @return result: the operation result */
+         *
+         * Note: Handles [pendingConvertErr], [pendingRectifyErr].
+         *
+         * @return result: the operation result
+         */
         protected fun verifyValue(): OpResult {
+            val textValue = textToValue(textState.value)
             var result: OpResult
 
-            try {
-                val textValue = textToValue(textState.value)
+            if (textState.value == valueToText(origChildValue)) {
                 childValue = textValue
+                result = OpResult.Unchanged
+            } else {
+                val rectified = rectifyValue(textValue)
+                childValue = rectified
 
-                if (textState.value == valueToText(origChildValue)) {
-                    result = OpResult.Unchanged
+                if (textState.value == valueToText(rectified)) {
+                    result = OpResult.Valid
                 } else {
-                    val rectified = rectifyValue(textValue)
-                    childValue = rectified
-
-                    result = if (textState.value == valueToText(rectified)) {
-                        OpResult.Valid
-                    } else {
-                        OpResult.Invalid
-                    } // end if
+                    result = OpResult.Invalid
                 } // end if
-            } catch (exc: Exception) {
-                result = OpResult.Error
-            } // end try
-
-            if (toHandleConversionException) {
-                toHandleConversionException = false
-                result = OpResult.Error
             } // end if
 
             textState.value = valueToText(childValue)
+
+            if (pendingConvertErr or pendingRectifyErr) {
+                pendingConvertErr = false
+                pendingRectifyErr = false
+                result = OpResult.Error
+            } // end if
+
             return result
         } // end fun
 
         /** Rectifies [newText] and returns the rectified text.
+         *
+         * Note: Handles [pendingConvertErr].
+         * Note: Might raise [pendingRectifyErr].
+         *
          * @param newText: a new text
          */
         protected fun rectifyText(newText: String): String {
             var value = textToValue(newText)
             value = rectifyValue(value)
             val text = valueToText(value)
+
+            if (pendingConvertErr) {
+                pendingConvertErr = false
+                pendingRectifyErr = true
+            } // end if
+
             val result = text
             return result
         } // end fun
 
         /** Verifies and rectifies [newText].
+         *
+         * Note: Handles [pendingConvertErr], [pendingRectifyErr].
+         *
          * @param newText: a new text
          * @return result: the operation result
          */
         protected fun verifyText(newText: String): OpResult {
             var result: OpResult
 
-            try {
-                textState.value = newText
+            if (newText == valueToText(origChildValue)) {
+                result = OpResult.Unchanged
+            } else {
+                val rectified = rectifyText(newText)
 
-                if (newText == valueToText(origChildValue)) {
-                    result = OpResult.Unchanged
+                if (newText == rectified) {
+                    result = OpResult.Valid
                 } else {
-                    val rectified = rectifyText(newText)
-
-                    result = if (newText == rectified) {
-                        OpResult.Valid
-                    } else {
-                        OpResult.Invalid
-                    } // end if
+                    result = OpResult.Invalid
                 } // end if
-            } catch (exc: Exception) {
-                result = OpResult.Error
-            } // end try
+            } // end if
 
-            if (toHandleConversionException) {
-                toHandleConversionException = false
+            textState.value = newText
+
+            if (pendingConvertErr or pendingRectifyErr) {
+                pendingConvertErr = false
+                pendingRectifyErr = false
                 result = OpResult.Error
             } // end if
 
@@ -223,7 +245,7 @@ class ConfigFields private constructor() {
         } // end fun
 
         /** Outlined text field colors. */
-        enum class Colors(val colors: @Composable () -> TextFieldColors) {
+        protected enum class Colors(val colors: @Composable () -> TextFieldColors) {
             /** Unchanged colors. */
             Unchanged(
                 {
@@ -304,7 +326,7 @@ class ConfigFields private constructor() {
 
         /** Prepares for saving.
          *
-         * To be invoked before saving the root.
+         * Note: To be invoked before saving the root.
          */
         fun prepSave() {
             val newText = textState.value
@@ -313,9 +335,19 @@ class ConfigFields private constructor() {
             colorsState.value = opResultToColors(opResult)
             opResult = verifyValue()
             colorsState.value = opResultToColors(opResult)
+            root = root // Note: This operation has side effect
         } // end fun
 
-        /** Text field on lose focus. */
+        /** Opt out next on lose focus.
+         *
+         * Makes the content opt out the first on lose focus callback.
+         */
+        protected var optOutNextOnLoseFocus = true
+
+        /** Text field on lose focus.
+         *
+         *  Note: Handles [optOutNextOnLoseFocus].
+         */
         protected val onLoseFocus = {
             if (optOutNextOnLoseFocus) {
                 optOutNextOnLoseFocus = false
@@ -409,6 +441,7 @@ class ConfigFields private constructor() {
                 val result = try {
                     childElem.asString
                 } catch (exc: Exception) {
+                    pendingConvertErr = true
                     ""
                 } // end val
 
