@@ -33,6 +33,7 @@ class ClampedFloatField(
             val result = try {
                 childElem.asDouble
             } catch (exc: Exception) {
+                pendingConvertErr = true
                 0.0
             } // end val
 
@@ -52,7 +53,7 @@ class ClampedFloatField(
         val result = try {
             text.toDouble()
         } catch (exc: Exception) {
-            toHandleConversionException = true
+            pendingConvertErr = true
             0.0
         } // end val
 
@@ -66,6 +67,10 @@ class ClampedFloatField(
             result = min
         } else if (result > max) {
             result = max
+        } // end if
+
+        if (result.isNaN()) {
+            pendingRectifyErr = true
         } // end if
 
         return result

@@ -30,6 +30,7 @@ class EvenIntGE0Field(root: JsonElement, vararg keys: String = arrayOf(), labelT
             val result = try {
                 childElem.asLong
             } catch (exc: Exception) {
+                pendingConvertErr = true
                 0L
             } // end val
 
@@ -49,7 +50,7 @@ class EvenIntGE0Field(root: JsonElement, vararg keys: String = arrayOf(), labelT
         val result = try {
             text.toLong()
         } catch (exc: Exception) {
-            toHandleConversionException = true
+            pendingConvertErr = true
             0L
         } // end val
 
