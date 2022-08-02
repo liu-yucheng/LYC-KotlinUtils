@@ -45,7 +45,7 @@ Circular pages demo.
 ![circ-pages-demo-light](README-Assets/CircPagesDemo-LightTheme.png)
 
 Config fields demo.
-![config-fields-demo-light](README-Assets/ConfieFieldsDemo-LightTheme.png)
+![config-fields-demo-light](README-Assets/ConfigFieldsDemo-LightTheme.png)
 
 ## Custom dark theme
 

@@ -9,7 +9,7 @@ import lyc.ktutils.libs.composeutils.ConfigFields
 
 /** Clamped float field.
  * @param root: a JSON root
- * @param elemKeys: some element keys
+ * @param keys: some element keys
  * @param labelText: a label text
  * @param placeholderText: a placeholder text
  * @param min: a clamp minimum

@@ -5,13 +5,14 @@ package lyc.ktutils.libs.composeutils.envs
 
 import com.google.gson.JsonElement
 import java.io.InputStream
+import lyc.ktutils.libs.composeutils.SysInfo
 import lyc.ktutils.libs.gputils.JSONIO
 import lyc.ktutils.libs.gputils.Logs
 import lyc.ktutils.libs.gputils.PackInfo
 import lyc.ktutils.libs.gputils.Paths
 import lyc.ktutils.libs.gputils.Reses
-import lyc.ktutils.libs.gputils.SysInfo
 import lyc.ktutils.libs.gputils.TextIO
+import lyc.ktutils.libs.swingutils.ExplFuncs
 
 /** Utilities. */
 class Utils private constructor() {
@@ -109,9 +110,28 @@ class Utils private constructor() {
         fun findPackVer(versPropsResPath: String = "versions.properties"): String =
             PackInfo.findPackVer(versPropsResPath)
 
-        /** Find whether the system has dark themes enabled.
-         * @return result: whether dark themes is enabled
+        /** Opens a folder in the desktop file explorer.
+         * @param path: a path
+         * @return result: whether the operation is successful
          */
-        fun findSysDarkEnabled(): Boolean = SysInfo.findSysDarkEnabled()
+        fun openInExpl(path: String): Boolean = ExplFuncs.openInExpl(path)
+
+        /** Selects a path in the desktop file explorer.
+         * @param path: an initial path
+         * @return result: the selected folder path
+         */
+        fun selectPathInExpl(path: String): String = ExplFuncs.selectPathInExpl(path)
+
+        /** Selects a location in the desktop file explorer.
+         * @param loc: an initial location
+         * @return result: the selected file location
+         */
+        fun selectLocInExpl(loc: String): String = ExplFuncs.selectLocInExpl(loc)
+
+        /** Selects a path or location in the desktop file explorer.
+         * @param path: an initial path
+         * @return result: the selected folder path or file location
+         */
+        fun selectInExpl(path: String): String = ExplFuncs.selectInExpl(path)
     } // end companion
 } // end class
