@@ -3,11 +3,11 @@
 
 package lyc.ktutils.libs.composeutils.envs
 
-import java.awt.Desktop
 import java.io.File
 import java.io.InputStream
 import java.io.OutputStream
 import lyc.ktutils.libs.composeutils.FlatLafFuncs
+import lyc.ktutils.libs.composeutils.SysInfo
 
 /** Functions. */
 class Funcs private constructor() {
@@ -25,7 +25,21 @@ class Funcs private constructor() {
             for (name in fileNames) {
                 val inLoc = Utils.joinResPaths(inPath, name)
                 val outLoc = Utils.joinPaths(outPath, name)
-                val inStream = Utils.findResStream(inLoc)
+
+                val inStream: InputStream
+
+                try {
+                    inStream = Utils.findResStream(inLoc)
+                } catch (exc: NullPointerException) {
+                    throw NullPointerException(
+                        """
+                            exes.app.Funcs.copyFiles::inStream:
+                                Utils.findResStream(inLoc) cannot be null
+                                inLoc: $inLoc
+                        """.trimIndent()
+                    ) // end throw
+                } // end try
+
                 val outFile = File(outLoc)
                 val outStream: OutputStream
 
@@ -44,21 +58,109 @@ class Funcs private constructor() {
         /** Ensures app data.
          * @param overwrite: whether to force overwrite the app data
          */
-        fun ensureAppData(overwrite: Boolean = false) {
+        private fun ensureAppData(overwrite: Boolean) {
             val inPath = Defaults.defaultAppDataResPath
             val outPath = Defaults.appDataPath
             val outDir = File(outPath)
 
             if (!outDir.exists()) {
                 outDir.mkdirs()
-            }
+            } // end if
 
             val fileNames = arrayListOf(
-                Defaults.logName,
-                Defaults.configFieldsDemoName
+                Defaults.configFieldsDemoName,
+                Defaults.logName
             ) // end val
 
             copyFiles(inPath, outPath, fileNames, overwrite)
+        } // end fun
+
+        /** Ensures sample model root files.
+         * @param overwrite: whether to overwrite the sample model
+         */
+        private fun ensureSampleModelRootFiles(overwrite: Boolean) {
+            val inPath = Defaults.sampleModelResPath
+            val outPath = Defaults.sampleModelPath
+            val outDir = File(outPath)
+
+            if (!outDir.exists()) {
+                outDir.mkdirs()
+            } // end if
+
+            val fileNames = arrayListOf(
+                Defaults.discConfigName,
+                "discriminator_struct.py",
+                Defaults.formatConfigName,
+                Defaults.generatorConfigName,
+                Defaults.generatorPreviewName,
+                "generator_struct.py",
+                "README.md"
+            ) // end val
+
+            copyFiles(inPath, outPath, fileNames, overwrite)
+        } // end fun
+
+        /** Ensures sample model - model saves files.
+         * @param overwrite: whether to overwrite the sample model
+         */
+        private fun ensureSampleModelSavesFiles(overwrite: Boolean) {
+            val inPath = Utils.joinResPaths(Defaults.sampleModelResPath, Defaults.modelSavesName)
+            val outPath = Utils.joinPaths(Defaults.sampleModelPath, Defaults.modelSavesName)
+            val outDir = File(outPath)
+
+            if (!outDir.exists()) {
+                outDir.mkdirs()
+            } // end if
+
+            val fileNames = arrayListOf(
+                "discriminator_state.onnx",
+                "discriminator_state_script.pt",
+                "generator_state.onnx",
+                Defaults.generatorStateScriptName
+            ) // end val
+
+            copyFiles(inPath, outPath, fileNames, overwrite)
+        } // end fun
+
+        /** Clears a model.
+         * @param modelPath: model path
+         */
+        fun clearModel(modelPath: String) {
+            val genResultPath = Utils.joinPaths(modelPath, Defaults.genResultsName)
+            val genResultFile = File(genResultPath)
+
+            if (genResultFile.exists()) {
+                genResultFile.deleteRecursively()
+            } // end if
+        } // end fun
+
+        /** Clears sample model. */
+        private fun clearSampleModel() {
+            clearModel(Defaults.sampleModelPath)
+        } // end fun
+
+        /** Ensures sample model.
+         * @param overwrite: whether to overwrite the sample model
+         */
+        private fun ensureSampleModel(overwrite: Boolean) {
+            ensureSampleModelRootFiles(overwrite)
+            ensureSampleModelSavesFiles(overwrite)
+            val clear = overwrite
+
+            if (clear) {
+                clearSampleModel()
+            } // end if
+        } // end fun
+
+        /** Ensures user data.
+         *
+         * User data includes: [app data, sample model]
+         *
+         * @param overwrite: whether to overwrite the data
+         */
+        fun ensureUserData(overwrite: Boolean = false) {
+            ensureAppData(overwrite)
+            ensureSampleModel(overwrite)
         } // end fun
 
         /** Logs the string [str].
@@ -97,6 +199,11 @@ class Funcs private constructor() {
             FlatLafFuncs.updateFlatLafTheme(States.darkEnabled.value)
         } // end fun
 
+        /** Find whether the system has dark themes enabled.
+         * @return result: whether dark themes is enabled
+         */
+        fun findSysDarkEnabled(): Boolean = SysInfo.findSysDarkEnabled()
+
         /** Logs copyrights. */
         fun logCrs() {
             val info = """
@@ -112,25 +219,6 @@ ${States.openLicsText}
             """.trim() // end val
 
             logln(info)
-        } // end fun
-
-        /** Opens a folder in the desktop file explorer.
-         * @param path: a path
-         * @return result: whether the operation is successful
-         */
-        fun openInExpl(path: String): Boolean {
-            val result: Boolean
-
-            if (Desktop.isDesktopSupported()) {
-                val desktop = Desktop.getDesktop()
-                val file = File(path)
-                desktop.open(file)
-                result = true
-            } else {
-                result = false
-            } // end if
-
-            return result
         } // end fun
     } // end companion
 } // end class

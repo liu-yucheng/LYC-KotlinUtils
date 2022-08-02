@@ -27,10 +27,6 @@ Libraries.
 
 Commands.
 
-# Package lyc.ktutils.libs.gputils
-
-General purpose utilities.
-
 # Package lyc.ktutils.libs.composeutils
 
 Compose utilities.
@@ -38,6 +34,14 @@ Compose utilities.
 # Package lyc.ktutils.libs.demoutils
 
 Demonstration utilities.
+
+# Package lyc.ktutils.libs.gputils
+
+General purpose utilities.
+
+# Package lyc.ktutils.libs.swingutils
+
+Java Swing utilities.
 
 <!--- End Level 2 packages --->
 <!--- Level 3 packages --->
