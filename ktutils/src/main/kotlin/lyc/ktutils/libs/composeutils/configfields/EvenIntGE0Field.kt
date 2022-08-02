@@ -13,7 +13,7 @@ import lyc.ktutils.libs.composeutils.ConfigFields
  * @param labelText: a label text
  */
 class EvenIntGE0Field(root: JsonElement, vararg keys: String = arrayOf(), labelText: String) :
-    ConfigFields.JSONField<Long>(
+    JSONField<Long>(
         root, keys = keys, labelText, "Even non-negative integer. Examples: 0, 2, 4..."
     ) {
     // Part of LYC-KotlinUtils
