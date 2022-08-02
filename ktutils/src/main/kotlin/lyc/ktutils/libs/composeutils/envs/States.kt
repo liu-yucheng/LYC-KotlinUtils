@@ -140,5 +140,8 @@ class States private constructor() {
             val loc = Utils.joinPaths(Defaults.appDataPath, Defaults.configFieldsDemoName)
             configFieldsDemoRoot = Utils.loadJson(loc)
         } // end init
+
+        /** Configuration fields demonstration vertical scroll state. */
+        val configFieldsDemoVertScroll = ScrollState(0)
     } // end companion
 } // end class
