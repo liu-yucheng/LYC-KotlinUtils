@@ -40,9 +40,11 @@ class ConfigFieldsDemo private constructor() {
         packName, packVer, jarName, "ConfigFieldsDemo", "config-fields-demo", false,
         false
     ) {
-        /** Fields content. */
+        /** Composes the fields content.
+         * @param modifier: a modifier
+         */
         @Composable
-        private fun FieldsContent(modifier: Modifier = Modifier) {
+        private fun Fields(modifier: Modifier = Modifier) {
             Box(modifier) {
                 Column(modifier.fillMaxSize().verticalScroll(ConfigFields.fieldsVertScroll)) {
                     ConfigFields.stringField.Content(Modifier.fillMaxWidth())
@@ -96,7 +98,7 @@ class ConfigFieldsDemo private constructor() {
                         } // end val
 
                         Column(Modifier.weight(1f)) {
-                            FieldsContent(Modifier.weight(1f))
+                            Fields(Modifier.weight(1f))
                             Spacer(Modifier.size(8.dp))
 
                             Row(Modifier.fillMaxWidth(), Arrangement.SpaceAround) {
