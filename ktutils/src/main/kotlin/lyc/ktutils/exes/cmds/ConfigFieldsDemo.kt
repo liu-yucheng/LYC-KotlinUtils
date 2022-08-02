@@ -44,7 +44,7 @@ class ConfigFieldsDemo private constructor() {
         @Composable
         private fun FieldsContent(modifier: Modifier = Modifier) {
             Box(modifier) {
-                Column(modifier.fillMaxSize().verticalScroll(States.configFieldsDemoVertScroll)) {
+                Column(modifier.fillMaxSize().verticalScroll(ConfigFields.fieldsVertScroll)) {
                     ConfigFields.stringField.Content(Modifier.fillMaxWidth())
                     Spacer(Modifier.size(8.dp))
 
@@ -74,7 +74,7 @@ class ConfigFieldsDemo private constructor() {
                 } // end Column
 
                 VerticalScrollbar(
-                    rememberScrollbarAdapter(States.configFieldsDemoVertScroll),
+                    rememberScrollbarAdapter(ConfigFields.fieldsVertScroll),
                     Modifier.width(16.dp).fillMaxHeight().align(Alignment.CenterEnd)
                 ) // end VerticalScrollbar
             } // end Box
