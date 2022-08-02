@@ -4,6 +4,7 @@
 package lyc.ktutils.libs.composeutils
 
 import androidx.compose.material.Button
+import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.ContentAlpha
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.OutlinedTextField
@@ -23,6 +24,7 @@ import com.google.gson.JsonPrimitive
 import lyc.ktutils.libs.composeutils.configfields.BoolField
 import lyc.ktutils.libs.composeutils.configfields.ClampedFloatField
 import lyc.ktutils.libs.composeutils.configfields.EvenIntGE0Field
+import lyc.ktutils.libs.composeutils.configfields.PathField
 import lyc.ktutils.libs.composeutils.envs.Defaults
 import lyc.ktutils.libs.composeutils.envs.Funcs
 import lyc.ktutils.libs.composeutils.envs.States
@@ -488,8 +490,15 @@ class ConfigFields private constructor() {
             0.0, 100.0
         ) // end val
 
+        /** Any path field. */
+        val anyPathField = PathField(
+            States.configFieldsDemoRoot, keys = arrayOf("any_path"), "Any path", Defaults.userDataPath
+        ) // end val
+
         /** All fields. */
-        val allFields = arrayListOf(stringField, boolField, evenIntGE0Field, floatRange0To100Field)
+        val allFields = arrayListOf<JSONField<*>>(
+            stringField, boolField, evenIntGE0Field, floatRange0To100Field, anyPathField
+        ) // end val
 
         /** Load configs button. */
         @Composable
@@ -505,7 +514,8 @@ class ConfigFields private constructor() {
                 Funcs.logln("Loaded the configs from ${Defaults.configFieldsDemoName} in app data")
             } // end val
 
-            Button(onClick, modifier) { Text("Load configs") }
+            val warnColors = ButtonDefaults.buttonColors(States.Theme.extColors.warn, States.Theme.extColors.onWarn)
+            Button(onClick, modifier, colors = warnColors) { Text("Load configs") }
         } // end val
 
         /** Save configs button. */
