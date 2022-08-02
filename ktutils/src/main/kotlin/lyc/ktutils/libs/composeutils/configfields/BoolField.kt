@@ -13,7 +13,7 @@ import lyc.ktutils.libs.composeutils.ConfigFields
  * @param labelText: a label text
  */
 class BoolField(root: JsonElement, vararg keys: String = arrayOf(), labelText: String) :
-    ConfigFields.JSONField<Boolean>(root, keys = keys, labelText, "Boolean. Values: true, false.") {
+    JSONField<Boolean>(root, keys = keys, labelText, "Boolean. Values: true, false.") {
     // Part of LYC-KotlinUtils
     // Copyright 2022 Yucheng Liu. Apache License Version 2.0.
     // Apache License Version 2.0 copy: http://www.apache.org/licenses/LICENSE-2.0
