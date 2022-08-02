@@ -422,7 +422,7 @@ class ConfigFields private constructor() {
      * A basic JSONField child class example.
      *
      * @param root: a JSON root
-     * @param elemKeys: some element keys
+     * @param keys: some element keys
      * @param labelText: a label text
      */
     class StringField(root: JsonElement, vararg keys: String = arrayOf(), labelText: String) :

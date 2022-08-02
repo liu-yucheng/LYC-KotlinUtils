@@ -9,7 +9,7 @@ import lyc.ktutils.libs.composeutils.ConfigFields
 
 /** Boolean field.
  * @param root: a JSON root
- * @param elemKeys: some element keys
+ * @param keys: some element keys
  * @param labelText: a label text
  */
 class BoolField(root: JsonElement, vararg keys: String = arrayOf(), labelText: String) :
