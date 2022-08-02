@@ -3,7 +3,9 @@
 
 package lyc.ktutils.exes.cmds
 
+import androidx.compose.foundation.VerticalScrollbar
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -11,7 +13,10 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentWidth
+import androidx.compose.foundation.rememberScrollbarAdapter
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Button
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -26,6 +31,7 @@ import lyc.ktutils.libs.composeutils.ConfigFields
 import lyc.ktutils.libs.composeutils.TermOuts
 import lyc.ktutils.libs.composeutils.envs.Elems
 import lyc.ktutils.libs.composeutils.envs.States
+import lyc.ktutils.libs.composeutils.envs.Utils
 import lyc.ktutils.libs.demoutils.ComposeDemo
 
 /** Configuration fields demonstration. */
@@ -34,6 +40,46 @@ class ConfigFieldsDemo private constructor() {
         packName, packVer, jarName, "ConfigFieldsDemo", "config-fields-demo", false,
         false
     ) {
+        /** Fields content. */
+        @Composable
+        private fun FieldsContent(modifier: Modifier = Modifier) {
+            Box(modifier) {
+                Column(modifier.fillMaxSize().verticalScroll(States.configFieldsDemoVertScroll)) {
+                    ConfigFields.stringField.Content(Modifier.fillMaxWidth())
+                    Spacer(Modifier.size(8.dp))
+
+                    Row(Modifier.fillMaxWidth(), Arrangement.Start, Alignment.CenterVertically) {
+                        ConfigFields.boolField.Content(Modifier.weight(1f))
+                        Spacer(Modifier.size(8.dp))
+                        Button({ ConfigFields.boolField.value = !ConfigFields.boolField.value }) { Text("Toggle") }
+                    } // end Row
+
+                    Spacer(Modifier.size(8.dp))
+                    ConfigFields.evenIntGE0Field.Content(Modifier.fillMaxWidth())
+                    Spacer(Modifier.size(8.dp))
+                    ConfigFields.floatRange0To100Field.Content(Modifier.fillMaxWidth())
+                    Spacer(Modifier.size(8.dp))
+
+                    Row(Modifier.fillMaxWidth(), Arrangement.Start, Alignment.CenterVertically) {
+                        ConfigFields.anyPathField.Content(Modifier.weight(1f))
+                        Spacer(Modifier.size(8.dp))
+
+                        Button(
+                            {
+                                ConfigFields.anyPathField.value =
+                                    Utils.selectPathInExpl(ConfigFields.anyPathField.value)
+                            } // end onClick
+                        ) { Text("Select") } // end Button
+                    } // end Row
+                } // end Column
+
+                VerticalScrollbar(
+                    rememberScrollbarAdapter(States.configFieldsDemoVertScroll),
+                    Modifier.width(16.dp).fillMaxHeight().align(Alignment.CenterEnd)
+                ) // end VerticalScrollbar
+            } // end Box
+        } // end fun
+
         /** Main window content. */
         @Composable
         override fun WindowScope.WinContent() {
@@ -50,35 +96,16 @@ class ConfigFieldsDemo private constructor() {
                         } // end val
 
                         Column(Modifier.weight(1f)) {
-                            Spacer(Modifier.weight(1f))
-                            ConfigFields.stringField.Content(Modifier.fillMaxWidth())
-                            Spacer(Modifier.weight(1f))
-
-                            Row(Modifier.fillMaxWidth(), Arrangement.Start, Alignment.CenterVertically) {
-                                ConfigFields.boolField.Content(Modifier.weight(1f))
-                                Spacer(Modifier.size(8.dp))
-
-                                Button(
-                                    { ConfigFields.boolField.value = !ConfigFields.boolField.value }
-                                ) {
-                                    Text("Toggle")
-                                } // end Button
-                            } // end Row
-
-                            Spacer(Modifier.weight(1f))
-                            ConfigFields.evenIntGE0Field.Content(Modifier.fillMaxWidth())
-                            Spacer(Modifier.weight(1f))
-                            ConfigFields.floatRange0To100Field.Content(Modifier.fillMaxWidth())
-                            Spacer(Modifier.weight(1f))
+                            FieldsContent(Modifier.weight(1f))
+                            Spacer(Modifier.size(8.dp))
 
                             Row(Modifier.fillMaxWidth(), Arrangement.SpaceAround) {
                                 ConfigFields.LoadConfigsButton()
                                 ConfigFields.SaveConfigsButton()
                             } // end Row
-
-                            Spacer(Modifier.weight(1f))
                         } // end Column
 
+                        Spacer(Modifier.size(16.dp))
                         Column(termOutsColMod) { TermOuts.TermOuts() }
                     } // end Row
                 } // end Column

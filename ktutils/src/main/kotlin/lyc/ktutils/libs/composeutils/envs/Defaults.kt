@@ -11,11 +11,14 @@ class Defaults private constructor() {
         /** User home. */
         val userHomePath = System.getProperty("user.home")
 
-        /** Data path. */
-        val dataPath = Utils.joinPaths(userHomePath, ".lyc_ktutils")
+        /** User data path. */
+        val userDataPath = Utils.joinPaths(userHomePath, ".lyc_ktutils")
 
         /** App data path. */
-        val appDataPath = Utils.joinPaths(dataPath, "app_data")
+        val appDataPath = Utils.joinPaths(userDataPath, "app_data")
+
+        /** Sample model path. */
+        val sampleModelPath = Utils.joinPaths(userDataPath, "sample_model")
 
         // End; Resource paths
 
@@ -27,6 +30,9 @@ class Defaults private constructor() {
 
         /** Licenses resource path. */
         const val licsResPath = "licenses"
+
+        /** Sample model resource path. */
+        const val sampleModelResPath = "sample_model"
 
         // End; Names
 
@@ -62,5 +68,26 @@ class Defaults private constructor() {
 
         /** Configuration fields demonstration name. */
         const val configFieldsDemoName = "config_fields_demo.json"
+
+        /** Model saves name. */
+        const val modelSavesName = "model_saves"
+
+        /** Generator state script name. */
+        const val generatorStateScriptName = "generator_state_script.pt"
+
+        /** Discriminator configuration name. */
+        const val discConfigName = "discriminator_config.json"
+
+        /** Format configuration name. */
+        const val formatConfigName = "format_config.json"
+
+        /** Generator configuration name. */
+        const val generatorConfigName = "generator_config.json"
+
+        /** Generator preview name. */
+        const val generatorPreviewName = "generator_preview.jpg"
+
+        /** Generation results name. */
+        const val genResultsName = "Generation-Results"
     } // end companion
 } // end class

@@ -2,5 +2,6 @@
     "string": "Hello world",
     "boolean": true,
     "even_integer_ge_0": 2,
-    "float_range_0_to_100": 50.0
+    "float_range_0_to_100": 50.0,
+    "any_path": ""
 }

@@ -41,7 +41,7 @@ open class ComposeDemo(
 
     /** Sets-up the demonstration. */
     protected fun setup() {
-        Funcs.ensureAppData()
+        Funcs.ensureUserData()
 
         var info = """
                 - $packName $demoName logs
@@ -50,7 +50,7 @@ open class ComposeDemo(
             """.trimIndent() // end var
 
         Funcs.logln(info)
-        States.sysDarkEnabled.value = Utils.findSysDarkEnabled()
+        States.sysDarkEnabled.value = Funcs.findSysDarkEnabled()
         States.darkEnabled.value = States.darkEnabled.value
         Funcs.logln("System dark themes enabled: ${States.sysDarkEnabled.value}")
 
@@ -119,24 +119,25 @@ open class ComposeDemo(
 
             Button(
                 {
-                    Funcs.logln("App data: ${Defaults.appDataPath}")
-                    val succ = Funcs.openInExpl(Defaults.appDataPath)
+                    Funcs.logln("User data: ${Defaults.userDataPath}")
+                    val succ = Utils.openInExpl(Defaults.userDataPath)
 
                     if (succ) {
-                        Funcs.logln("Opened app data folder on desktop")
+                        Funcs.logln("Opened user data folder on desktop")
                     } else {
-                        Funcs.logln("Cannot open app data folder on desktop")
+                        Funcs.logln("Cannot open user data folder on desktop")
                     } // end if
                 } // end onClick
-            ) { Text("Browse app data") }
+            ) { Text("Browse user data") } // end Button
+
             Button(
                 {
-                    Funcs.ensureAppData(true)
-                    Funcs.logln("Cleared app data")
+                    Funcs.ensureUserData(true)
+                    Funcs.logln("Cleared user data")
                 }, // end onClick
 
                 colors = ButtonDefaults.buttonColors(backgroundColor = States.Theme.extColors.warn)
-            ) { Text("Clear app data", color = States.Theme.extColors.onWarn) } // end Button
+            ) { Text("Clear user data", color = States.Theme.extColors.onWarn) } // end Button
         } // end Row
     } // end fun
 
