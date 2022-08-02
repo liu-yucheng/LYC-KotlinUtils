@@ -18,7 +18,7 @@ import lyc.ktutils.libs.composeutils.ConfigFields
 class ClampedFloatField(
     root: JsonElement, vararg keys: String = arrayOf(), labelText: String, placeholderText: String,
     private val min: Double, private val max: Double
-) : ConfigFields.JSONField<Double>(root, keys = keys, labelText, placeholderText) {
+) : JSONField<Double>(root, keys = keys, labelText, placeholderText) {
     // Part of LYC-KotlinUtils
     // Copyright 2022 Yucheng Liu. Apache License Version 2.0.
     // Apache License Version 2.0 copy: http://www.apache.org/licenses/LICENSE-2.0
