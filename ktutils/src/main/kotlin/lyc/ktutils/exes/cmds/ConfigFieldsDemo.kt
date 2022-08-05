@@ -63,13 +63,13 @@ class ConfigFieldsDemo private constructor() {
                     Spacer(Modifier.size(8.dp))
 
                     Row(Modifier.fillMaxWidth(), Arrangement.Start, Alignment.CenterVertically) {
-                        ConfigFields.anyPathField.Content(Modifier.weight(1f))
+                        ConfigFields.pathField.Content(Modifier.weight(1f))
                         Spacer(Modifier.size(8.dp))
 
                         Button(
                             {
-                                ConfigFields.anyPathField.value =
-                                    Utils.selectPathInExpl(ConfigFields.anyPathField.value)
+                                ConfigFields.pathField.value =
+                                    Utils.selectPathInExpl(ConfigFields.pathField.value)
                             } // end onClick
                         ) { Text("Select") } // end Button
                     } // end Row

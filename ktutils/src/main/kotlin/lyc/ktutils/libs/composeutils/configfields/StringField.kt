@@ -12,7 +12,7 @@ import com.google.gson.JsonPrimitive
  * @param labelText: a label text
  */
 class StringField(root: JsonElement, vararg keys: String = arrayOf(), labelText: String) :
-    JSONField<String>(root, keys = keys, labelText, "String. Examples: foo, bar") {
+    JSONField<String>(root, keys = keys, "", labelText, "String. Examples: foo, bar") {
     // Part of LYC-KotlinUtils
     // Copyright 2022 Yucheng Liu. Apache License Version 2.0.
     // Apache License Version 2.0 copy: http://www.apache.org/licenses/LICENSE-2.0
@@ -28,7 +28,7 @@ class StringField(root: JsonElement, vararg keys: String = arrayOf(), labelText:
                 childElem.asString
             } catch (exc: Exception) {
                 pendingConvertErr = true
-                ""
+                defaultValue
             } // end val
 
             return result
