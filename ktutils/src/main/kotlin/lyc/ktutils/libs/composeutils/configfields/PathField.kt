@@ -6,7 +6,6 @@ package lyc.ktutils.libs.composeutils.configfields
 import com.google.gson.JsonElement
 import com.google.gson.JsonPrimitive
 import java.io.File
-import lyc.ktutils.libs.composeutils.ConfigFields
 
 /** Path field.
  * @param root: a JSON root
@@ -16,12 +15,10 @@ import lyc.ktutils.libs.composeutils.ConfigFields
  */
 class PathField(
     root: JsonElement, vararg keys: String = arrayOf(), labelText: String, defaultPath: String = ""
-) : JSONField<String>(root, keys = keys, labelText, "Path.") {
+) : JSONField<String>(root, keys = keys, defaultPath, labelText, "Path.") {
     // Part of LYC-KotlinUtils
     // Copyright 2022 Yucheng Liu. Apache License Version 2.0.
     // Apache License Version 2.0 copy: http://www.apache.org/licenses/LICENSE-2.0
-
-    private val defaultPath by lazy { defaultPath }
 
     /** Child value.
      *
@@ -34,7 +31,7 @@ class PathField(
                 childElem.asString
             } catch (exc: Exception) {
                 pendingConvertErr = true
-                ""
+                defaultValue
             } // end val
 
             return result
@@ -62,7 +59,7 @@ class PathField(
         var result = if (valueExists and valueIsDir) {
             value
         } else {
-            defaultPath
+            defaultValue
         } // end if
 
         result = File(result).absolutePath

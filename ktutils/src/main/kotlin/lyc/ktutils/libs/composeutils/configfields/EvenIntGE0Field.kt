@@ -5,7 +5,6 @@ package lyc.ktutils.libs.composeutils.configfields
 
 import com.google.gson.JsonElement
 import com.google.gson.JsonPrimitive
-import lyc.ktutils.libs.composeutils.ConfigFields
 
 /** Even integer (greater than or equal to 0) field.
  * @param root: a JSON root
@@ -14,7 +13,7 @@ import lyc.ktutils.libs.composeutils.ConfigFields
  */
 class EvenIntGE0Field(root: JsonElement, vararg keys: String = arrayOf(), labelText: String) :
     JSONField<Long>(
-        root, keys = keys, labelText, "Even non-negative integer. Examples: 0, 2, 4..."
+        root, keys = keys, 0L, labelText, "Even non-negative integer. Examples: 0, 2, 4..."
     ) {
     // Part of LYC-KotlinUtils
     // Copyright 2022 Yucheng Liu. Apache License Version 2.0.
@@ -31,7 +30,7 @@ class EvenIntGE0Field(root: JsonElement, vararg keys: String = arrayOf(), labelT
                 childElem.asLong
             } catch (exc: Exception) {
                 pendingConvertErr = true
-                0L
+                defaultValue
             } // end val
 
             return result
@@ -51,7 +50,7 @@ class EvenIntGE0Field(root: JsonElement, vararg keys: String = arrayOf(), labelT
             text.toLong()
         } catch (exc: Exception) {
             pendingConvertErr = true
-            0L
+            defaultValue
         } // end val
 
         return result

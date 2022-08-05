@@ -5,7 +5,6 @@ package lyc.ktutils.libs.composeutils.configfields
 
 import com.google.gson.JsonElement
 import com.google.gson.JsonPrimitive
-import lyc.ktutils.libs.composeutils.ConfigFields
 
 /** Clamped float field.
  * @param root: a JSON root
@@ -18,7 +17,7 @@ import lyc.ktutils.libs.composeutils.ConfigFields
 class ClampedFloatField(
     root: JsonElement, vararg keys: String = arrayOf(), labelText: String, placeholderText: String,
     private val min: Double, private val max: Double
-) : JSONField<Double>(root, keys = keys, labelText, placeholderText) {
+) : JSONField<Double>(root, keys = keys, 0.0, labelText, placeholderText) {
     // Part of LYC-KotlinUtils
     // Copyright 2022 Yucheng Liu. Apache License Version 2.0.
     // Apache License Version 2.0 copy: http://www.apache.org/licenses/LICENSE-2.0
@@ -34,7 +33,7 @@ class ClampedFloatField(
                 childElem.asDouble
             } catch (exc: Exception) {
                 pendingConvertErr = true
-                0.0
+                defaultValue
             } // end val
 
             return result
@@ -54,7 +53,7 @@ class ClampedFloatField(
             text.toDouble()
         } catch (exc: Exception) {
             pendingConvertErr = true
-            0.0
+            defaultValue
         } // end val
 
         return result

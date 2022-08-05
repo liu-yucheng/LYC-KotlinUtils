@@ -26,12 +26,13 @@ import lyc.ktutils.libs.gputils.jsonio.JSONTree
  * @param ValueType: a value type
  * @param root: a JSON root
  * @param keys: some element keys
+ * @param defaultValue: a default value
  * @param labelText: a label text
  * @param placeholderText: a placeholder text
  */
-abstract class JSONField<ValueType>(
-    root: JsonElement, protected vararg val keys: String = arrayOf(), protected val labelText: String = "",
-    protected val placeholderText: String = ""
+abstract class JSONField<ValueType : Any>(
+    root: JsonElement, protected vararg val keys: String = arrayOf(), protected val defaultValue: ValueType,
+    protected val labelText: String = "", protected val placeholderText: String = ""
 ) {
     // Part of LYC-KotlinUtils
     // Copyright 2022 Yucheng Liu. Apache License Version 2.0.
@@ -45,7 +46,7 @@ abstract class JSONField<ValueType>(
         } // end get
         set(value) {
             field = value
-            origChildValue = rectifyValue(childValue)
+            origChildValue = childValue
             onTextChange(valueToText(childValue))
         } // end get
 
@@ -126,8 +127,20 @@ abstract class JSONField<ValueType>(
         Error
     } // end class
 
+    /** Whether [textState] is initialized. */
+    private var textStateInitted = false
+
     /** Text state. */
-    protected val textState by lazy { mutableStateOf(valueToText(childValue)) }
+    protected val textState = mutableStateOf("<not initialized>")
+        get() {
+            if (!textStateInitted) {
+                textStateInitted = true
+                field.value = valueToText(childValue)
+            } // end if
+
+            val result = field
+            return result
+        } // end get
 
     /** Whether there is a pending rectification error to handle. */
     protected var pendingRectifyErr = false
@@ -143,8 +156,23 @@ abstract class JSONField<ValueType>(
         return result
     } // end fun
 
+    /** Whether [origChildValue] is initialized. */
+    private var origChildValueInitted = false
+
     /** Original child element value. */
-    protected var origChildValue = lazy { rectifyValue(childValue) }.value
+    protected var origChildValue: ValueType = defaultValue
+        get() {
+            if (!origChildValueInitted) {
+                origChildValueInitted = true
+                field = rectifyValue(childValue)
+            } // end if
+
+            val result = field
+            return result
+        } // end get
+        set(value) {
+            field = rectifyValue(value)
+        } // end set
 
     /** Verifies and rectifies [textState].`value`.
      *
