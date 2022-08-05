@@ -42,14 +42,14 @@ class ConfigFields private constructor() {
             0.0, 100.0
         ) // end val
 
-        /** Any path field. */
-        val anyPathField = PathField(
-            States.configFieldsDemoRoot, keys = arrayOf("any_path"), "Any path", Defaults.userDataPath
+        /** Path field. */
+        val pathField = PathField(
+            States.configFieldsDemoRoot, keys = arrayOf("path"), "Path", Defaults.userDataPath
         ) // end val
 
         /** All fields. */
         val allFields = arrayListOf<JSONField<*>>(
-            stringField, boolField, evenIntGE0Field, floatRange0To100Field, anyPathField
+            stringField, boolField, evenIntGE0Field, floatRange0To100Field, pathField
         ) // end val
 
         /** Fields vertical scroll state. */
