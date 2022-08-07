@@ -131,14 +131,5 @@ class States private constructor() {
             val reader = stream.bufferedReader()
             openLicsText = reader.readText()
         } // end init
-
-        /** Configuration fields demonstration JSON root. */
-        var configFieldsDemoRoot: JsonElement
-
-        init {
-            // Initialize configFieldsDemoJSONRoot
-            val loc = Utils.joinPaths(Defaults.appDataPath, Defaults.configFieldsDemoName)
-            configFieldsDemoRoot = Utils.loadJson(loc)
-        } // end init
     } // end companion
 } // end class
