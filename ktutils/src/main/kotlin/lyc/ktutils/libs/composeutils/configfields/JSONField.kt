@@ -87,6 +87,9 @@ abstract class JSONField<ValueType : Any>(
      */
     protected abstract fun textToValue(text: String): ValueType
 
+    /** Default text. */
+    protected val defaultText = ""
+
     /** Child element value.
      *
      * Note: The get accrssor might raise [pendingConvertErr].
@@ -100,7 +103,7 @@ abstract class JSONField<ValueType : Any>(
                 childElem.asString
             } catch (exc: Exception) {
                 pendingConvertErr = true
-                ""
+                defaultText
             } // end val
 
             val result = textToValue(childString)
