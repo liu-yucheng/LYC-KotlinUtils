@@ -9,6 +9,7 @@ import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import com.google.gson.JsonElement
 import lyc.ktutils.libs.composeutils.configfields.BoolField
 import lyc.ktutils.libs.composeutils.configfields.ClampedFloatField
 import lyc.ktutils.libs.composeutils.configfields.EvenIntGE0Field
@@ -23,28 +24,37 @@ import lyc.ktutils.libs.composeutils.envs.Utils
 /** Configuration fields. */
 class ConfigFields private constructor() {
     companion object {
+        /** Configuration JSON root. */
+        private var configRoot: JsonElement
+
+        init {
+            // Initialize configRoot
+            val loc = Utils.joinPaths(Defaults.appDataPath, Defaults.configFieldsDemoName)
+            configRoot = Utils.loadJson(loc)
+        } // end init
+
         /** String field. */
-        val stringField = StringField(States.configFieldsDemoRoot, keys = arrayOf("string"), "String")
+        val stringField = StringField(configRoot, keys = arrayOf("string"), "String")
 
         /** Boolean field. */
-        val boolField = BoolField(States.configFieldsDemoRoot, keys = arrayOf("boolean"), "Boolean")
+        val boolField = BoolField(configRoot, keys = arrayOf("boolean"), "Boolean")
 
         /** Even integer greater than or equal to 0 field. */
         val evenIntGE0Field = EvenIntGE0Field(
-            States.configFieldsDemoRoot, keys = arrayOf("even_integer_ge_0"),
+            configRoot, keys = arrayOf("even_integer_ge_0"),
             "Even integer greater than or equal to 0"
         ) // end val
 
         /** Float range 0 to 100 field. */
         val floatRange0To100Field = ClampedFloatField(
-            States.configFieldsDemoRoot, keys = arrayOf("float_range_0_to_100"),
+            configRoot, keys = arrayOf("float_range_0_to_100"),
             "Clamped float range 0 to 100", "Float, range [0.0, 100.0]. Example: 25.0, 75.0",
             0.0, 100.0
         ) // end val
 
         /** Path field. */
         val pathField = PathField(
-            States.configFieldsDemoRoot, keys = arrayOf("path"), "Path", Defaults.userDataPath
+            configRoot, keys = arrayOf("path"), "Path", Defaults.userDataPath
         ) // end val
 
         /** All fields. */
@@ -52,18 +62,17 @@ class ConfigFields private constructor() {
             stringField, boolField, evenIntGE0Field, floatRange0To100Field, pathField
         ) // end val
 
-        /** Fields vertical scroll state. */
-        val fieldsVertScroll = ScrollState(0)
-
-        /** Load configs button. */
+        /** Load configs button.
+         * @param modifier: a modifier
+         */
         @Composable
         fun LoadConfigsButton(modifier: Modifier = Modifier) {
             val onClick = {
                 val loc = Utils.joinPaths(Defaults.appDataPath, Defaults.configFieldsDemoName)
-                States.configFieldsDemoRoot = Utils.loadJson(loc)
+                configRoot = Utils.loadJson(loc)
 
                 for (field in allFields) {
-                    field.root = States.configFieldsDemoRoot
+                    field.root = configRoot
                 } // end for
 
                 Funcs.logln("Loaded the configs from ${Defaults.configFieldsDemoName} in app data")
@@ -71,9 +80,11 @@ class ConfigFields private constructor() {
 
             val warnColors = ButtonDefaults.buttonColors(States.Theme.extColors.warn, States.Theme.extColors.onWarn)
             Button(onClick, modifier, colors = warnColors) { Text("Load configs") }
-        } // end val
+        } // end fun
 
-        /** Save configs button. */
+        /** Save configs button.
+         * @param modifier: a modifier
+         * */
         @Composable
         fun SaveConfigsButton(modifier: Modifier = Modifier) {
             val onClick = {
@@ -83,11 +94,14 @@ class ConfigFields private constructor() {
                     field.prepSave()
                 } // end for
 
-                Utils.saveJson(States.configFieldsDemoRoot, loc)
+                Utils.saveJson(configRoot, loc)
                 Funcs.logln("Saved the configs to ${Defaults.configFieldsDemoName} in app data")
             } // end val
 
             Button(onClick, modifier) { Text("Save configs") }
-        } // end val
+        } // end fun
+
+        /** Fields vertical scroll state. */
+        val fieldsVertScroll = ScrollState(0)
     } // end companion
 } // end class

@@ -6,6 +6,7 @@ package lyc.ktutils.exes
 import kotlin.system.exitProcess
 import lyc.ktutils.exes.cmds.CircPagesDemo
 import lyc.ktutils.exes.cmds.ConfigFieldsDemo
+import lyc.ktutils.exes.cmds.ConfigViewsDemo
 import lyc.ktutils.exes.cmds.Help
 import lyc.ktutils.exes.cmds.TermOutsDemo
 import lyc.ktutils.exes.cmds.TitleBarsDemo
@@ -55,6 +56,11 @@ fun main(args: Array<String>) {
             "config-fields-demo" -> {
                 ConfigFieldsDemo.args = argsRemain
                 ConfigFieldsDemo.run()
+            } // end ->
+
+            "config-views-demo" -> {
+                ConfigViewsDemo.args = argsRemain
+                ConfigViewsDemo.run()
             } // end ->
 
             else -> {

@@ -55,6 +55,10 @@ Aliases.
 
 Configuration fields.
 
+# Package lyc.ktutils.libs.composeutils.configviews
+
+Configuration views.
+
 # Package lyc.ktutils.libs.composeutils.envs
 
 Environments.

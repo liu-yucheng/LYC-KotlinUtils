@@ -35,6 +35,7 @@ class Help private constructor() {
                 TitleBarsDemo:      java -jar $jarName title-bars-demo
                 CircPagesDemo:      java -jar $jarName circ-pages-demo
                 ConfigFieldsDemo:   java -jar $jarName config-fields-demo
+                ConfigViewsDemo:    java -jar $jarName config-views-demo
                 -- End Commands
                 - End $packName help info
             """.trimIndent() // end val
