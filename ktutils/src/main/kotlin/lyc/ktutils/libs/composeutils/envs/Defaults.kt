@@ -66,6 +66,9 @@ class Defaults private constructor() {
         /** Terminal outputs handle icon name. */
         const val termOutsHandleIconName = "console.svg"
 
+        /** Cannot open image icon name. */
+        const val cannotOpenImageIconName = "image-broken.svg"
+        
         /** Configuration fields demonstration name. */
         const val configFieldsDemoName = "config_fields_demo.json"
 
