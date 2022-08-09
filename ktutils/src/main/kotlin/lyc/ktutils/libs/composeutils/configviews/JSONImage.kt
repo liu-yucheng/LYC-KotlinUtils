@@ -35,7 +35,7 @@ import lyc.ktutils.libs.composeutils.envs.Utils
 class JSONImage(
     root: JsonElement, vararg keys: String = arrayOf(), private val jsonLoc: String, private val contentDesc: String,
     private val iconColor: @Composable () -> Color = defaultIconColor
-) : JSONView<String>(root, keys = keys, "") {
+) : JSONView<String>(root, keys = keys, "<No image>") {
     // Part of LYC-KotlinUtils
     // Copyright 2022 Yucheng Liu. Apache License Version 2.0.
     // Apache License Version 2.0 copy: http://www.apache.org/licenses/LICENSE-2.0

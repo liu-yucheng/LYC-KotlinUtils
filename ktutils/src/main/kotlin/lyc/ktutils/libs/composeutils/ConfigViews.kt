@@ -65,6 +65,9 @@ class ConfigViews private constructor() {
             Button(onClick, modifier, colors = warnColors) { Text("Load configs") }
         } // end fun
 
+        /** Views horizontal scroll state. */
+        val viewsHoriScroll = ScrollState(0)
+
         /** Views vertical scroll state. */
         val viewsVertScroll = ScrollState(0)
     } // end companion
