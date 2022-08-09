@@ -3,7 +3,9 @@
 
 package lyc.ktutils.exes.cmds
 
+import androidx.compose.foundation.HorizontalScrollbar
 import androidx.compose.foundation.VerticalScrollbar
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -12,6 +14,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentWidth
@@ -45,7 +48,11 @@ class ConfigViewsDemo private constructor() {
         @Composable
         private fun Views(modifier: Modifier = Modifier) {
             Box(modifier) {
-                Column(modifier.fillMaxSize().verticalScroll(ConfigViews.viewsVertScroll)) {
+                Column(
+                    Modifier.fillMaxSize().horizontalScroll(ConfigViews.viewsHoriScroll)
+                        .verticalScroll(ConfigViews.viewsVertScroll)
+                    // end Modifier
+                ) {
                     Text("Sample model configs:", color = MaterialTheme.colors.onBackground)
                     Spacer(Modifier.size(8.dp))
 
@@ -81,6 +88,11 @@ class ConfigViewsDemo private constructor() {
                         } // end Column
                     } // end Row
                 } // end Column
+
+                HorizontalScrollbar(
+                    rememberScrollbarAdapter(ConfigViews.viewsHoriScroll),
+                    Modifier.fillMaxWidth().height(16.dp).align(Alignment.BottomCenter)
+                ) // end HorizontalScrollbar
 
                 VerticalScrollbar(
                     rememberScrollbarAdapter(ConfigViews.viewsVertScroll),

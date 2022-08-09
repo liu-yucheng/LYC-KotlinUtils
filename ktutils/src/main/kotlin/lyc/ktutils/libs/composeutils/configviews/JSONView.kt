@@ -103,7 +103,7 @@ abstract class JSONView<ValueType : Any>(
     private var textStateInitted = false
 
     /** Text state. */
-    protected val textState = mutableStateOf("<not initialized>")
+    protected val textState = mutableStateOf("<Not initialized>")
         get() {
             if (!textStateInitted) {
                 textStateInitted = true
