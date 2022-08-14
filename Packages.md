@@ -35,6 +35,10 @@ Compose utilities.
 
 Demonstration utilities.
 
+# Package lyc.ktutils.libs.djlutils
+
+Deep Java Library utilities.
+
 # Package lyc.ktutils.libs.gputils
 
 General purpose utilities.
