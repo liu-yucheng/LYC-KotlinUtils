@@ -1,0 +1,13 @@
+{
+    "auto_seed_enabled": true,
+    "manual_seed": 0,
+    "gpu_count": 1,
+    "image_count": 256,
+    "images_per_batch": 32,
+    "image_quality": 95,
+    "grid_mode": {
+        "enabled": true,
+        "images_per_grid": 64,
+        "padding": 2
+    }
+}

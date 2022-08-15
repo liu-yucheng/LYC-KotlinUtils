@@ -38,9 +38,9 @@ import androidx.compose.ui.window.WindowPlacement
 import androidx.compose.ui.window.WindowScope
 import lyc.ktutils.libs.composeutils.aliases.Content
 import lyc.ktutils.libs.composeutils.aliases.UnitCallback
-import lyc.ktutils.libs.composeutils.envs.Defaults
+import lyc.ktutils.libs.envs.Defaults
 import lyc.ktutils.libs.composeutils.envs.States
-import lyc.ktutils.libs.composeutils.envs.Utils
+import lyc.ktutils.libs.envs.Utils
 
 /** Custom title bars. */
 class TitleBars private constructor() {

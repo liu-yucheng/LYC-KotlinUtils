@@ -31,7 +31,7 @@ import lyc.ktutils.libs.composeutils.ConfigFields
 import lyc.ktutils.libs.composeutils.TermOuts
 import lyc.ktutils.libs.composeutils.envs.Elems
 import lyc.ktutils.libs.composeutils.envs.States
-import lyc.ktutils.libs.composeutils.envs.Utils
+import lyc.ktutils.libs.envs.Utils
 import lyc.ktutils.libs.demoutils.ComposeDemo
 
 /** Configuration fields demonstration. */

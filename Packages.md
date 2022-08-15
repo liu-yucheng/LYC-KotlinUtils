@@ -39,6 +39,10 @@ Demonstration utilities.
 
 Deep Java Library utilities.
 
+# Package lyc.ktutils.libs.envs
+
+Environments.
+
 # Package lyc.ktutils.libs.gputils
 
 General purpose utilities.
@@ -70,5 +74,9 @@ Environments.
 # Package lyc.ktutils.libs.composeutils.navs
 
 Navigators.
+
+# Package lyc.ktutils.libs.djlutils.classes
+
+Classes.
 
 <!--- End Level 3 packages --->

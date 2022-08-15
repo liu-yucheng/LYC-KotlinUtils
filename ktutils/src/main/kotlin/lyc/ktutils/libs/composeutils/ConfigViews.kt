@@ -12,10 +12,10 @@ import androidx.compose.ui.Modifier
 import lyc.ktutils.libs.composeutils.configviews.JSONImage
 import lyc.ktutils.libs.composeutils.configviews.JSONText
 import lyc.ktutils.libs.composeutils.configviews.JSONView
-import lyc.ktutils.libs.composeutils.envs.Defaults
+import lyc.ktutils.libs.envs.Defaults
 import lyc.ktutils.libs.composeutils.envs.Funcs
 import lyc.ktutils.libs.composeutils.envs.States
-import lyc.ktutils.libs.composeutils.envs.Utils
+import lyc.ktutils.libs.envs.Utils
 
 /** Configuration views. */
 class ConfigViews private constructor() {
