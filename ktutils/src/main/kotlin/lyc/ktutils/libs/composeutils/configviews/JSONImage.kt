@@ -22,9 +22,9 @@ import androidx.compose.ui.unit.dp
 import com.google.gson.JsonElement
 import com.google.gson.JsonPrimitive
 import java.io.File
-import lyc.ktutils.libs.composeutils.envs.Defaults
+import lyc.ktutils.libs.envs.Defaults
 import lyc.ktutils.libs.composeutils.envs.States
-import lyc.ktutils.libs.composeutils.envs.Utils
+import lyc.ktutils.libs.envs.Utils
 
 /** JSON image.
  * @param root: a JSON root

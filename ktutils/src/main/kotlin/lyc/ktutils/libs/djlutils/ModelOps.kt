@@ -7,11 +7,19 @@ import ai.djl.Model
 import ai.djl.inference.Predictor
 import ai.djl.ndarray.NDList
 import ai.djl.ndarray.types.Shape
+import lyc.ktutils.libs.djlutils.classes.NDListTranslator
 
 /** Model operations. */
 class ModelOps private constructor() {
+    // Part of LYC-KotlinUtils
+    // Copyright 2022 Yucheng Liu. Apache License Version 2.0.
+    // Apache License Version 2.0 copy: http://www.apache.org/licenses/LICENSE-2.0
+
     companion object {
         /** Generate a random noise batch (math notation: Z).
+         *
+         * Note: The resulting batch is definitely on [DJLDefaults.cpu].
+         *
          * @param manager: a manager
          * @param batchSize: a batch size
          * @param dimSizes: some dimension sizes
@@ -24,7 +32,7 @@ class ModelOps private constructor() {
             val list = NDList()
 
             for (idx in 0 until batchSize) {
-                val manager = DJLDefaults.ndManager
+                val manager = DJLDefaults.cpuNDManager
                 val elem = manager.randomUniform(Float.MIN_VALUE, Float.MAX_VALUE, shape, dataType)
                 list.add(elem)
             } // end for
@@ -34,6 +42,9 @@ class ModelOps private constructor() {
         } // end fun
 
         /** Generate an image batch (math notation: G(Z)) by feeding a noise batch to a model.
+         *
+         * Note: The resulting batch is definitely on [DJLDefaults.cpu].
+         *
          * @param manager: a manager
          * @param model: a model
          * @param noiseBatch: a noise batch
@@ -46,6 +57,7 @@ class ModelOps private constructor() {
             val device = DJLDefaults.device
             val predictor = Predictor(model, translator, device, true)
             val imageBatch = predictor.predict(noiseBatch)
+            imageBatch.toDevice(DJLDefaults.cpu, false)
             val result = imageBatch
             return result
         } // end fun

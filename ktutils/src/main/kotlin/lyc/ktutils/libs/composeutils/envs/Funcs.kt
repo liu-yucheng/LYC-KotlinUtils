@@ -8,6 +8,8 @@ import java.io.InputStream
 import java.io.OutputStream
 import lyc.ktutils.libs.composeutils.FlatLafFuncs
 import lyc.ktutils.libs.composeutils.SysInfo
+import lyc.ktutils.libs.envs.Defaults
+import lyc.ktutils.libs.envs.Utils
 
 /** Functions. */
 class Funcs private constructor() {

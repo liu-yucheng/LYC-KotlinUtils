@@ -17,10 +17,10 @@ import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.WindowScope
 import androidx.compose.ui.window.application
 import kotlin.system.exitProcess
-import lyc.ktutils.libs.composeutils.envs.Defaults
+import lyc.ktutils.libs.envs.Defaults
 import lyc.ktutils.libs.composeutils.envs.Funcs
 import lyc.ktutils.libs.composeutils.envs.States
-import lyc.ktutils.libs.composeutils.envs.Utils
+import lyc.ktutils.libs.envs.Utils
 
 /** Compose demonstration.
  * @param packName: a package name

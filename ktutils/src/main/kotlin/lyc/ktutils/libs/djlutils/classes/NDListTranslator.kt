@@ -1,13 +1,14 @@
 // Copyright 2022 Yucheng Liu. Apache License Version 2.0.
 // Apache License Version 2.0 copy: http://www.apache.org/licenses/LICENSE-2.0
 
-package lyc.ktutils.libs.djlutils
+package lyc.ktutils.libs.djlutils.classes
 
 import ai.djl.ndarray.NDList
 import ai.djl.ndarray.NDManager
 import ai.djl.ndarray.types.Shape
 import ai.djl.translate.Translator
 import ai.djl.translate.TranslatorContext
+import lyc.ktutils.libs.djlutils.DJLDefaults
 
 /** ND list translator.
  * @param inDimSizes: input dimension sizes
@@ -15,6 +16,10 @@ import ai.djl.translate.TranslatorContext
  */
 class NDListTranslator(inDimSizes: Array<out Long>, outDimSizes: Array<out Long>) :
     Translator<NDList, NDList> {
+    // Part of LYC-KotlinUtils
+    // Copyright 2022 Yucheng Liu. Apache License Version 2.0.
+    // Apache License Version 2.0 copy: http://www.apache.org/licenses/LICENSE-2.0
+
     /** Input shape. */
     val inShape: Shape
 

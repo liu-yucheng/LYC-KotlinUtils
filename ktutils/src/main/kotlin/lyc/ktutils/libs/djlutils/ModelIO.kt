@@ -8,8 +8,12 @@ import kotlin.io.path.Path
 
 /** Model input/output. */
 class ModelIO private constructor() {
+    // Part of LYC-KotlinUtils
+    // Copyright 2022 Yucheng Liu. Apache License Version 2.0.
+    // Apache License Version 2.0 copy: http://www.apache.org/licenses/LICENSE-2.0
+
     companion object {
-        /** Loads a TorchScript model.
+        /** Loads a TorchScript model to [DJLDefaults.device].
          * @param fromLoc: a location
          * @return result: the resulting model
          */

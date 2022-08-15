@@ -16,10 +16,10 @@ import lyc.ktutils.libs.composeutils.configfields.EvenIntGE0Field
 import lyc.ktutils.libs.composeutils.configfields.JSONField
 import lyc.ktutils.libs.composeutils.configfields.PathField
 import lyc.ktutils.libs.composeutils.configfields.StringField
-import lyc.ktutils.libs.composeutils.envs.Defaults
+import lyc.ktutils.libs.envs.Defaults
 import lyc.ktutils.libs.composeutils.envs.Funcs
 import lyc.ktutils.libs.composeutils.envs.States
-import lyc.ktutils.libs.composeutils.envs.Utils
+import lyc.ktutils.libs.envs.Utils
 
 /** Configuration fields. */
 class ConfigFields private constructor() {
