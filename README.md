@@ -80,6 +80,7 @@ LYC-KotlinUtils 1.6.0
   [0]: djl-gen-procs-demo
 - End mainArgs
 DJLGenProcsDemo generation process
+Generation process completed: false
 Started preparation
 App data path: C:\Users\<User>\.lyc_ktutils\app_data
 Exportation path: C:\Users\<User>\.lyc_ktutils\sample_model
@@ -135,6 +136,7 @@ Done converting batches to images
 Done converting images to grids
 Done saving grids
 Completed generation
+Generation process completed: true
 End DJLGenProcsDemo generation process
 ```
 

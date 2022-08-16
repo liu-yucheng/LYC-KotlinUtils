@@ -33,8 +33,10 @@ class DJLGenProcsDemo private constructor() {
             val logln = { line: String -> println(line) }
             val genProc = GenProc(Defaults.appDataPath, Defaults.sampleModelPath, logstr, logln)
             logln("DJLGenProcsDemo generation process")
+            logln("Generation process completed: ${genProc.completed}")
             genProc.prep()
             genProc.start()
+            logln("Generation process completed: ${genProc.completed}")
             logln("End DJLGenProcsDemo generation process")
         } // end fun
     } // end companion
