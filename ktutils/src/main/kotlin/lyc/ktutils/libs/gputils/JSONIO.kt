@@ -3,12 +3,11 @@
 
 package lyc.ktutils.libs.gputils
 
-import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonElement
 import java.io.File
 
-/** JSON IO. */
+/** JSON input/output. */
 class JSONIO {
     companion object {
         /** A Gson object used for JSON related operations. */

@@ -7,6 +7,7 @@ import kotlin.system.exitProcess
 import lyc.ktutils.exes.cmds.CircPagesDemo
 import lyc.ktutils.exes.cmds.ConfigFieldsDemo
 import lyc.ktutils.exes.cmds.ConfigViewsDemo
+import lyc.ktutils.exes.cmds.DJLGenProcsDemo
 import lyc.ktutils.exes.cmds.Help
 import lyc.ktutils.exes.cmds.TermOutsDemo
 import lyc.ktutils.exes.cmds.TitleBarsDemo
@@ -61,6 +62,11 @@ fun main(args: Array<String>) {
             "config-views-demo" -> {
                 ConfigViewsDemo.args = argsRemain
                 ConfigViewsDemo.run()
+            } // end ->
+
+            "djl-gen-procs-demo" -> {
+                DJLGenProcsDemo.args = argsRemain
+                DJLGenProcsDemo.run()
             } // end ->
 
             else -> {

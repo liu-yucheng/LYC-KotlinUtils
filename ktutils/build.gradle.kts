@@ -8,7 +8,7 @@ import org.jetbrains.dokka.gradle.DokkaTask
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 group = "lyc"
-version = "1.5.2"
+version = "1.6.0"
 val jarBaseName = "ktutils"
 
 // Add version.properties to the JAR resources
@@ -117,9 +117,16 @@ dependencies {
 
     // End; Deep Java Library
 
-    implementation("ai.djl:api:0.17.0")
-    // implementation("org.apache.commons:commons-compress:1.2.1")
-    api("ai.djl:api:0.17.0")
+    implementation("ai.djl:api:0.18.0")
+    api("ai.djl:api:0.18.0")
+    implementation("ai.djl.pytorch:pytorch-engine:0.18.0")
+    api("ai.djl.pytorch:pytorch-engine:0.18.0")
+    implementation("ai.djl.pytorch:pytorch-jni:1.11.0-0.18.0")
+    api("ai.djl.pytorch:pytorch-jni:1.11.0-0.18.0")
+    // implementation("ai.djl.pytorch:pytorch-native-cu113:1.11.0:win-x86_64")
+    // api("ai.djl.pytorch:pytorch-native-cu113:1.11.0:win-x86_64")
+    implementation("org.slf4j:slf4j-simple:1.7.36")
+    api("org.slf4j:slf4j-simple:1.7.36")
 
     // End; Guava
 

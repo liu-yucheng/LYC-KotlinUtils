@@ -6,15 +6,15 @@ package lyc.ktutils.exes.cmds
 import kotlin.system.exitProcess
 import lyc.ktutils.exes.jarName
 import lyc.ktutils.exes.packName
+import lyc.ktutils.libs.demoutils.DemoInterface
 
 /** Help. */
 class Help private constructor() {
-    companion object {
+    companion object : DemoInterface {
         /** Arguments. */
         var args = arrayListOf<String>()
 
-        /** Runs the command. */
-        fun run() {
+        override fun run() {
             if (args.size > 0) {
                 val info = """
                     Help gets invalid arguments
@@ -36,6 +36,7 @@ class Help private constructor() {
                 CircPagesDemo:      java -jar $jarName circ-pages-demo
                 ConfigFieldsDemo:   java -jar $jarName config-fields-demo
                 ConfigViewsDemo:    java -jar $jarName config-views-demo
+                DJLGenProcsDemo:    java -jar $jarName djl-gen-procs-demo
                 -- End Commands
                 - End $packName help info
             """.trimIndent() // end val
