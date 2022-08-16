@@ -443,31 +443,33 @@ class GenProc(
 
     /** Converts some images to a grid.
      * @param images: some images
+     * @param imagesPerGrid: image count per grid
      * @param gridPadding: a padding
      * @return result: the result
      */
-    private fun imagesToGrid(images: ArrayList<NDArray>, gridPadding: Int): NDArray {
-        val imageCount = images.size
-        val imageCountFloat = imageCount.toFloat()
-        val imagesPerRow = ceil(imageCountFloat.pow(0.5f)).toInt()
-        val rowCount = imagesPerRow
+    private fun imagesToGrid(images: ArrayList<NDArray>, imagesPerGrid: Int, gridPadding: Int): NDArray {
+        val imagesPerGridFloat = imagesPerGrid.toFloat()
+        val xImageCount = ceil(imagesPerGridFloat.pow(0.5f)).toInt()
+        val yImageCount = xImageCount
 
-        val gridRes = gridPadding + imagesPerRow * (imageRes + gridPadding)
+        val gridRes = gridPadding + xImageCount * (imageRes + gridPadding)
         val gridShape = Shape(imageChannelCount.toLong(), gridRes.toLong(), gridRes.toLong())
         val gridPaddingValue = -0.65f
 
-        val result = DJLDefaults.cpuNDManager.full(gridShape, gridPaddingValue, DJLDefaults.dataType)
+        val imageCount = images.size
         var imageIdx = 0
+        val result = DJLDefaults.cpuNDManager.full(gridShape, gridPaddingValue, DJLDefaults.dataType)
 
-        for (rowIdx in 0 until rowCount) {
-            for (colIdx in 0 until imagesPerRow) {
+        for (yImageIdx in 0 until yImageCount) {
+            for (xImageIdx in 0 until xImageCount) {
                 if (imageIdx < imageCount) {
-                    val xStart = gridPadding + rowIdx * (imageRes + gridPadding)
+                    val xStart = gridPadding + xImageIdx * (imageRes + gridPadding)
                     val xEnd = xStart + imageRes
 
-                    val yStart = gridPadding + colIdx * (imageRes + gridPadding)
+                    val yStart = gridPadding + yImageIdx * (imageRes + gridPadding)
                     val yEnd = yStart + imageRes
 
+                    // Paste the image into the grid in the axis order CHW (color, height, width)
                     val imageGridIndices = NDIndex(":, $yStart:$yEnd, $xStart:$xEnd")
                     val image = images[imageIdx]
                     result.set(imageGridIndices, image.duplicate())
@@ -486,13 +488,17 @@ class GenProc(
 
         for (gridIdx in 0 until gridCount) {
             val startImageIdx = gridIdx * gridModeImagesPerGrid
-            val endImageIdx = (gridIdx + 1) * gridModeImagesPerGrid
-            val imageIdxRange = startImageIdx until endImageIdx
+            var endImageIdx = (gridIdx + 1) * gridModeImagesPerGrid
 
+            if (endImageIdx >= imageCount) {
+                endImageIdx = imageCount
+            } // end if
+
+            val imageIdxRange = startImageIdx until endImageIdx
             val imagesSlice = images.slice(imageIdxRange)
             val imagesSliceArrayList = ArrayList(imagesSlice)
 
-            val grid = imagesToGrid(imagesSliceArrayList, gridModePadding)
+            val grid = imagesToGrid(imagesSliceArrayList, gridModeImagesPerGrid, gridModePadding)
             grids.add(grid)
         } // end for
 
@@ -533,6 +539,7 @@ class GenProc(
         converted = converted.mul(255)
         converted = converted.clip(0f, 255f)
 
+        // Assume that the ndArray image has the axis order CHW (color, height, width)
         val width = shape[2].toInt()
         val height = shape[1].toInt()
         val pixelCount = width * height
