@@ -83,7 +83,7 @@ DJLGenProcsDemo generation process
 Generation process completed: false
 Started preparation
 App data path: C:\Users\<User>\.lyc_ktutils\app_data
-Exportation path: C:\Users\<User>\.lyc_ktutils\sample_model
+Exportation path: C:\Users\<User>\.lyc_ktutils\sample_exportation
 Ensured Generation-Results folder in exportation path
 Loaded djl_gen_procs_demo.json from app data
 Loaded generator_config.json from exportation path
