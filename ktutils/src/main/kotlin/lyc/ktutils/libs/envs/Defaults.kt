@@ -1,7 +1,7 @@
 // Copyright 2022 Yucheng Liu. Apache License Version 2.0.
 // Apache License Version 2.0 copy: http://www.apache.org/licenses/LICENSE-2.0
 
-package lyc.ktutils.libs.composeutils.envs
+package lyc.ktutils.libs.envs
 
 /** Defaults. */
 class Defaults private constructor() {
@@ -20,7 +20,8 @@ class Defaults private constructor() {
         /** Sample model path. */
         val sampleModelPath = Utils.joinPaths(userDataPath, "sample_model")
 
-        // End; Resource paths
+        // End Paths
+        // Resource paths
 
         /** Default app data resource path. */
         const val defaultAppDataResPath = "default_app_data"
@@ -34,7 +35,8 @@ class Defaults private constructor() {
         /** Sample model resource path. */
         const val sampleModelResPath = "sample_model"
 
-        // End; Names
+        // End Resource paths
+        // Names
 
         /** Log name. */
         const val logName = "log.txt"
@@ -68,9 +70,12 @@ class Defaults private constructor() {
 
         /** Cannot open image icon name. */
         const val cannotOpenImageIconName = "image-broken.svg"
-        
+
         /** Configuration fields demonstration name. */
         const val configFieldsDemoName = "config_fields_demo.json"
+
+        /** DJL generation processes demonstration name. */
+        const val djlGenProcsDemoName = "djl_gen_procs_demo.json"
 
         /** Model saves name. */
         const val modelSavesName = "model_saves"
@@ -92,5 +97,7 @@ class Defaults private constructor() {
 
         /** Generation results name. */
         const val genResultsName = "Generation-Results"
+
+        // End Names
     } // end companion
 } // end class

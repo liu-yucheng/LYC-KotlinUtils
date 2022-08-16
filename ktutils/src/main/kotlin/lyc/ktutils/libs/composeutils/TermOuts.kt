@@ -42,10 +42,10 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
-import lyc.ktutils.libs.composeutils.envs.Defaults
+import lyc.ktutils.libs.envs.Defaults
 import lyc.ktutils.libs.composeutils.envs.Funcs
 import lyc.ktutils.libs.composeutils.envs.States
-import lyc.ktutils.libs.composeutils.envs.Utils
+import lyc.ktutils.libs.envs.Utils
 
 /** Terminal outputs. */
 class TermOuts private constructor() {

@@ -33,8 +33,8 @@ ConfigViewsDemo:    java -jar ktutils-1.5.0.jar config-views-demo
 - End LYC-KotlinUtils help info
 ```
 
-# Demo Screenshots
-## Custom light theme
+# Demo Screenshots and Outputs
+## Custom Light Theme Screenshots
 
 Terminal outputs demo.
 ![term-outs-demo-light](README-Assets/TermOutsDemo-LightTheme.png)
@@ -51,7 +51,7 @@ Config fields demo.
 Config views demo.
 ![config-views-demo-light](README-Assets/ConfigViewsDemo-LightTheme.png)
 
-## Custom dark theme
+## Custom Dark Theme Screenshots
 
 Terminal outputs demo.
 ![term-outs-demo-dark](README-Assets/TermOutsDemo-DarkTheme.png)
@@ -67,6 +67,82 @@ Config fields demo.
 
 Config views demo.
 ![config-views-demo-dark](README-Assets/ConfigViewsDemo-DarkTheme.png)
+
+# Command-line Outputs And Screenshots
+
+DJLGenProcsDemo command-line outputs.
+
+```powershell
+> java -jar .\ktutils-<version>.jar djl-gen-procs-demo
+Help: java -jar ktutils-1.6.0.jar help
+LYC-KotlinUtils 1.6.0
+- mainArgs
+  [0]: djl-gen-procs-demo
+- End mainArgs
+DJLGenProcsDemo generation process
+Generation process completed: false
+Started preparation
+App data path: C:\Users\<User>\.lyc_ktutils\app_data
+Exportation path: C:\Users\<User>\.lyc_ktutils\sample_model
+Ensured Generation-Results folder in exportation path
+Loaded djl_gen_procs_demo.json from app data
+Loaded generator_config.json from exportation path
+Started parsing generation configuration
+Parsed auto seed enabled: true
+Parsed manual seed: 0
+Parsed GPU count: 1
+Parsed image count: 256
+Parsed images per batch: 32
+Parsed image quality: 95
+Parsed grid mode - enabled: true
+Parsed grid mode - images per grid: 64
+Parsed grid mode - padding: 2
+Completed parsing generation configuration
+Started parsing generator configuration
+Parsed input noise resolution: 2
+Parsed input noise channel count: 32
+Parsed output image resolution: 64
+Parsed output image channel count: 3
+Completed parsing generator configuration
+Started setting-up random
+Seed (Auto): 662141585
+Done setting Kotlin random number generator
+SLF4J: Class path contains multiple SLF4J bindings.
+SLF4J: Found binding in [jar:file:/<...>/LYC-KotlinUtils/ktutils/build/libs/ktutils-1.6.0.jar!/org/slf4j/impl/StaticLoggerBinder.class]
+SLF4J: Found binding in [jar:file:/C:/Users/<User>/.gradle/caches/modules-2/files-2.1/org.slf4j/slf4j-simple/1.7.36/a41f9cfe6faafb2eb83a1c7dd2d0dfd844e2a936/slf4j-simple-1.7.36.jar!/org/slf4j/impl/StaticLoggerBinder.class]
+SLF4J: See http://www.slf4j.org/codes.html#multiple_bindings for an explanation.
+SLF4J: Actual binding is of type [org.slf4j.impl.SimpleLoggerFactory]
+[main] WARN ai.djl.pytorch.jni.LibUtils - No matching cuda flavor for win-x86_64 found: cu65.
+[main] INFO ai.djl.pytorch.engine.PtEngine - Number of inter-op threads is 8
+[main] INFO ai.djl.pytorch.engine.PtEngine - Number of intra-op threads is 8
+Done setting DJL random number generator
+Completed setting-up random
+Started setting-up hardware
+Done setting DJL default device: cpu()
+Completed setting-up hardware
+Done setting-up input/output dimension sizes
+Started setting-up input noise batches
+Done setting-up noise batch: 1 / 8
+Done setting-up noise batch: 8 / 8
+Completed setting-up input noise batches
+Completed preparation
+Started generation
+Started generating images
+Loaded model
+Done generating image batch 1 / 8
+Done generating image batch 8 / 8
+Completed generating images
+Done converting batches to images
+Done converting images to grids
+Done saving grids
+Completed generation
+Generation process completed: true
+End DJLGenProcsDemo generation process
+```
+
+DJLGenProcsDemo results screenshot.
+
+![DJLGenProcsDemo Results](README-Assets/DJLGenProcsDemo-Results.png)
 
 # Open-source Licenses
 
