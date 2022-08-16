@@ -7,7 +7,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.window.WindowScope
 
 /** Compose demonstration interface. */
-interface ComposeDemoInterface {
+interface ComposeDemoInterface: DemoInterface {
     /** Exits the demonstration.
      * @param statusCode: a status code
      */
@@ -18,5 +18,5 @@ interface ComposeDemoInterface {
     fun WindowScope.WinContent()
 
     /** Runs the demonstration. */
-    fun run()
+    override fun run()
 } // end interface

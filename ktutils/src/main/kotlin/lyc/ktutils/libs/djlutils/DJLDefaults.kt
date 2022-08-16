@@ -7,6 +7,7 @@ import ai.djl.Device
 import ai.djl.engine.Engine
 import ai.djl.ndarray.NDManager
 import ai.djl.ndarray.types.DataType
+import ai.djl.pytorch.engine.PtEngine
 
 /** DJL defaults.
  * @param inDimSizes: input dimension sizes
@@ -22,7 +23,7 @@ class DJLDefaults private constructor() {
          *
          * Currently [Engine].
          */
-        val engine = Engine.getInstance()
+        val engine = Engine.getEngine(PtEngine.ENGINE_NAME)
 
         /** Device internal field. */
         private var deviceField = HWInfo.findDefaultGPU()
