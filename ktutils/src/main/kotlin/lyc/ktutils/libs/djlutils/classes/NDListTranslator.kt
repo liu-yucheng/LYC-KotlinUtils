@@ -49,7 +49,9 @@ class NDListTranslator(inDimSizes: Array<out Long>, outDimSizes: Array<out Long>
      * @return result: the result
      */
     private fun findDummyInNDList(manager: NDManager, shape: Shape): NDList {
+        // Similar to torch.randn
         val elem = manager.randomNormal(0f, 1f, shape, DJLDefaults.dataType)
+
         val result = NDList(elem)
         return result
     } // end fun
@@ -64,7 +66,9 @@ class NDListTranslator(inDimSizes: Array<out Long>, outDimSizes: Array<out Long>
      * @return result: the result
      */
     private fun findDummyOutNDList(manager: NDManager, shape: Shape): NDList {
+        // This resembles the entry ranges of the generated image outputs
         val elem = manager.randomUniform(-0.75f, 0.75f, shape, DJLDefaults.dataType)
+
         val result = NDList(elem)
         return result
     } // end fun

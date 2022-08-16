@@ -20,7 +20,7 @@ import lyc.ktutils.libs.envs.Utils
 /** Configuration views. */
 class ConfigViews private constructor() {
     companion object {
-        private val configLoc = Utils.joinPaths(Defaults.sampleModelPath, Defaults.generatorConfigName)
+        private val configLoc = Utils.joinPaths(Defaults.sampleExportPath, Defaults.generatorConfigName)
 
         /** Configuration JSON root. */
         private var configRoot = Utils.loadJson(configLoc)
@@ -57,7 +57,7 @@ class ConfigViews private constructor() {
 
                 Funcs.logln(
                     "Loaded the configs from ${Defaults.generatorConfigName}" +
-                        " in sample model at: ${Defaults.sampleModelPath}"
+                        " in sample exportation at: ${Defaults.sampleExportPath}"
                 ) // emd Funcs
             } // end val
 
