@@ -13,14 +13,14 @@ typealias LibEnvFuncs = Funcs
 /** Functions. */
 class Funcs private constructor() {
     companion object {
-        /** Clears a model.
-         * @param modelPath: model path
+        /** Clears an exportation.
+         * @param exportPath: exportation path
          */
-        fun clearModel(modelPath: String) = LibEnvFuncs.clearModel(modelPath)
+        fun clearExport(exportPath: String) = LibEnvFuncs.clearExport(exportPath)
 
         /** Ensures user data.
          *
-         * User data includes: [app data, sample model]
+         * User data includes: [app data, sample exportation]
          *
          * @param overwrite: whether to overwrite the data
          */

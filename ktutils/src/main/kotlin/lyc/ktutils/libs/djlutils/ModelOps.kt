@@ -33,7 +33,10 @@ class ModelOps private constructor() {
 
             for (idx in 0 until batchSize) {
                 val manager = DJLDefaults.cpuNDManager
+
+                // Similar to torch.randn
                 val elem = manager.randomNormal(0f, 1f, shape, dataType)
+
                 list.add(elem)
             } // end for
 
