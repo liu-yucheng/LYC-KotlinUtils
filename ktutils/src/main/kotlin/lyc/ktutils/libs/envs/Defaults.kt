@@ -17,8 +17,8 @@ class Defaults private constructor() {
         /** App data path. */
         val appDataPath = Utils.joinPaths(userDataPath, "app_data")
 
-        /** Sample model path. */
-        val sampleModelPath = Utils.joinPaths(userDataPath, "sample_model")
+        /** Sample exportation path. */
+        val sampleExportPath = Utils.joinPaths(userDataPath, "sample_exportation")
 
         // End Paths
         // Resource paths
@@ -32,8 +32,8 @@ class Defaults private constructor() {
         /** Licenses resource path. */
         const val licsResPath = "licenses"
 
-        /** Sample model resource path. */
-        const val sampleModelResPath = "sample_model"
+        /** Sample exportation resource path. */
+        const val sampleExportResPath = "sample_exportation"
 
         // End Resource paths
         // Names

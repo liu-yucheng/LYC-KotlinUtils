@@ -53,7 +53,7 @@ class ConfigViewsDemo private constructor() {
                         .verticalScroll(ConfigViews.viewsVertScroll)
                     // end Modifier
                 ) {
-                    Text("Sample model configs:", color = MaterialTheme.colors.onBackground)
+                    Text("Sample exportation configs:", color = MaterialTheme.colors.onBackground)
                     Spacer(Modifier.size(8.dp))
 
                     Row {

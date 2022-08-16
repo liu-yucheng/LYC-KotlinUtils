@@ -74,12 +74,12 @@ class Funcs private constructor() {
             copyFiles(inPath, outPath, fileNames, overwrite)
         } // end fun
 
-        /** Ensures sample model root files.
-         * @param overwrite: whether to overwrite the sample model
+        /** Ensures sample exportation root files.
+         * @param overwrite: whether to overwrite the sample exportation
          */
-        private fun ensureSampleModelRootFiles(overwrite: Boolean) {
-            val inPath = Defaults.sampleModelResPath
-            val outPath = Defaults.sampleModelPath
+        private fun ensureSampleExportRootFiles(overwrite: Boolean) {
+            val inPath = Defaults.sampleExportResPath
+            val outPath = Defaults.sampleExportPath
             val outDir = File(outPath)
 
             if (!outDir.exists()) {
@@ -99,12 +99,12 @@ class Funcs private constructor() {
             copyFiles(inPath, outPath, fileNames, overwrite)
         } // end fun
 
-        /** Ensures sample model - model saves files.
-         * @param overwrite: whether to overwrite the sample model
+        /** Ensures sample exportation - model saves files.
+         * @param overwrite: whether to overwrite the sample exportation
          */
-        private fun ensureSampleModelSavesFiles(overwrite: Boolean) {
-            val inPath = Utils.joinResPaths(Defaults.sampleModelResPath, Defaults.modelSavesName)
-            val outPath = Utils.joinPaths(Defaults.sampleModelPath, Defaults.modelSavesName)
+        private fun ensureSampleExportSavesFiles(overwrite: Boolean) {
+            val inPath = Utils.joinResPaths(Defaults.sampleExportResPath, Defaults.modelSavesName)
+            val outPath = Utils.joinPaths(Defaults.sampleExportPath, Defaults.modelSavesName)
             val outDir = File(outPath)
 
             if (!outDir.exists()) {
@@ -121,11 +121,11 @@ class Funcs private constructor() {
             copyFiles(inPath, outPath, fileNames, overwrite)
         } // end fun
 
-        /** Clears a model.
-         * @param modelPath: model path
+        /** Clears an exportation.
+         * @param exportPath: exportation path
          */
-        fun clearModel(modelPath: String) {
-            val genResultPath = Utils.joinPaths(modelPath, Defaults.genResultsName)
+        fun clearExport(exportPath: String) {
+            val genResultPath = Utils.joinPaths(exportPath, Defaults.genResultsName)
             val genResultFile = File(genResultPath)
 
             if (genResultFile.exists()) {
@@ -133,33 +133,33 @@ class Funcs private constructor() {
             } // end if
         } // end fun
 
-        /** Clears sample model. */
-        private fun clearSampleModel() {
-            clearModel(Defaults.sampleModelPath)
+        /** Clears sample exportation. */
+        private fun clearSampleExport() {
+            clearExport(Defaults.sampleExportPath)
         } // end fun
 
-        /** Ensures sample model.
-         * @param overwrite: whether to overwrite the sample model
+        /** Ensures sample exportation.
+         * @param overwrite: whether to overwrite the sample exportation
          */
-        private fun ensureSampleModel(overwrite: Boolean) {
-            ensureSampleModelRootFiles(overwrite)
-            ensureSampleModelSavesFiles(overwrite)
+        private fun ensureSampleExport(overwrite: Boolean) {
+            ensureSampleExportRootFiles(overwrite)
+            ensureSampleExportSavesFiles(overwrite)
             val clear = overwrite
 
             if (clear) {
-                clearSampleModel()
+                clearSampleExport()
             } // end if
         } // end fun
 
         /** Ensures user data.
          *
-         * User data includes: [app data, sample model]
+         * User data includes: [app data, sample exportation]
          *
          * @param overwrite: whether to overwrite the data
          */
         fun ensureUserData(overwrite: Boolean = false) {
             ensureAppData(overwrite)
-            ensureSampleModel(overwrite)
+            ensureSampleExport(overwrite)
         } // end fun
     } // end companion
 } // end class
