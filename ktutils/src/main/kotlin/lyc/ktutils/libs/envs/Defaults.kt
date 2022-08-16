@@ -70,12 +70,12 @@ class Defaults private constructor() {
 
         /** Cannot open image icon name. */
         const val cannotOpenImageIconName = "image-broken.svg"
-        
+
         /** Configuration fields demonstration name. */
         const val configFieldsDemoName = "config_fields_demo.json"
 
-        /** DJL generation process demonstration name. */
-        const val djlGenProcDemoName = "djl_gen_proc_demo.json"
+        /** DJL generation processes demonstration name. */
+        const val djlGenProcsDemoName = "djl_gen_procs_demo.json"
 
         /** Model saves name. */
         const val modelSavesName = "model_saves"

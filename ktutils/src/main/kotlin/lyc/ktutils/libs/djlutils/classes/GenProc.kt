@@ -16,6 +16,7 @@ import java.time.format.DateTimeFormatter
 import javax.imageio.IIOImage
 import javax.imageio.ImageIO
 import javax.imageio.ImageWriteParam
+import javax.imageio.stream.MemoryCacheImageOutputStream
 import kotlin.math.ceil
 import kotlin.math.max
 import kotlin.math.min
@@ -45,7 +46,7 @@ class GenProc(
     val genResultsPath = Utils.joinPaths(exportPath, Defaults.genResultsName)
 
     /** Generation configuration location. */
-    private val genConfigLoc = Utils.joinPaths(appDataPath, Defaults.djlGenProcDemoName)
+    private val genConfigLoc = Utils.joinPaths(appDataPath, Defaults.djlGenProcsDemoName)
 
     /** Generator configuration location. */
     private val generatorConfigLoc = Utils.joinPaths(exportPath, Defaults.generatorConfigName)
@@ -292,14 +293,14 @@ class GenProc(
 
     /** Batch count. */
     private val batchCount: Int
-
-    init {
-        // Initialize batchCount
-        val imageCount = imageCount.toFloat()
-        val imagesPerBatch = imagesPerBatch.toFloat()
-        val batchCountFloat = imageCount / imagesPerBatch
-        batchCount = ceil(batchCountFloat).toInt()
-    } // end init
+        get() {
+            // Initialize batchCount
+            val imageCount = imageCount.toFloat()
+            val imagesPerBatch = imagesPerBatch.toFloat()
+            val batchCountFloat = imageCount / imagesPerBatch
+            val result = ceil(batchCountFloat).toInt()
+            return result
+        } // end get
 
     /** Sets-up input noise batches. */
     private fun setupNoiseBatches() {
@@ -331,23 +332,33 @@ class GenProc(
         logln("Completed setting-up input noise batches")
     } // end fun
 
+    /** Internal field of whether the generation process is completed. */
+    private var completedField = false
+
+    /** Whether the generation process is completed. */
+    val completed: Boolean
+        get() {
+            val result = completedField
+            return result
+        } // end get
+
     /** Prepares for the generation. */
     fun prep() {
         logln(
             """
-                LYC-KtUtils generation process
+                Started preparation
                 App data path: $appDataPath
                 Exportation path: $exportPath
-                Started preparation
             """.trimIndent()
         ) // end logln
 
+        completedField = false
         val genResultsFile = File(genResultsPath)
         genResultsFile.mkdirs()
         logln("Ensured ${Defaults.genResultsName} folder in exportation path")
 
         genConfigRoot = Utils.loadJson(genConfigLoc)
-        logln("Loaded ${Defaults.djlGenProcDemoName} from app data")
+        logln("Loaded ${Defaults.djlGenProcsDemoName} from app data")
 
         generatorConfigRoot = Utils.loadJson(generatorConfigLoc)
         logln("Loaded ${Defaults.generatorConfigName} from exportation path")
@@ -384,7 +395,7 @@ class GenProc(
         var batchIdx = 0
 
         for (noiseBatch in noiseBatches) {
-            val imageBatch = ModelOps.genImage(model, noiseBatch, noiseDimSizes, imageDimSizes)
+            val imageBatch = ModelOps.genImageBatch(model, noiseBatch, noiseDimSizes, imageDimSizes)
             imageBatches.add(imageBatch)
             val needsLog = (batchIdx == 0) or ((batchIdx + 1).mod(15) == 0) or (batchIdx == batchCount - 1)
 
@@ -395,6 +406,7 @@ class GenProc(
             batchIdx += 1
         } // end for
 
+        model.close()
         logln("Completed generating images")
     } // end fun
 
@@ -420,14 +432,14 @@ class GenProc(
 
     /** Grid count. */
     private val gridCount: Int
-
-    init {
-        // Initialize gridCount
-        val imageCountFloat = imageCount.toFloat()
-        val imagesPerGridFloat = gridModeImagesPerGrid.toFloat()
-        val gridCountFloat = imageCountFloat / imagesPerGridFloat
-        gridCount = ceil(gridCountFloat).toInt()
-    } // end init
+        get() {
+            // Initialize gridCount
+            val imageCountFloat = imageCount.toFloat()
+            val imagesPerGridFloat = gridModeImagesPerGrid.toFloat()
+            val gridCountFloat = imageCountFloat / imagesPerGridFloat
+            val result = ceil(gridCountFloat).toInt()
+            return result
+        } // end get
 
     /** Converts some images to a grid.
      * @param images: some images
@@ -442,7 +454,7 @@ class GenProc(
 
         val gridRes = gridPadding + imagesPerRow * (imageRes + gridPadding)
         val gridShape = Shape(imageChannelCount.toLong(), gridRes.toLong(), gridRes.toLong())
-        val gridPaddingValue = 0.65f
+        val gridPaddingValue = -0.65f
 
         val result = DJLDefaults.cpuNDManager.full(gridShape, gridPaddingValue, DJLDefaults.dataType)
         var imageIdx = 0
@@ -456,9 +468,9 @@ class GenProc(
                     val yStart = gridPadding + colIdx * (imageRes + gridPadding)
                     val yEnd = yStart + imageRes
 
-                    val imageGridIndices = NDIndex(":, $yStart : $yEnd, $xStart : $xEnd")
+                    val imageGridIndices = NDIndex(":, $yStart:$yEnd, $xStart:$xEnd")
                     val image = images[imageIdx]
-                    result.set(imageGridIndices, image)
+                    result.set(imageGridIndices, image.duplicate())
 
                     imageIdx += 1
                 } // end if
@@ -578,13 +590,14 @@ class GenProc(
         val fractionalQuality = imageQualityFloat / 100f
         jpgWriteParam.compressionQuality = fractionalQuality
 
-        val stream = file.outputStream()
-        jpgWriter.output = stream
+        val fileStream = file.outputStream()
+        val imageStream = MemoryCacheImageOutputStream(fileStream)
+        jpgWriter.output = imageStream
 
         val iioImage = IIOImage(image, null, null)
         jpgWriter.write(null, iioImage, jpgWriteParam)
 
-        stream.close()
+        fileStream.close()
         jpgWriter.dispose()
     } // end fun
 
@@ -614,6 +627,7 @@ class GenProc(
 
     /** Starts the generation. */
     fun start() {
+        logstr("")
         logln("Started generation")
         genImages()
 
@@ -626,11 +640,7 @@ class GenProc(
             saveImages()
         } // end if
 
-        logln(
-            """
-                Completed generation
-                End LYC-KtUtils generation process
-            """.trimIndent()
-        ) // end logln
+        completedField = true
+        logln("Completed generation")
     } // end fun
 } // end class

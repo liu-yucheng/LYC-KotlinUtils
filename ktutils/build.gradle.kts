@@ -121,6 +121,12 @@ dependencies {
     api("ai.djl:api:0.18.0")
     implementation("ai.djl.pytorch:pytorch-engine:0.18.0")
     api("ai.djl.pytorch:pytorch-engine:0.18.0")
+    implementation("ai.djl.pytorch:pytorch-jni:1.11.0-0.18.0")
+    api("ai.djl.pytorch:pytorch-jni:1.11.0-0.18.0")
+    // implementation("ai.djl.pytorch:pytorch-native-cu113:1.11.0:win-x86_64")
+    // api("ai.djl.pytorch:pytorch-native-cu113:1.11.0:win-x86_64")
+    implementation("org.slf4j:slf4j-simple:1.7.36")
+    api("org.slf4j:slf4j-simple:1.7.36")
 
     // End; Guava
 

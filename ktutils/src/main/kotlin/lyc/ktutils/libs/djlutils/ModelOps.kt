@@ -33,7 +33,7 @@ class ModelOps private constructor() {
 
             for (idx in 0 until batchSize) {
                 val manager = DJLDefaults.cpuNDManager
-                val elem = manager.randomUniform(Float.MIN_VALUE, Float.MAX_VALUE, shape, dataType)
+                val elem = manager.randomNormal(0f, 1f, shape, dataType)
                 list.add(elem)
             } // end for
 
@@ -50,14 +50,18 @@ class ModelOps private constructor() {
          * @param noiseBatch: a noise batch
          * @return result: the result
          */
-        fun genImage(
+        fun genImageBatch(
             model: Model, noiseBatch: NDList, inDimSizes: Array<out Long>, outDimSizes: Array<out Long>
         ): NDList {
             val translator = NDListTranslator(inDimSizes, outDimSizes)
             val device = DJLDefaults.device
             val predictor = Predictor(model, translator, device, true)
-            val imageBatch = predictor.predict(noiseBatch)
-            imageBatch.toDevice(DJLDefaults.cpu, false)
+            var imageBatch = predictor.predict(noiseBatch)
+
+            if (device != DJLDefaults.cpu) {
+                imageBatch = imageBatch.toDevice(DJLDefaults.cpu, true)
+            } // end if
+
             val result = imageBatch
             return result
         } // end fun
