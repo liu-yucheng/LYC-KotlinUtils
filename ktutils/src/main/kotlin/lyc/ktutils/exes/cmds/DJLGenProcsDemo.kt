@@ -9,6 +9,7 @@ import lyc.ktutils.libs.demoutils.DemoInterface
 import lyc.ktutils.libs.djlutils.classes.GenProc
 import lyc.ktutils.libs.envs.Defaults
 import lyc.ktutils.libs.envs.Funcs
+import lyc.ktutils.libs.gputils.TimeFormats
 
 /** DJL generation processes demonstration. */
 class DJLGenProcsDemo private constructor() {
@@ -36,6 +37,9 @@ class DJLGenProcsDemo private constructor() {
             logln("Generation process completed: ${genProc.completed}")
             genProc.prep()
             genProc.start()
+            val exeTime = genProc.exeTime
+            val exeTimeString = TimeFormats.durationStringOf(exeTime)
+            logln("Execution time: $exeTimeString")
             logln("Generation process completed: ${genProc.completed}")
             logln("End DJLGenProcsDemo generation process")
         } // end fun

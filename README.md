@@ -136,6 +136,7 @@ Done converting batches to images
 Done converting images to grids
 Done saving grids
 Completed generation
+Execution time: 0 days, 0:0:6.789 (days, hours: minutes: seconds. milliseconds)
 Generation process completed: true
 End DJLGenProcsDemo generation process
 ```
