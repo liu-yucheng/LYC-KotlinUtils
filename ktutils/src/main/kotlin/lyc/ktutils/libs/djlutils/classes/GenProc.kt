@@ -11,8 +11,9 @@ import ai.djl.ndarray.types.Shape
 import com.google.gson.JsonElement
 import java.awt.image.BufferedImage
 import java.io.File
+import java.time.Duration
+import java.time.Instant
 import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 import javax.imageio.IIOImage
 import javax.imageio.ImageIO
 import javax.imageio.ImageWriteParam
@@ -28,6 +29,7 @@ import lyc.ktutils.libs.djlutils.ModelIO
 import lyc.ktutils.libs.djlutils.ModelOps
 import lyc.ktutils.libs.envs.Defaults
 import lyc.ktutils.libs.envs.Utils
+import lyc.ktutils.libs.gputils.TimeFormats
 import lyc.ktutils.libs.gputils.jsonio.JSONTree
 
 /** Generation process.
@@ -342,6 +344,9 @@ class GenProc(
             return result
         } // end get
 
+    /** Start time. */
+    private var startTime = Instant.now()
+
     /** Prepares for the generation. */
     fun prep() {
         logln(
@@ -353,6 +358,7 @@ class GenProc(
         ) // end logln
 
         completedField = false
+        startTime = Instant.now()
         val genResultsFile = File(genResultsPath)
         genResultsFile.mkdirs()
         logln("Ensured ${Defaults.genResultsName} folder in exportation path")
@@ -582,8 +588,7 @@ class GenProc(
         val image = toImage(normalized)
 
         val now = LocalDateTime.now()
-        val formatter = DateTimeFormatter.ofPattern("yyyyMMdd-HHmmss-SSSSSS")
-        val timestamp = now.format(formatter)
+        val timestamp = TimeFormats.timestampStringOf(now)
 
         val name = "$prefix-${idx + 1}-Time-$timestamp.jpg"
         val loc = Utils.joinPaths(genResultsPath, name)
@@ -632,6 +637,16 @@ class GenProc(
         logln("Done saving images")
     } // end fun
 
+    /** End time */
+    private var endTime = Instant.now()
+
+    /** Execution time. */
+    val exeTime: Duration
+        get() {
+            val result = Duration.between(startTime, endTime)
+            return result
+        } // end get
+
     /** Starts the generation. */
     fun start() {
         logstr("")
@@ -647,6 +662,7 @@ class GenProc(
             saveImages()
         } // end if
 
+        endTime = Instant.now()
         completedField = true
         logln("Completed generation")
     } // end fun
