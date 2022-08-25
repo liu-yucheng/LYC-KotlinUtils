@@ -5,12 +5,15 @@ package lyc.ktutils.libs.envs
 
 import com.google.gson.JsonElement
 import java.io.InputStream
+import java.time.Duration
+import java.time.LocalDateTime
 import lyc.ktutils.libs.gputils.JSONIO
 import lyc.ktutils.libs.gputils.Logs
 import lyc.ktutils.libs.gputils.PackInfo
 import lyc.ktutils.libs.gputils.Paths
 import lyc.ktutils.libs.gputils.Reses
 import lyc.ktutils.libs.gputils.TextIO
+import lyc.ktutils.libs.gputils.TimeFormats
 import lyc.ktutils.libs.swingutils.ExplFuncs
 
 /** Utilities. */
@@ -132,5 +135,22 @@ class Utils private constructor() {
          * @return result: the selected folder path or file location
          */
         fun selectInExpl(path: String): String = ExplFuncs.selectInExpl(path)
+
+        /** Local date time to timestamp string.
+         *
+         * The timestamp format is like: 20220102-030405-678901.
+         *
+         * @param localDateTime: a local date time
+         * @return result: the result*/
+        fun timestampStringOf(localDateTime: LocalDateTime): String = TimeFormats.timestampStringOf(localDateTime)
+
+        /** Duration to duration string.
+         *
+         * The duration format is like: 2 days, 3:4:5.678 (days, hours: minutes: seconds. milliseconds).
+         *
+         * @param duration: a duration
+         * @return result: the result
+         */
+        fun durationStringOf(duration: Duration): String = TimeFormats.durationStringOf(duration)
     } // end companion
 } // end class

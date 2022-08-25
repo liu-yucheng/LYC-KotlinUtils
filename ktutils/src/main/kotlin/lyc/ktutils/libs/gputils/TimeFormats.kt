@@ -1,3 +1,6 @@
+// Copyright 2022 Yucheng Liu. Apache License Version 2.0.
+// Apache License Version 2.0 copy: http://www.apache.org/licenses/LICENSE-2.0
+
 package lyc.ktutils.libs.gputils
 
 import java.time.Duration
@@ -14,6 +17,10 @@ class TimeFormats private constructor() {
          * @param localDateTime: a local date time
          * @return result: the result*/
         fun timestampStringOf(localDateTime: LocalDateTime): String {
+            // Part of LYC-KotlinUtils
+            // Copyright 2022 Yucheng Liu. Apache License Version 2.0.
+            // Apache License Version 2.0 copy: http://www.apache.org/licenses/LICENSE-2.0
+
             val formatter = DateTimeFormatter.ofPattern("yyyyMMdd-HHmmss-SSSSSS")
             val result = localDateTime.format(formatter)
             return result
@@ -27,6 +34,10 @@ class TimeFormats private constructor() {
          * @return result: the result
          */
         fun durationStringOf(duration: Duration): String {
+            // Part of LYC-KotlinUtils
+            // Copyright 2022 Yucheng Liu. Apache License Version 2.0.
+            // Apache License Version 2.0 copy: http://www.apache.org/licenses/LICENSE-2.0
+
             val days = duration.toDaysPart()
             val hours = duration.toHoursPart()
             val minutes = duration.toMinutesPart()
