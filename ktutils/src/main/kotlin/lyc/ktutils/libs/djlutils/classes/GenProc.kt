@@ -29,7 +29,6 @@ import lyc.ktutils.libs.djlutils.ModelIO
 import lyc.ktutils.libs.djlutils.ModelOps
 import lyc.ktutils.libs.envs.Defaults
 import lyc.ktutils.libs.envs.Utils
-import lyc.ktutils.libs.gputils.TimeFormats
 import lyc.ktutils.libs.gputils.jsonio.JSONTree
 
 /** Generation process.
@@ -588,7 +587,7 @@ class GenProc(
         val image = toImage(normalized)
 
         val now = LocalDateTime.now()
-        val timestamp = TimeFormats.timestampStringOf(now)
+        val timestamp = Utils.timestampStringOf(now)
 
         val name = "$prefix-${idx + 1}-Time-$timestamp.jpg"
         val loc = Utils.joinPaths(genResultsPath, name)
